@@ -57,6 +57,11 @@
 	</url>
 	
 	<url>
+		<loc>https://jackson.gd/tags/another-tag/</loc>
+		<lastmod>2024-07-30</lastmod>
+	</url>
+	
+	<url>
 		<loc>https://jackson.gd/tags/number-2/</loc>
 		<lastmod>2024-07-30</lastmod>
 	</url>
@@ -68,11 +73,6 @@
 	
 	<url>
 		<loc>https://jackson.gd/tags/posts-with-two-tags/</loc>
-		<lastmod>2024-07-30</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://jackson.gd/tags/another-tag/</loc>
 		<lastmod>2024-07-30</lastmod>
 	</url>
 </urlset>
