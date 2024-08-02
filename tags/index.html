@@ -253,8 +253,47 @@ h2 + .header-anchor {
 }
 
 /* Starting custom */
+@font-face {
+	font-family: "Sans Serif Shaded";
+	src: url("/fonts/SansSerifShaded.ttf");
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: "Bonbance";
+	src: url("/fonts/Bonbance-BoldCondensed.woff2") format("woff2");
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: "AntiqueSerie";
+	src: url("/fonts/AntiqueSerie-Regular.woff2") format("woff2");
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: "Anybody";
+	src: url("/fonts/Anybody-VariableFont_wdth,wght.ttf") format("ttf");
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: "Folio";
+	src: url("/fonts/Folio-Std-Light.woff") format("woff");
+	font-weight: normal;
+	font-style: normal;
+}
+
 :root {
 	border-top: none !important;
+	--font-family: "Folio", -apple-system, system-ui, sans-serif;
+}
+
+h1,
+h2,
+h3,
+.letter {
+	font-family: "Chivo";
 }
 
 h1 {
@@ -271,6 +310,10 @@ h1 {
 	margin-left: auto;
 	margin-right: 0;
 }
+		</style>
+
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,100..900;1,100..900&family=Archivo:ital,wght@0,100..900;1,100..900&family=Chivo:ital,wght@0,100..900;1,100..900&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Rubik:ital,wght@0,300..900;1,300..900&family=Syne:wght@400..800&display=swap');
 		</style>
 	</head>
 	<body>
@@ -327,7 +370,7 @@ h1 {
 
 		<footer></footer>
 
-		<!-- This page `/tags/` was built on 2024-08-01T08:44:37.277Z -->
+		<!-- This page `/tags/` was built on 2024-08-02T09:59:32.220Z -->
 	</body>
 </html>
 <script>
