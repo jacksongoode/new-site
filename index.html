@@ -352,6 +352,14 @@ h1 {
 	margin-left: auto;
 	margin-right: 0;
 }
+
+/* Dark mode toggle styles */
+#dark-mode-toggle {
+	background: none;
+	border: none;
+	cursor: pointer;
+	font-size: 1em;
+}
 		</style>
 
 		<style>
@@ -378,11 +386,7 @@ h1 {
 							<a href="/about/">About Me</a>
 						</li>
 					<li class="nav-item nav-right">
-						<button id="dark-mode-toggle" aria-label="Toggle dark mode">
-							<span aria-hidden="true">☀️</span>
-							<span aria-hidden="true">&nbsp;/&nbsp;</span>
-							<span aria-hidden="true">🌑</span>
-						</button>
+						<button id="dark-mode-toggle" aria-label="Toggle dark mode" style="display: none;">🌙</button>
 					</li>
 				</ul>
 			</nav>
@@ -448,16 +452,23 @@ h1 {
 
 		<footer></footer>
 
-		<!-- This page `/` was built on 2024-08-10T06:06:42.691Z -->
+		<!-- This page `/` was built on 2024-08-13T21:38:09.649Z -->
 	</body>
 </html>
 <script>
-	const [toggleButton, root] = [document.getElementById('dark-mode-toggle'), document.documentElement];
+	// Toggle dark/light mode and save
+const toggle = document.getElementById('dark-mode-toggle');
+const root = document.documentElement;
 
-root.style.colorScheme = localStorage.getItem('color-scheme') ?? 'light';
+const setTheme = isDark => {
+    root.style.colorScheme = isDark ? 'dark' : 'light';
+    toggle.textContent = isDark ? '🌞' : '🌚';
+    localStorage.setItem('color-scheme', isDark ? 'dark' : 'light');
+};
 
-toggleButton.addEventListener('click', () => {
-    root.style.colorScheme = root.style.colorScheme === 'light' ? 'dark' : 'light';
-    localStorage.setItem('color-scheme', root.style.colorScheme);
-});
+const storedTheme = localStorage.getItem('color-scheme');
+setTheme(storedTheme ? storedTheme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+toggle.style.display = 'block';
+toggle.onclick = () => setTheme(root.style.colorScheme !== 'dark');
 </script>
