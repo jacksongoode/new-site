@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Memory and Modality through The Avalanches&#39; Wildflower and &quot;The Was&quot;</title>
+		<meta name="description" content="Hello, I&#39;m Jackson.">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Jackson Goode">
+		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Jackson Goode">
+		<style>
+			/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono,
+		Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono,
+		Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New,
+		Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	color-scheme: light dark;
+
+	--color-gray-20: #333333;
+	--color-gray-50: #7f7f7f;
+	--color-gray-90: #e5e5e5;
+
+	--syntax-tab-size: 2;
+}
+.dark-mode {
+	--color-gray-20: #cccccc;
+	--color-gray-50: #808080;
+	--color-gray-90: #1a1a1a;
+}
+/* @media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #cccccc;
+		--color-gray-50: #808080;
+		--color-gray-90: #1a1a1a;
+	}
+} */
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+main {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+
+.links-nextprev {
+	list-style: none;
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: 0.5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em 0.5em;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+	margin-right: 2em;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+	margin-right: 1em;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	list-style: none;
+	padding: 0;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	margin-bottom: 1em;
+	padding-left: 1.5em; /* Add left padding to make room for the arrow */
+	position: relative;
+}
+.postlist-item::before {
+	content: "\2192"; /* Default to arrow */
+	margin-right: 0.5em;
+	color: var(--color-gray-20);
+	left: 0;
+	top: 0.2em;
+	position: absolute;
+	transition: all 0.5s ease-out;
+	filter: saturate(100%);
+	transform: scale(1);
+}
+.postlist-item[data-emoji]::before {
+	content: attr(data-emoji);
+}
+.postlist-item::before {
+	transition: all 0.5s ease-out;
+}
+.postlist-item:hover::before,
+.postlist-item:focus-within::before {
+	animation: pulseSat 2s linear infinite;
+}
+
+.postlist-item:not(:hover)::before {
+	animation: none;
+	filter: saturate(100%);
+	transform: scale(1);
+	transition: all 0.5s ease-out;
+}
+@keyframes pulseSat {
+	0%,
+	50%,
+	100% {
+		filter: saturate(100%);
+		transform: scale(1);
+	}
+	25% {
+		filter: saturate(50%);
+		transform: scale(0.9);
+	}
+	75% {
+		filter: saturate(150%);
+		transform: scale(1.1);
+	}
+}
+.postlist-date {
+	color: var(--color-gray-20);
+	font-size: 0.8125em; /* 13px /16 */
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: 100%;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item {
+	position: relative;
+}
+
+.postlist-item:has(.postlist-link:hover) .postlist-date::after {
+	content: attr(data-tooltip);
+	padding-left: 1em;
+	position: absolute;
+	color: var(--color-gray-20);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: calc(100% - 3em);
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: 0.5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* Direct Links / Markdown Headers */
+.header-anchor {
+	text-decoration: none;
+	font-style: normal;
+	font-size: 1em;
+	margin-left: 0.1em;
+}
+a[href].header-anchor,
+a[href].header-anchor:visited {
+	color: transparent;
+}
+a[href].header-anchor:focus,
+a[href].header-anchor:hover {
+	text-decoration: underline;
+}
+a[href].header-anchor:focus,
+:hover > a[href].header-anchor {
+	color: #aaa;
+}
+
+h2 + .header-anchor {
+	font-size: 1.5em;
+}
+
+/* Starting custom */
+@font-face {
+	font-family: "Sans Serif Shaded";
+	src: url("/fonts/SansSerifShaded.ttf");
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: "Bonbance";
+	src: url("/fonts/Bonbance-BoldCondensed.woff2") format("woff2");
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: "AntiqueSerie";
+	src: url("/fonts/AntiqueSerie-Regular.woff2") format("woff2");
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: "Anybody";
+	src: url("/fonts/Anybody-VariableFont_wdth,wght.ttf") format("ttf");
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: "Folio";
+	src: url("/fonts/Folio-Std-Light.woff") format("woff");
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: "Whirlybats";
+	src: url("/fonts/Whirlybats.ttf") format("truetype");
+}
+@font-face {
+	font-family: "WhirlyBirdie";
+	src: url("/fonts/WhirlyBirdieVariable.ttf") format("truetype");
+	/* font-weight: 200; */
+	font-variation-settings:
+		"wght" 75,
+		"wdth" 75;
+}
+@font-face {
+	font-family: "Switzer";
+	src: url("/fonts/Switzer-Variable.woff2") format("woff2");
+	font-weight: 500;
+	/* font-variation-settings: "wght" 400; */
+}
+@font-face {
+	font-family: "Rag";
+	src:
+		url("/fonts/Rag-Regular.woff2") format("woff2"),
+		url("/fonts/Rag-Italic.woff2") format("woff2"),
+		url("/fonts/Rag-Bold.woff2") format("woff2"),
+		url("/fonts/Rag-BoldItalic.woff2") format("woff2");
+	font-weight: 400;
+	font-style: normal italic;
+	font-display: swap;
+}
+
+.wb-icon {
+	font-family: "Whirlybats";
+	font-weight: normal;
+	font-style: normal;
+	display: inline-block;
+	white-space: nowrap;
+	word-wrap: normal;
+	direction: ltr;
+	font-feature-settings: "liga";
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+:root {
+	--font-family: "Rag", -apple-system, system-ui, sans-serif;
+}
+
+h1,
+h2,
+h3,
+.letter {
+	font-family: "Switzer";
+}
+
+h1 {
+	display: flex; /* Use flexbox layout */
+	flex-wrap: wrap; /* Allow wrapping if necessary */
+	gap: 0.25em; /* Optional: Add a gap between letter containers if needed */
+}
+
+.row {
+	width: 100%;
+}
+
+.nav-right {
+	margin-left: auto;
+	margin-right: 0;
+}
+
+/* Dark mode toggle styles */
+#dark-mode-toggle {
+	background: none;
+	border: none;
+	cursor: pointer;
+	font-size: 1em;
+}
+
+figcaption {
+	color: var(--color-gray-20);
+}
+
+figure {
+	text-align: center;
+}
+
+figure > * {
+	max-width: 100%;
+}
+		</style>
+
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,100..900;1,100..900&family=Archivo:ital,wght@0,100..900;1,100..900&family=Chivo:ital,wght@0,100..900;1,100..900&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Rubik:ital,wght@0,300..900;1,300..900&family=Syne:wght@400..800&display=swap');
+		</style>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header class="container">
+			<nav class="row">
+				<h2 class="visually-hidden">Top level navigation menu</h2>
+				<ul class="nav">
+						<li class="nav-item">
+							<a href="/">Home</a>
+						</li>
+						<li class="nav-item">
+							<a href="/blog/">Blog</a>
+						</li>
+						<li class="nav-item">
+							<a href="/projects/">Projects</a>
+						</li>
+						<li class="nav-item">
+							<a href="/about/">About Me</a>
+						</li>
+					<li class="nav-item nav-right">
+						<button id="dark-mode-toggle" aria-label="Toggle dark mode" style="display: none;">🌙</button>
+					</li>
+				</ul>
+			</nav>
+		</header>
+
+		<main id="skip" class="container">
+			<link rel="stylesheet" href="/css/lite-yt-embed.css"/>
+
+<h1>Memory and Modality through The Avalanches&#39; Wildflower and &quot;The Was&quot;</h1>
+
+<ul class="post-metadata">
+	<li>
+		<time datetime="2019-10-01">01 October 2019</time>
+	</li>
+</ul>
+
+<figure>
+		  <img src="https://dazedimg-dazedgroup.netdna-ssl.com/999/0-73-999-666/azure/dazed-prod/1170/3/1173475.jpg" width="100%" alt="The Avalanches in the early 2000's" />
+		  <figcaption>The Avalanches in the early 2000's</figcaption>
+		</figure>
+<p>For many, music leaves some of the deepest impressions we have during our lifetime. One's favorite song might often trigger a flashback, with a sudden return to those past moments they shared with the sound. These returns are accompanied with a flood of detailed sensory information that spread across our senses in what might be called an <em>episodic memory</em>. As we can appreciate in these moments, our memories are wrapped in complex, multi-modal associations that are encoded within our hippocampus, thalamus, amygdala, and various areas of our cortex. Thus, the act of recalling episodic memories stimulates these neural pathways just as they were activated when we first consolidated the memory. Björn Vickhoff explains the process wonderfully in his <em>A Perspective Theory of Music Perception and Emotion</em>,</p>
+<blockquote>
+<p>&quot;Even if the information is integrated in the hippocampus and the hippocampus is associated with long-term memory this does not mean that all memories are stored in the hippocampus. Rather the information is fed back to the perception and association areas. Episodic memorizing is to reactivate the perception process. This is what makes episodic memories so vivid. The process can be activated by any contextual cue. Since we live the event anew, this is by definition imagery. I believe that imagery and episodic memory is connected&quot; (Vickhoff 2008).</p>
+</blockquote>
+<p>Something as simple as the almost tangible link between the smell of freshly baked cookies and one's grandmother is a product of the widely encoded information integrated upon each of our experiences, especially those experienced with strong emotion or personal meaning. Stefan Koelch describes this musicogenic meaning of musical &quot;relations comprise memory representations… as well as associations with regard to an individual's most personal inner experiences&quot; (Koelch, 2011). I would like to explore this phenomenon through the lens of music cognition, focusing chiefly on how our modalities contribute to an experience of music that can transport us through memory and nostalgia.</p>
+<figure>
+    <div class="iframe-wrapper pb-169">
+        <iframe src="https://www.youtube-nocookie.com/embed/MFEZiMyfSYI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <figcaption>Every Sample From The Avalanches' Since I Left You</figcaption>
+</figure>
+<p>The Avalanches' <em>Since I Left You</em> is an album composed as a collage of thousands (~3500) of samples of records, movies, tv shows, and advertisements before it. This genre of music takes many names, but aligns within the traditions of plunderphonics. For The Avalanches, the absence of original musical material makes their record absolutely drenched in cue, reference, and signposts from the past. Their employment of appropriation, while frowned upon by musical history as a whole, allows their music to reach into the past and re-contextualize the samples they use within new frames of reference. While one could write an entire essay on these transformations alone, the effect of this method of production provides a massive launchpad from which we can dive into memory and nostalgia, both personal and cultural. However, the effect of this experience is, incredibly, a product of only our listening; how, then, would our experience change once we integrate a visual element such as that of an accompanying video?</p>
+<figure class="text-align">
+    <div class="iframe-wrapper pb-169">
+        <iframe src="https://www.youtube-nocookie.com/embed/3VN93T7m0-U" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <figcaption>The Was, Soda_Jerk</figcaption>
+</figure>
+<p>For the release of their second album, <em>Wildflower,</em> The Avalanches collaborated with video artist Soda_Jerk to produce a music video well suited for plunderphonics. &quot;The Was&quot; is an audiovisual piece that mimics the stylistic composition of The Avalanches' audio production in visual form. Set to a mix of songs from the album, &quot;The Was&quot; samples from films, music videos, TV and cartoons of the past in an effort to visualize the sonic collage of the past The Avalanches managed to build. The multi-sensory experience of enjoying &quot;The Was&quot; is a journey through the cultural iconography of the past and, as such, 1) directs the listener to marry the sound of _Wildflower* to the visual media of the past, 2) invites them to revisit memories of these audiovisual relics and the atmospheres of sentiment that are evoked, and 3) forms new meaningful associations between these samples and their personal memories, neurally and semantically.</p>
+<figure class="float-right ml-1">
+    <img width="300" height="300" src="https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/43/b3/7e/43b37e75-6027-0d59-5f76-5a68219c82e3/source/600x600bb.jpg">
+    <figcaption>Wildflower, The Avalanches</figcaption>
+</figure>
+<p>Like their past works, <em>Wildflower</em> uses found sound and sonic elements from unauthored music evoke a sense of nostalgia for a period across which their samples are spread. 16 years after the release of their seminal album, <em>Since I Left You</em>, The Avalanches made a return to the music scene with a new record, that continued their re-contextualization of sound that might be a little more in touch with today. While the album consists primarily of found and sampled sound, some tracks feature collaborations with contemporary artists that contribute new vocal or instrumental material. When one listens to <em>Wildflower</em>, they can hear the vintage quality of these samples, many of which have been lifted from wax. Mixing and mastering techniques and styles emblematic of their respective decade imbue these samples with their recording period, even as they have been chopped, processed, and reoriented within a new mix. Listening to &quot;Sunshine&quot; or &quot;Harmony&quot; one can hear vocal and string arrangements of the late 60's, early 70's with that characteristic lush quality diminished high end, reminding one of the easy-listening, blue-eyed soul period of the era. It might bring to mind the Summer of Love and a collection of artists (The Mamas and Papas, The Beach Boys, The Monkees etc.) that saturated the era.</p>
+<figure class="float-left mr-1">
+    <img width="400" src="https://images.squarespace-cdn.com/content/561c0052e4b0faa1a2071248/1486512095702-AMS4W285ORMY5M71KOF8/00864-Summer-of-Love-1967-Travels-with-Gloria-travelswithgloria.wordpress.com-pic.jpg?format=1500w&content-type=image%2Fjpeg">
+    <figcaption>The Summer of Love, <a href="https://www.visitfishermanswharf.com/events/summeroflove">Fisherman's Wharf</a></figcaption>
+</figure>
+<p>All of these auditory cues may very well stimulate episodic memories, the phenomenon that Davies calls the &quot;Darling, They're Playing Our Tune&quot; (DTPOT) theory of musical response (Davies, 1978). Something like Hal Blaine's <a href="https://musicforants.com/post/123994305022/be-my-baby-drum-beat-mix">iconic drum intro</a> into &quot;Be My Baby&quot; is immediately recognizable for many and likely there is a strong emotional response from those who are familiar of the song and the era. While direct reference to exact sonic material may not be recognizable for many within The Avalanches densely packed quilts of samples, it is the textural quality of this vintage sound, transposed through time, that is central to our experience of nostalgia. Admittedly, this task of sending listeners back into the past is might not be accessible for many without the musical history or associations. Thus, many musicians create video projects to supplement the artwork through a new sensory experience.</p>
+<p>&quot;The Was&quot; splits <em>Wildflower</em> open and allows us to understand the work within a different modality that achieves a parallel effect, employing appropriation and composition to produce a video collage of cultural iconography. Film may be one of these mediums where we contextualize music and develop an understanding of what this past was emblematic of (even if it wasn't experienced). Soda<em>Jerk deftly builds a visual story through the arrangement of 171 films, many of them situated as (cult) classics of counter culture in their respective era. Scenes from media of the past unfold like a travel log set to a mix of _Wildflower</em>. In this way, the multi-sensory experience provides an even greater wealth of signs from which we may experience our memories from the past once more. But new now, is the experience of having these scattered audio and visual exchanges, dating as far back as half a century ago, enter into dialogue with one another. The conversation that exists when watching &quot;The Was&quot; connects the information we are receiving through both modalities, neurally and symbolically, the result spread across our memory systems. Considering the research suggesting that the consolidation and retrieval of memory is inherently bound within the cognitive structures like the hippocampus and cortex, one can imagine that their pre-existing memories recalled by the music and filmography of &quot;The Was&quot; are interwoven, encompassing now hundreds of audiovisual points of contact. After a viewing, the audience has been carried through time, visually, aurally, and perhaps emotionally and experientially, through memory.</p>
+<p><em>Wildflower</em> and &quot;The Was&quot; exemplify the power of re-contextualization as an apparatus of art making and the cognitive mechanisms able to form and reform rich personal memories. Experienced as a single modality, music provides more than enough sensory information (especially for musicians) that can drive us back to the moments and sentiments we've shared with the sound over our life. But once we add a secondary sensory experience, one as stimulating as video, we face a cross-modal event. Music videos and audiovisual projects alike arrange complex and disruptive encounters that seek to reorder and enhance the multimedia experience through our own involvement in the assimilation of audio/visual stimuli and sentimentality.</p>
+<h4 id="works-cited" tabindex="-1">Works Cited <a class="header-anchor" href="#works-cited">#</a></h4>
+<p>Davies, John Booth. <em>The Psychology of Music</em>. Stanford University Press, 1978.</p>
+<p>Groussard, Mathilde, et al. &quot;When Music and Long-Term Memory Interact: Effects of Musical Expertise on Functional and Structural Plasticity in the Hippocampus.&quot; <em>PLOS ONE</em>, vol. 5, no. 10, Oct. 2010, p. e13225. <em>PLoS Journals</em>, doi:10.1371/journal.pone.0013225.</p>
+<p>Koelsch, Stefan. &quot;Toward a Neural Basis of Music Perception – A Review and Updated Model.&quot; <em>Frontiers in Psychology</em>, vol. 2, 2011. <em>Frontiers</em>, doi:10.3389/fpsyg.2011.00110.</p>
+<p>Koelsch, Stefan. &quot;Towards a Neural Basis of Processing Musical Semantics.&quot; <em>Physics of Life Reviews</em>, vol. 8, no. 2, June 2011, pp. 89–105. <em>ScienceDirect</em>, doi:10.1016/j.plrev.2011.04.004.</p>
+<p><em>Since I Left You</em>. Elektra / Wea, 2001.</p>
+<p>Snyder, Bob. <em>Music and Memory: An Introduction</em>. MIT Press, 2001.</p>
+<p><em>The Was (2016)</em>. <em>YouTube</em>, <a href="https://www.youtube.com/watch?v=3VN93T7m0-U">https://www.youtube.com/watch?v=3VN93T7m0-U</a>. Accessed 4 Oct. 2019.</p>
+<p>Vickhoff, Björn. <em>A Perspective Theory of Music Perception and Emotion</em>. 2008. <em>gupea.ub.gu.se</em>, <a href="https://gupea.ub.gu.se/handle/2077/9604">https://gupea.ub.gu.se/handle/2077/9604</a>.</p>
+<p><em>Wildflower</em>. Astralwerks, 8 July 2016.</p>
+
+		<ul class="links-nextprev">
+				<li>Previous: <a href="/blog/2018-11-02-43-rpm/">43 rpm</a>
+				</li>
+			
+				<li>Next: <a href="/blog/2020-02-10-osc-guitar/">Strumming through space and OSC</a>
+				</li>
+			
+		</ul>
+
+<script src="/js/lite-yt-embed.js" defer></script>
+		</main>
+
+		<footer></footer>
+
+		<!-- This page `/blog/2019-10-01-memory-avalanches/` was built on 2024-08-15T21:46:17.991Z -->
+	</body>
+</html>
+<script>
+	// Toggle dark/light mode and save
+const toggle = document.getElementById('dark-mode-toggle');
+const root = document.documentElement;
+
+const setTheme = isDark => {
+    root.classList.toggle('dark-mode', isDark);
+    root.style.colorScheme = isDark ? 'dark' : 'light';
+    toggle.textContent = isDark ? '🌞' : '🌚';
+    localStorage.setItem('color-scheme', isDark ? 'dark' : 'light');
+};
+
+const storedTheme = localStorage.getItem('color-scheme');
+setTheme(storedTheme ? storedTheme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+toggle.style.display = 'block';
+toggle.onclick = () => setTheme(root.style.colorScheme !== 'dark');
+</script>

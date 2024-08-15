@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>43 rpm</title>
+		<meta name="description" content="Hello, I&#39;m Jackson.">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Jackson Goode">
+		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Jackson Goode">
+		<style>
+			/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono,
+		Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono,
+		Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New,
+		Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	color-scheme: light dark;
+
+	--color-gray-20: #333333;
+	--color-gray-50: #7f7f7f;
+	--color-gray-90: #e5e5e5;
+
+	--syntax-tab-size: 2;
+}
+.dark-mode {
+	--color-gray-20: #cccccc;
+	--color-gray-50: #808080;
+	--color-gray-90: #1a1a1a;
+}
+/* @media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #cccccc;
+		--color-gray-50: #808080;
+		--color-gray-90: #1a1a1a;
+	}
+} */
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+main {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+
+.links-nextprev {
+	list-style: none;
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: 0.5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em 0.5em;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+	margin-right: 2em;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+	margin-right: 1em;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	list-style: none;
+	padding: 0;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	margin-bottom: 1em;
+	padding-left: 1.5em; /* Add left padding to make room for the arrow */
+	position: relative;
+}
+.postlist-item::before {
+	content: "\2192"; /* Default to arrow */
+	margin-right: 0.5em;
+	color: var(--color-gray-20);
+	left: 0;
+	top: 0.2em;
+	position: absolute;
+	transition: all 0.5s ease-out;
+	filter: saturate(100%);
+	transform: scale(1);
+}
+.postlist-item[data-emoji]::before {
+	content: attr(data-emoji);
+}
+.postlist-item::before {
+	transition: all 0.5s ease-out;
+}
+.postlist-item:hover::before,
+.postlist-item:focus-within::before {
+	animation: pulseSat 2s linear infinite;
+}
+
+.postlist-item:not(:hover)::before {
+	animation: none;
+	filter: saturate(100%);
+	transform: scale(1);
+	transition: all 0.5s ease-out;
+}
+@keyframes pulseSat {
+	0%,
+	50%,
+	100% {
+		filter: saturate(100%);
+		transform: scale(1);
+	}
+	25% {
+		filter: saturate(50%);
+		transform: scale(0.9);
+	}
+	75% {
+		filter: saturate(150%);
+		transform: scale(1.1);
+	}
+}
+.postlist-date {
+	color: var(--color-gray-20);
+	font-size: 0.8125em; /* 13px /16 */
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: 100%;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item {
+	position: relative;
+}
+
+.postlist-item:has(.postlist-link:hover) .postlist-date::after {
+	content: attr(data-tooltip);
+	padding-left: 1em;
+	position: absolute;
+	color: var(--color-gray-20);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: calc(100% - 3em);
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: 0.5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* Direct Links / Markdown Headers */
+.header-anchor {
+	text-decoration: none;
+	font-style: normal;
+	font-size: 1em;
+	margin-left: 0.1em;
+}
+a[href].header-anchor,
+a[href].header-anchor:visited {
+	color: transparent;
+}
+a[href].header-anchor:focus,
+a[href].header-anchor:hover {
+	text-decoration: underline;
+}
+a[href].header-anchor:focus,
+:hover > a[href].header-anchor {
+	color: #aaa;
+}
+
+h2 + .header-anchor {
+	font-size: 1.5em;
+}
+
+/* Starting custom */
+@font-face {
+	font-family: "Sans Serif Shaded";
+	src: url("/fonts/SansSerifShaded.ttf");
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: "Bonbance";
+	src: url("/fonts/Bonbance-BoldCondensed.woff2") format("woff2");
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: "AntiqueSerie";
+	src: url("/fonts/AntiqueSerie-Regular.woff2") format("woff2");
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: "Anybody";
+	src: url("/fonts/Anybody-VariableFont_wdth,wght.ttf") format("ttf");
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: "Folio";
+	src: url("/fonts/Folio-Std-Light.woff") format("woff");
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: "Whirlybats";
+	src: url("/fonts/Whirlybats.ttf") format("truetype");
+}
+@font-face {
+	font-family: "WhirlyBirdie";
+	src: url("/fonts/WhirlyBirdieVariable.ttf") format("truetype");
+	/* font-weight: 200; */
+	font-variation-settings:
+		"wght" 75,
+		"wdth" 75;
+}
+@font-face {
+	font-family: "Switzer";
+	src: url("/fonts/Switzer-Variable.woff2") format("woff2");
+	font-weight: 500;
+	/* font-variation-settings: "wght" 400; */
+}
+@font-face {
+	font-family: "Rag";
+	src:
+		url("/fonts/Rag-Regular.woff2") format("woff2"),
+		url("/fonts/Rag-Italic.woff2") format("woff2"),
+		url("/fonts/Rag-Bold.woff2") format("woff2"),
+		url("/fonts/Rag-BoldItalic.woff2") format("woff2");
+	font-weight: 400;
+	font-style: normal italic;
+	font-display: swap;
+}
+
+.wb-icon {
+	font-family: "Whirlybats";
+	font-weight: normal;
+	font-style: normal;
+	display: inline-block;
+	white-space: nowrap;
+	word-wrap: normal;
+	direction: ltr;
+	font-feature-settings: "liga";
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+:root {
+	--font-family: "Rag", -apple-system, system-ui, sans-serif;
+}
+
+h1,
+h2,
+h3,
+.letter {
+	font-family: "Switzer";
+}
+
+h1 {
+	display: flex; /* Use flexbox layout */
+	flex-wrap: wrap; /* Allow wrapping if necessary */
+	gap: 0.25em; /* Optional: Add a gap between letter containers if needed */
+}
+
+.row {
+	width: 100%;
+}
+
+.nav-right {
+	margin-left: auto;
+	margin-right: 0;
+}
+
+/* Dark mode toggle styles */
+#dark-mode-toggle {
+	background: none;
+	border: none;
+	cursor: pointer;
+	font-size: 1em;
+}
+
+figcaption {
+	color: var(--color-gray-20);
+}
+
+figure {
+	text-align: center;
+}
+
+figure > * {
+	max-width: 100%;
+}
+		</style>
+
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,100..900;1,100..900&family=Archivo:ital,wght@0,100..900;1,100..900&family=Chivo:ital,wght@0,100..900;1,100..900&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Rubik:ital,wght@0,300..900;1,300..900&family=Syne:wght@400..800&display=swap');
+		</style>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header class="container">
+			<nav class="row">
+				<h2 class="visually-hidden">Top level navigation menu</h2>
+				<ul class="nav">
+						<li class="nav-item">
+							<a href="/">Home</a>
+						</li>
+						<li class="nav-item">
+							<a href="/blog/">Blog</a>
+						</li>
+						<li class="nav-item">
+							<a href="/projects/">Projects</a>
+						</li>
+						<li class="nav-item">
+							<a href="/about/">About Me</a>
+						</li>
+					<li class="nav-item nav-right">
+						<button id="dark-mode-toggle" aria-label="Toggle dark mode" style="display: none;">🌙</button>
+					</li>
+				</ul>
+			</nav>
+		</header>
+
+		<main id="skip" class="container">
+			<link rel="stylesheet" href="/css/lite-yt-embed.css"/>
+
+<h1>43 rpm</h1>
+
+<ul class="post-metadata">
+	<li>
+		<time datetime="2018-11-02">02 November 2018</time>
+	</li>
+</ul>
+
+<h3 id="title-card" tabindex="-1">Title Card <a class="header-anchor" href="#title-card">#</a></h3>
+<blockquote>
+<p>“Indeed a lake is within me, solitary and self-contained;
+but the river of my love draws it off-down to the sea!”</p>
+</blockquote>
+<p>Cut from black. A shot of the sky in silence. Branches of trees are tugged by the wind and framed in a blue tarp, half-filled with clouds. After a few moments, inches above the grassy ground is the top half of Clover on her back, watching the sky. A thick head of opal brown hair, filled with shades of red, is spread over the grass and over an oversized white t-shirt she’s wearing. Clover’s face is freckled and pale. Hers eyes are set neatly under her thick eyebrows, and have low rings under them, making her whole gaze look deeply fatigued but at peace. Sound of those heavy branches in the wind fade in, and after half a minute, the shot cuts to the same angle from looking up at ceiling of her room, light blue with a ceiling fan slowly rotating.</p>
+<h3 id="room" tabindex="-1">Room <a class="header-anchor" href="#room">#</a></h3>
+<p>A woman in her late forties, Diane, is seen sitting on a chair in the corner of Clover’s dorm, peacefully watching her sleep. In this moment, the sound of the wind, which has persisted through the transition, begins to shift to the ring of a radiator and the ruffling of sheets can be heard behind the shot. It’s around 9am and soft light pours in from an adjacent window. A number of angles from Clover’s room are shown; her dresser below the window, jackets and leggings retreated in corners are Diane is gone now. From a desk at the height of her bed, Clover is beginning to wake up but has rolled over to face the wall bordering her bed. Her hair is spread out over her pillow, which is a light blue, like the sheets. A cell phone rings, vibrating the sheets and lighting up the wall where she’s curled up. The shot moves to her face where a fly has landed on her cheek.</p>
+<h3 id="office" tabindex="-1">Office <a class="header-anchor" href="#office">#</a></h3>
+<p>As she weakly swipes it away, the scene cuts to Clover now sits in a warmly lit office, it’s mid-afternoon and Clover’s sitting in a wide blue sofa, a dark green button down and jeans, with one leg tucked under her. The area is clean with lots of windows, a desk, sofa, and two chairs. Diane sits in a chair opposing Clover. Diane has a posture that seems to have grown only more elegant in age. She wears a gray cardigan too big for her shoulders slouches over her thin frame. She has short graying hair, thin glasses, and the lean face of an athlete or someone the sun had gifted with agelessness. She keeps a pen and pad by her side, looking carefully at Clover’s withdrawn daze. On the walls are various generic landscapes that were most likely picked up at yard-sales.</p>
+<p><strong>Diane:</strong> &quot;Well, its good to see you again.&quot; A small smile forms from a pair of even smaller lips.</p>
+<p><strong>Clover:</strong> &quot;You too” And she turns to face Diane, flashing a smile.</p>
+<p><strong>D:</strong> “So, how have things been going this week?”</p>
+<p><strong>C:</strong> “They've been good. I think things are getting better, but you know you can never be sure right away.” She pauses “But, yeah, definitely better than last week.”</p>
+<p><strong>D:</strong> “Right, well… good!” She take a moment to look at Clover once more. Her gaze falls to the note pad. “And it's all about progress, you know, one week at a time. Some weeks might be better, like this one, others worse and as long as we’re working on it, we’ll be exploring more and more solutions.”</p>
+<p><strong>C:</strong> “Yeah,&quot; Clover responds, looking more earnest than she believes.</p>
+<p><strong>D:</strong> “So, how have you been able to sleep recently since our last suggestions, with writing and-?”</p>
+<p><strong>C:</strong> “Yeah, yeah, it’s better, it's hard to make time for it some nights. But its been fun taking my mind off of things before bed. It's still tough since, eventually, I'll have to decide to quit writing and try sleeping&quot; she pauses &quot;and that's when I start to struggle again. I wish I could write myself to sleep, but my hand gets tired faster than my brain.&quot; She continues, &quot;My teacher told me almonds could help too?&quot;</p>
+<p><strong>D:</strong> “Yeah, I’ve heard that too, some nutritionists believe a handful might help some people before bed, though I'm not sure why, so don't take my word for it&quot; she chuckles but becomes more serious. &quot;But I’m glad you’ve been trying out writing. If I may ask, what kinds of things do you usually write about?”</p>
+<p><strong>C:</strong> “Oh, um, its mostly just my imagination.” Clover brings her hands to rub her neck. She looks uncomfortable, almost guilty, as she thinks about her answer.</p>
+<p>After she finishes, the camera stays on her, listening to Diane. The sound of her voice drifts (pans left) and fades into the distance, the buzzing of a fly intensifies (panned right). She gets distracted and watches the insect fly upwards towards Clover’s ceiling fan, in a cut back to her bedroom.</p>
+<h3 id="room-1" tabindex="-1">Room <a class="header-anchor" href="#room-1">#</a></h3>
+<p>Clover is groggily staring at her phone. After a few seconds of reading. she frantically shakes out of bed, her long brown hair swings with her, as she hops into jeans, sneakers, a sweater and grabs her keys from the top of a dresser and slams the door. The fly comes to rest on her blanket, which has now settled on the hardwood floor, among other scattered miscellanies. Her running feet are heard outside along the hall for a moment, soon, out of audible range. From the inside of the dorm-rooms, Clover’s feet are seen sprinting past a series of doorways. The sound of her stomps is now being followed, along with heavy breath, from one hall to the next, on and off carpet and wood and finally down a stairwell. Her feet are followed from behind, as the run down the last hall and are trailed through the exit.</p>
+<p>A heavy wooden door of the dorm bursts open with the sound of birds chirping in the early morning. Clover looks around the campus as if expecting to find the source of her stress, still panting from her run through the halls. She slowly leans over, her hands on her knees, breathing erratically, trying to find a natural pace of breath again with whispered counts upwards from “one”. The campus is empty, and a wide shot puts Clover in a yard where other tall and thin dormitories are sat side by side like studious guardians. Suddenly, the sound of her name being shouted has grown in volume, enough to break through her breaths. Clover stops breathing and quickly turns her head towards the shouts</p>
+<h3 id="lot" tabindex="-1">Lot <a class="header-anchor" href="#lot">#</a></h3>
+<p>Her turn cuts the shot to an empty parking lot at night. She’s now sitting, staring up at a florescent light, coming from a single streetlamp. She’s in different clothes, a heather gray sweatshirt and gym shorts, she sits between the headlights of a car, her back resting against the front bumper. The electric buzz of the lamp rolls in and behind her the muffled yelling she had heard before returns more clearly; it’s a muffled male voice, angrily shouting her name but goes quiet moments later. She reaches her arms over to cover the headlights on either side of her, creating red outlines around her hand and darkening her face. There’s nothing visible beyond what’s lit by the street lamp and the car headlights and in fact, the parking lot looks a lot like an island suspended in the void. The asphalt is cracked and ribbed from the movement of earth underneath it. The light hum of a small engine enters soon after. The scene cuts to Clover walking away from the car. A door behind her opens and the car door bell begins ringing. Christ steps out of the car.</p>
+<p><strong>Chris:</strong> “Clove! Where are you going!?” An irritated voice behind her yells “Why are you doing this? We can talk in the car - Clove! - what is wrong with you?” Clover turns around.</p>
+<p><strong>Clover</strong>: “Do you fucking think it’s okay for you to act that way around my family?” Clover’s yelling. Her voice strains from holding back tears and so it comes out in bursts. While she says this her eyes dark around the silhouette of the figure, partially blinded by the headlines she’s standing in front of. ”How fucking old are you? I’ve told you how much it hurts him - can’t you be fucking respectful- why can’t you - just apologize for once!?”</p>
+<p><strong>Ch</strong>: “What? Was I supposed to not say something while your brother just starts screaming at the top of his lungs at 2am? How was I supposed to know he had a thing? He was screaming all weekend.” Chris’s voice is just as loud but less uncertain. Clover walks backwards from the headlights.</p>
+<p><strong>C:</strong> “Go home. I don’t want to see you. I’ll get someone to pick me up, okay?” She takes a breath. “It’s fine, you can leave, Chris.” Clover looks less irritated and more exhausted from just yelling itself.</p>
+<p><strong>Ch:</strong> “I told you I forgot, okay? I hadn’t slept in 2 nights! I wasn’t mad at him, I just wanted him to know there were people trying to sleep - I’m sorry, okay?” For the first time we see his face, in a close up lit by the light on within the opened car. Chris has curly brown hair and is wearing thick glasses. He’s upset too, his face is tense and his lips pursed as his starts to say something but stops before the first word. He tries again, his eyes no longer looking at Clover in the headlights. He anxiously looks up at the streetlight and behind him and shifts uncomfortably in his jacket. “Clover, I’m really sorry it was late and I got worked up trying to stay cool about it all. I should have talked to you about it before. I...”</p>
+<p><strong>C:</strong> “Why is it that only now do you apologize for this kind of stuff? You wait until the last minute to say something - which is usually insulting and insensitive - and then only after I get upset and talk to you about it do you even consider you were wrong. You weren’t like this before, Chris.” She says the last line more quietly.</p>
+<p><strong>Ch:</strong> “I’m tired of this, you aren’t always right Clover. There are somethings that normal people can’t be expected to deal with. I can’t be sensitive to everything you are or I’d be living your life! I have my own life and some things bother me - like they would bother everyone else! I honestly don’t care that you have your own world, just don’t bring me into it. Don’t try to make everyone feel like you, ok? That’s the problem.” Clover looks up in deep odium. Her dark brown eyes are sunken in dark pools around her eyes. Her eyebrows furrow and she tucks her long brown hair behind her ears with a sigh. She stares up at the night sky. Even more tiredly, Clover responds.</p>
+<p><strong>C:</strong> “Look, Chris, I don’t know. I don’t know at what point something becomes disrespectful. But I know that there are other people living different lives. You and I are great examples of this. There’s been just enough tolerance between us for it to work so far. And I’ve never tried to make you feel the same way as me. I can’t imagine I’ve asked for a lot of sympathy, since it’s usually met with some long explanation about how it’s “unrealistic” for me to be feeling this way! But it’s just not worth arguing at some point if we can’t even relate to the events happening in our lives.” Clover looks back up at the sky for relief. “Yeah, know what, you might be right - I feel like I’m up on the moon sometimes and you’re on the total opposite side of Earth. And we’re always rotating and I’m always walking around trying to figure where the hell you are and you’re just sitting, sitting there watching me as you swing around and pass me again and again.”</p>
+<p><strong>Ch:</strong> “What can I do, Clover?” Chris hold his hands in the air, waiting for Clover to respond.</p>
+<p>Clover turns her back to the car and Chris and her face quickly tightens up and tears begin in well up in her eyes. She starts to pace away from the car and move across the parking lot, the light behind her now. The height of the shot elevates slowly from her shuffling sneakers, her tense hands gripping her phone, onto her face, still crying. Over her shoulder, we can see the blurry figure of a person leaning out from the open door of the driver’s seat of the sedan. The sound of Chris’s voice fades and echoes across the parking lot, we can still hear him yelling out for her as she begins to run. The sedan cranks on and drives away. Clover’s runs out of the light from parking lot. She pulls out her phone and turns on the flashlight. Both the light from the screen and from the flash illuminate her. Clover looks up from her phone and the shot cuts to a forest at the edge of the lot. She tops walking for a moment to stare up at it in awe. The sounds of the scene and a low drone rises up as if emanating from the forest itself, getting fuller and loud. As it does, Diane’s response returns in the darkness and the drone dissipates in an instant.</p>
+<h3 id="office-1" tabindex="-1">Office <a class="header-anchor" href="#office-1">#</a></h3>
+<p><strong>Diane:</strong> “So, what are those worlds like? Could you explain them to me a little bit? Are they like daydreams?” The shot returns to Diane’s office, where the conversation has continued.</p>
+<p><strong>Clover:</strong> “Kind of, yeah, they’re drawn from the past, or at least in the way I’m reminded of it.” She pauses and it cuts back to a focus on Clover sitting with Diane. “I like to think about it as salvaging. Scraps of memories that, just, stick out for one reason or another. Like, last night I was writing about a memory I had as a kid. I remember one morning watching my mom roll the trash can up the driveway; I was looking from the window of my parents’ bedroom. I must have been 5 or 6.” As Clover’s speaking, the angle rotates from her profile towards the window, focusing on a wisteria tree, climbing the edge of the office outside. It focuses on a bundle of its soft pink flowers hovering in front of the window. Clover continues with the focus now on the tree. “And I remember how I felt watching my mom. She had no idea I was watching her, and the event was so mundane, yet, it felt so weird at the time. Now I probably would call it something like being “contemplative”, which I wasn’t really ever. It was odd, it was like, the realization that my mom existed, as a person, in a world without me. Of course, I must have known that even then, but I had just never seen it so closely” Clover smiles as she finishes her story, Diane looks down at the pad in her hands and quickly takes one note.</p>
+<p><strong>D:</strong> “Huh, well, that’s a lot deeper than I was expecting. I don’t know why you’re a math major!” She giggles. “So how does that exactly make a world? Are you reminiscing or -”</p>
+<p><strong>C:</strong> “Yeah, I mean a bit? It’s hard not to when writing stories. I mean, I can’t not write from experience, right?” She pauses to think “What do you think? Should I stop? I think they give me a chance to reconnect? Or explore the what I remember of the past, now, being older and all.</p>
+<p><strong>D:</strong> “No, no, not at all. I think that’s wonderful, and therapeutic I’m sure! I was just curious how you felt about them and whether they felt good for you. That’s all.”</p>
+<p><strong>C:</strong> ”Yeah, I think - it’s just an exercise that I can tell myself is productive.” Clover leans her head on the arms of the sofa she’s sitting on. “Do you think about old memories often?”</p>
+<h3 id="suburbs" tabindex="-1">Suburbs <a class="header-anchor" href="#suburbs">#</a></h3>
+<p>The scene cuts to Clover squeezing through the trimmed wall of a hedge. It’s midnight. Crickets and cicadas buzz loudly around the shuffle of Clover’s figure through snapping and whipping twigs that trail her. She walks onto a street of a neighborhood. She left the yard of a large brick house through a wall of vegetation that surrounds it.</p>
+<p><strong>C:</strong> “Come on!” She whispers loudly to the fern, and a second body bursts from the trimmed hedge. “Come on! Let’s go!”</p>
+<p><strong>Nico:</strong> “I’m coming! Ow, ow, was this the best route?” She frees her leg from the hedge and jogs over to Clover. “And more importantly, do you even know where’s the lake from here?”</p>
+<p><strong>C:</strong> “Well, I got here, didn’t I? I can figure my way over there too, or we’ll just be wandering the night till morning then.” She grins wide and tucks her loose brown hair, already in a bun, behind her ears. Clover is excited, unstressed and unrestrained. She pulls some earplugs from her pocket. “You brought yours too right? Don’t tell me you forgot?”</p>
+<p><strong>N:</strong> “I have it, I have it! she awkwardly pulls her iPod out from her back pocket and shakes it in front of Clover. “See, I don’t forget. I even put the songs you sent me on it. And, let me tell you, that took me hours, sooo-” Nico’s eyes float to the tree branches overhead as she trails off.</p>
+<p><strong>C:</strong> “Good! Now at least you have some good music on that thing” She grins and leans in with her headphones already in. “Let’s go!”</p>
+<p>At that moment, Clover puts in her headphones, quickly fidgets with her iPod and begins to dance in the middle of the street. Clover’s dance is goofy and a bit uncoordinated. She bobs and swings her arms around across the street, keeping her eyes and grin on Nico as she too, though much more slowly, set her iPod up to go as well. Clover dances over to Nico after a moment.</p>
+<p><strong>C:</strong> ”Oh, oh, okay so, open the playlist I sent you - I almost forgot - here, let’s me see, yeah, and there.” Clover smoothly works the iPod to the playlist, “Now... I’m going to press play at the same time as you and we should be in sync for as long as this playlist lasts!”</p>
+<p><strong>N:</strong> ”You mean you hadn’t put any music on yet?”</p>
+<p><strong>C:</strong> ”No! I was waiting for your slow ass!”</p>
+<p><strong>N:</strong> ”Then, what were you dancing to, weirdo?”</p>
+<p><strong>C:</strong> “You of course!” Nico smiles at this and shyly shakes her head. “Okay, ready yet?”</p>
+<p><strong>N:</strong> “How long is this playlist, again?”</p>
+<p><strong>C:</strong> “I think we’ll be good until 4 or 5am!”</p>
+<p><strong>N:</strong> “Oh my god,” Nico rolls her eyes. &quot;I hope your taste in music is as good as you said!”</p>
+<p>The camera swings to Clover who is already dancing down the street and it ascends upwards still keeping a focus on the street. Above the trees you can see the neighborhood fully enclosed within the branches of a suburban grove of oaks. The perspective gazes down at the street while moving forward, still hovering above the two bodies walking between the edges of the tree branches until the branches converge in a thicket and the shot fades to black.</p>
+<p>Nico and Clover are now center frame, walking along a road with fewer houses, street lights and trees, at the edge of the neighborhood. It’s much darker, with fewer street lamps along the street. Beside them is a plot of undeveloped land, where construction crews are in the middle of filling out the frames of 6 or 7 houses. The unfinished buildings stand like skeletons over the field. Clover points beyond the houses to a tree-line about half a mile away.</p>
+<p><strong>C:</strong> “Through there. I’m almost certain” She pulls out Nico’s left earbud to tell her.</p>
+<p><strong>N:</strong> “And you saw this pond where?</p>
+<p><strong>C:</strong> “ Online, I looked it up! It’s right on the other side of those trees! Someone said that the builders here wanted to buy that land but apparently someone privately owns that land and wouldn’t sell to them.”</p>
+<p><strong>N:</strong> “You sure about that?”</p>
+<p><strong>C:</strong> “Yeah, I mean, it was the only comment on Google. I’d say it’s about 50/50. Who knows.”</p>
+<p><strong>N:</strong> “That’s odd, maybe it’s a private fishing pond?”</p>
+<p><strong>C:</strong> “I’m not sure. But, whatever it is - I think there’s a dock in the middle. Did you bring something to swim in?” Clover smirks unevenly, waiting for Nico’s response.</p>
+<p><strong>N:</strong> “Oh please. Like I’m going to hop in a random pond in the middle at midnight.”</p>
+<p>Clover shrugs and keeps walking, now off-road, through the untrimmed yards of the new houses. Behind Clover, Nico is noticeably reserved, her arms are kept close to her heavy wool sweater and is hesitant, at first, to step off the road but eventually joins Clover. Clover, holds her hands up to the sky, swinging them back and forth as she’s singing along with current track on her headphones. Her voice sounds quiet next to the roar of insects that fills the field. Nico has caught up with Clover and both are now moving more cautiously as the tall, dense grass begins to hide their feet. They move in unison quietly, for a while. The sound of their steps is loud and make a satisfying crunch over dry reeds.</p>
+<p>Suddenly, Nico’s arms wrap Clover’s shoulders from behind, her head falling on a shoulder and they come to a stop before the tree-line. It’s playful and unexpected, and uncoordinated, causing the two to stumble forward and Clover’s earbuds to fall out. For the first time, the Clover’s bright countenance begins to sink as Nico’s hands come together over her chest. Clover takes a sharp breath in at Nico’s gesture. With the music gone, she starts reorient to the deafening sound around her and begins to look around at where she is as if unaware of how she got here. We stay here watching her and Nico for a while, who has retracted her arms to the tops of Clover’s shoulders and is also staring at the woods. As the growl grows, the scene cuts to outside Clover’s dorm, where she is still recovering from her sprint through the dorm.</p>
+<h3 id="home" tabindex="-1">Home <a class="header-anchor" href="#home">#</a></h3>
+<p>Her breathing returns to normal. She begins to quickly walk towards the parking lot, where the sun has begun to set and gets into her car. From the inside of her old tan minivan, she pulls out her phone to dial and begins to drive out of the lot.</p>
+<p><strong>C:</strong> “Mom? You there? Is he alright? Is he okay? I’m driving over right now, okay?” She pauses to listen to a sharp voice through the phone “I know, I know you did. It’s okay. I’ll be there soon, okay? Ok? He’s going to be okay. I’m heading over. Don’t worry - yes, of course. I love you. Bye.”</p>
+<p>She turns on the emergency blinkers and speeds through the highway onto the offramp. Entering into a neighborhood, Clover swerves past stop signs and worried parents that watch front yards, some picking up the paper, rolling out the garbage bins, watering the yard, chatting, or holding back their kids from the accelerating vehicle. Crimson flashes of light begin to appear on her face as she finally slows down. Outside, theres a commotion around the front yard of a small single-story house. Police are trying to speak with an older woman who is sobbing on the brick steps of her house. Clover slams on the brakes in front of the lawn, opens her door and runs over, forgetting to close it in her haste.</p>
+<p><strong>C:</strong> “Mom, mom, what happened?!” Clover is holding her mother, Samantha, on the steps. She brushes Samantha’s gray hair from her face. Clover’s startled by the number of wrinkles under her mom’s eyes and hugs her close. Tears have collected in those wrinkles. “What happened, tell me. Did he have another episode.”
+Samantha: “He - he ran away, Clover. I tried to hold him and he ran away from me.” Clover notices the sanguine bruises on her face and blood on the edges on her mouth.</p>
+<p><strong>C:</strong> “Mom... what happened? Are you okay? Did he hit you? Why is there blood on your face?”</p>
+<p><strong>S:</strong> “Clover, clover, it’s alright, it’s okay you know he gets that way, it was my mistake to try and hold him - he was trying to escape. He was screaming and thrashing around in his room. I went in to see what was happening”</p>
+<p><strong>C:</strong> “No, mom, he’s never done that before. Did he run away? Where is he?”</p>
+<p><strong>S:</strong> “He - ran out through the back. I couldn’t chase him - he knocked me down! I’m sorry, Clover, I’m sorry.”</p>
+<p><strong>C:</strong> “Mom, its okay, it’s alright, we’re going to find him don’t worry. I’ll find him.”</p>
+<p>Clover turns around to two police officers, watching the scene and chatting on radio. Noticing that Clover has finished talking, a tall man with crew cut brown hair walks over.</p>
+<p><strong>P1:</strong> “Are you the sister of Cecil Dawning?”</p>
+<p><strong>C:</strong> “Yes”</p>
+<p><strong>P1:</strong> “Okay good, as your mom might have told you, your brother ran off about an hour ago from the back of your home, south.” The officer points through the house, over towards the woods that lie behind Clover’s neighborhood. “We are going to need to ask you some questions about your brother if you...” The officer’s voice trails off into the distance and the sound of crickets and cicadas rise.</p>
+<p>Clover is struck with fear. Her facial expression has changed as the shot returns to her face. Her eyes that were once looking in the direction of his finger, now seem to be looking nowhere, absent of focus. Her figure is outlined with an aura of flashing red and blue from the police car in the lawn.</p>
+<p>Suddenly, the shot seamlessly changes to night as she turns around towards the lawn. Everyone is gone, the police, their car, Samantha are all absent as clover continues to star into the distance. Her face is now lit by the moon overhead and its cool blue light covers the rest of the neighborhood. All colors are now in neutral shades of blue. The noise of the crickets and cicadas continue.</p>
+<p>Without notice of the change, Clover opens the screen door in front of her and begins to walk through her house. The house is pitch black. From over Clover’s shoulders, the only light that is shining through is that of the back door. It beams light across the living room where a cabinet has been toppled, spilling books and shattered ceramic and glass across the carpet floor. The sound of Diane’s voice breaks through the silence. It speaks over the current scene as the visuals continue.</p>
+<p><strong>D:</strong> “To answer your question Clover, I do think about my memories. Often, in the same way as you. Only I’ve have about twice your life to think about, twice as many decisions with slip-ups and joys. But you do get better at it, at least you care less about your frequent mistakes and more about the disturbances you’re convinced are unavoidable.”
+Clover looks down at the mess but is uninterested having fallen under some sort of delirium. Her gaze returns to the door, and continues to walk through the living room.</p>
+<p><strong>C:</strong> “But do you ever fear that you’ll forget, one day? What will happen when there are no more clues to your memories. That sudden rush of the experiences you had forgotten when you hear an old voice, or see a face, are harder to recall, and even more dependent on the pure chance of bumping into those people or places I spent time with.”</p>
+<p>By the back door is another room, whose door is open. Clover walks up to the backdoor and looks left, into the open bedroom. There, in the center of the room is a bare mattress made visible by the light shining through a small window across from her, covered partially with the torn sheets. A mangled mess of clothes and trash are pilled in corners of the bedroom; nothing is in order. The walls are bare and speckled with small punctures. Besides the bed, there’s a dresser and old chair that’s been overturn. Clover looks over the disarray and takes a calm inhale. Now looking out from the ground of the bedroom, she turns away from the doorway and opens the backdoor to outside.</p>
+<p><strong>C:</strong> “I mean where do they go? Where is it all? The high-school dances and snacks my mom would bring me Saturday afternoons? Those cartoons I watched and all the hikes I spent sprinting up the mountain like a goat, falling and bleeding all over the car? Biking until the late evening wind sent me home, missing dinner, and staying up late with an assignment and never learning to plan ahead. Taking a nervous hand like I would a pillow at night. I mean, they’re all there. But their experience... it wasn’t poetic.” She trails off with a sigh.</p>
+<p>Looking outside her house, she’s confronted with a tall thicket of trees 20 feet from her. She turns back towards the inside of the house, where her turn returns the scene to daylight with its sound muffled, her mother’s cries and the police officer calling her name from the other side of the house are visible, asking her to come back to answer questions, and telling Clover they are already searching for her brother. Those sounds are muffled, and don’t puncture the sound of night. Interrupting the commotion at hand, she returns towards the forest, again transitioning to night, and bolts into the woods. The pitter-patter of crunching leaves can be heard even after the darkness of the woods obscures her.</p>
+<h3 id="forest" tabindex="-1">Forest <a class="header-anchor" href="#forest">#</a></h3>
+<p>Cut to black. The sound of steps in on the forest floor are all that can be heard. Clover slowly becomes visible in the light of the moon that’s broken through the tree tops. The shot follows her from the front, the sound of footsteps crunching through the fallen leaves. The steps quietly multiply, and soon Clover’s steps aren’t the only ones in the forest. She stops for a moment and the other footsteps stop a half-second after her. Clover looks fear-struck, and begins to turn around but stops, her head bent at her shoulder. The air is cold. A close up of her lips show her breaths, warm clouds, entering and exiting through her mouth. Carefully, she returns her gaze ahead. She continues to walk forward and the sound of footsteps are now her own. Soon, Clover comes to a clearing. Rising from behind her back, a large, dark pond stretches before her. She walks towards the body of water. The scintillating shape of the moon, hovers over the surface of the pond. Towards the edge of the pond that Clover’s facing, there’s an old wooden dock. As she moves towards the dock, she begins to make out the outline of a person sitting at its end. She walks over to the edge and sits down, feet dangling over the edge. We watch the two from the beginning of the dock. Clover rests her head on the shoulder of the person she still hasn’t looked at yet. A close shot of Clover, whose face is lit by the pond’s clean reflection of the moonlight.</p>
+<p><strong>C:</strong> “Was I over-detailed in their descriptions?” She starts wearily, “How else was I supposed to remember? Build? Start again? Turn backwards? for the sake of a road ahead.” Her hands thrusting towards the pond air. “And now, they’re getting worn out and indiscernible - from the daily rotation of hormones and maddening routines, like a spool of tape. We’ve just dunked it in developer and pulled it out for a fresh exposure.” She inhales and exhales and a smooth breeze descends from the treetops over the water, “I wish I wasn’t still spending the mornings thawing out from sleep. Spending however many minutes remembering, again, where I was when I fell asleep and that my eyes are now open. I sit up, silence slowly rubs my back and I look over to grimace at all the things I’ve surrounded myself with.”</p>
+<p>Clover lays back against the dock, her eyes looking up at the stars. An owl starts to coo across the open air.</p>
+<p><strong>C:</strong> “But, I’ve been thinking, too, of frightening thoughts, with a gravity of their own. Where, if you’re careful and patient, you might be able to watch existence orbit around their place. They roam around the sky, these massive harmonies, passing through the day silently - undetected. Until, at last, someone looks up. They look up and there it is, the atmosphere stretched past the edges of your eyes. A sky, filled with dancers, the phantoms of new memory, all the days I’ve been searching for that I’d thought I lost. The planet starts to slip from the upturned head, maybe mine. And they begin dancing too! Oh! all those afternoons sought for their nothingness; our simple want that was patient past its years. Instead, we solemnly watched it pass, mysteriously, like a sun setting out of tune.” She smiles at the thought and stops. The figure that was sitting next to her is gone.</p>
+<p>Looking down unto the dock, the shot elevates until the dock, the lake and finally the forests come into view. The perspective continues to rise and the scene fades to black.</p>
+<h3 id="end" tabindex="-1">End <a class="header-anchor" href="#end">#</a></h3>
+
+		<ul class="links-nextprev">
+				<li>Next: <a href="/blog/2019-10-01-memory-avalanches/">Memory and Modality through The Avalanches&#39; Wildflower and &quot;The Was&quot;</a>
+				</li>
+			
+		</ul>
+
+<script src="/js/lite-yt-embed.js" defer></script>
+		</main>
+
+		<footer></footer>
+
+		<!-- This page `/blog/2018-11-02-43-rpm/` was built on 2024-08-15T21:46:17.991Z -->
+	</body>
+</html>
+<script>
+	// Toggle dark/light mode and save
+const toggle = document.getElementById('dark-mode-toggle');
+const root = document.documentElement;
+
+const setTheme = isDark => {
+    root.classList.toggle('dark-mode', isDark);
+    root.style.colorScheme = isDark ? 'dark' : 'light';
+    toggle.textContent = isDark ? '🌞' : '🌚';
+    localStorage.setItem('color-scheme', isDark ? 'dark' : 'light');
+};
+
+const storedTheme = localStorage.getItem('color-scheme');
+setTheme(storedTheme ? storedTheme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+toggle.style.display = 'block';
+toggle.onclick = () => setTheme(root.style.colorScheme !== 'dark');
+</script>

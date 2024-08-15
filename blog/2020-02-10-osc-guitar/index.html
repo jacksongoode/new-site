@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Strumming through space and OSC</title>
+		<meta name="description" content="A gesture-driven guitar built in Pure Data, utilizing sensor data from a mobile device">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Jackson Goode">
+		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Jackson Goode">
+		<style>
+			/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono,
+		Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono,
+		Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New,
+		Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	color-scheme: light dark;
+
+	--color-gray-20: #333333;
+	--color-gray-50: #7f7f7f;
+	--color-gray-90: #e5e5e5;
+
+	--syntax-tab-size: 2;
+}
+.dark-mode {
+	--color-gray-20: #cccccc;
+	--color-gray-50: #808080;
+	--color-gray-90: #1a1a1a;
+}
+/* @media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #cccccc;
+		--color-gray-50: #808080;
+		--color-gray-90: #1a1a1a;
+	}
+} */
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+main {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+
+.links-nextprev {
+	list-style: none;
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: 0.5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em 0.5em;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+	margin-right: 2em;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+	margin-right: 1em;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	list-style: none;
+	padding: 0;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	margin-bottom: 1em;
+	padding-left: 1.5em; /* Add left padding to make room for the arrow */
+	position: relative;
+}
+.postlist-item::before {
+	content: "\2192"; /* Default to arrow */
+	margin-right: 0.5em;
+	color: var(--color-gray-20);
+	left: 0;
+	top: 0.2em;
+	position: absolute;
+	transition: all 0.5s ease-out;
+	filter: saturate(100%);
+	transform: scale(1);
+}
+.postlist-item[data-emoji]::before {
+	content: attr(data-emoji);
+}
+.postlist-item::before {
+	transition: all 0.5s ease-out;
+}
+.postlist-item:hover::before,
+.postlist-item:focus-within::before {
+	animation: pulseSat 2s linear infinite;
+}
+
+.postlist-item:not(:hover)::before {
+	animation: none;
+	filter: saturate(100%);
+	transform: scale(1);
+	transition: all 0.5s ease-out;
+}
+@keyframes pulseSat {
+	0%,
+	50%,
+	100% {
+		filter: saturate(100%);
+		transform: scale(1);
+	}
+	25% {
+		filter: saturate(50%);
+		transform: scale(0.9);
+	}
+	75% {
+		filter: saturate(150%);
+		transform: scale(1.1);
+	}
+}
+.postlist-date {
+	color: var(--color-gray-20);
+	font-size: 0.8125em; /* 13px /16 */
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: 100%;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item {
+	position: relative;
+}
+
+.postlist-item:has(.postlist-link:hover) .postlist-date::after {
+	content: attr(data-tooltip);
+	padding-left: 1em;
+	position: absolute;
+	color: var(--color-gray-20);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: calc(100% - 3em);
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: 0.5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* Direct Links / Markdown Headers */
+.header-anchor {
+	text-decoration: none;
+	font-style: normal;
+	font-size: 1em;
+	margin-left: 0.1em;
+}
+a[href].header-anchor,
+a[href].header-anchor:visited {
+	color: transparent;
+}
+a[href].header-anchor:focus,
+a[href].header-anchor:hover {
+	text-decoration: underline;
+}
+a[href].header-anchor:focus,
+:hover > a[href].header-anchor {
+	color: #aaa;
+}
+
+h2 + .header-anchor {
+	font-size: 1.5em;
+}
+
+/* Starting custom */
+@font-face {
+	font-family: "Sans Serif Shaded";
+	src: url("/fonts/SansSerifShaded.ttf");
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: "Bonbance";
+	src: url("/fonts/Bonbance-BoldCondensed.woff2") format("woff2");
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: "AntiqueSerie";
+	src: url("/fonts/AntiqueSerie-Regular.woff2") format("woff2");
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: "Anybody";
+	src: url("/fonts/Anybody-VariableFont_wdth,wght.ttf") format("ttf");
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: "Folio";
+	src: url("/fonts/Folio-Std-Light.woff") format("woff");
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: "Whirlybats";
+	src: url("/fonts/Whirlybats.ttf") format("truetype");
+}
+@font-face {
+	font-family: "WhirlyBirdie";
+	src: url("/fonts/WhirlyBirdieVariable.ttf") format("truetype");
+	/* font-weight: 200; */
+	font-variation-settings:
+		"wght" 75,
+		"wdth" 75;
+}
+@font-face {
+	font-family: "Switzer";
+	src: url("/fonts/Switzer-Variable.woff2") format("woff2");
+	font-weight: 500;
+	/* font-variation-settings: "wght" 400; */
+}
+@font-face {
+	font-family: "Rag";
+	src:
+		url("/fonts/Rag-Regular.woff2") format("woff2"),
+		url("/fonts/Rag-Italic.woff2") format("woff2"),
+		url("/fonts/Rag-Bold.woff2") format("woff2"),
+		url("/fonts/Rag-BoldItalic.woff2") format("woff2");
+	font-weight: 400;
+	font-style: normal italic;
+	font-display: swap;
+}
+
+.wb-icon {
+	font-family: "Whirlybats";
+	font-weight: normal;
+	font-style: normal;
+	display: inline-block;
+	white-space: nowrap;
+	word-wrap: normal;
+	direction: ltr;
+	font-feature-settings: "liga";
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+:root {
+	--font-family: "Rag", -apple-system, system-ui, sans-serif;
+}
+
+h1,
+h2,
+h3,
+.letter {
+	font-family: "Switzer";
+}
+
+h1 {
+	display: flex; /* Use flexbox layout */
+	flex-wrap: wrap; /* Allow wrapping if necessary */
+	gap: 0.25em; /* Optional: Add a gap between letter containers if needed */
+}
+
+.row {
+	width: 100%;
+}
+
+.nav-right {
+	margin-left: auto;
+	margin-right: 0;
+}
+
+/* Dark mode toggle styles */
+#dark-mode-toggle {
+	background: none;
+	border: none;
+	cursor: pointer;
+	font-size: 1em;
+}
+
+figcaption {
+	color: var(--color-gray-20);
+}
+
+figure {
+	text-align: center;
+}
+
+figure > * {
+	max-width: 100%;
+}
+		</style>
+
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,100..900;1,100..900&family=Archivo:ital,wght@0,100..900;1,100..900&family=Chivo:ital,wght@0,100..900;1,100..900&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Rubik:ital,wght@0,300..900;1,300..900&family=Syne:wght@400..800&display=swap');
+		</style>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header class="container">
+			<nav class="row">
+				<h2 class="visually-hidden">Top level navigation menu</h2>
+				<ul class="nav">
+						<li class="nav-item">
+							<a href="/">Home</a>
+						</li>
+						<li class="nav-item">
+							<a href="/blog/">Blog</a>
+						</li>
+						<li class="nav-item">
+							<a href="/projects/">Projects</a>
+						</li>
+						<li class="nav-item">
+							<a href="/about/">About Me</a>
+						</li>
+					<li class="nav-item nav-right">
+						<button id="dark-mode-toggle" aria-label="Toggle dark mode" style="display: none;">🌙</button>
+					</li>
+				</ul>
+			</nav>
+		</header>
+
+		<main id="skip" class="container">
+			<link rel="stylesheet" href="/css/lite-yt-embed.css"/>
+
+<h1>Strumming through space and OSC</h1>
+
+<ul class="post-metadata">
+	<li>
+		<time datetime="2020-02-10">10 February 2020</time>
+	</li>
+</ul>
+
+<h1 id="an-osc-guitar" tabindex="-1">An OSC Guitar <a class="header-anchor" href="#an-osc-guitar">#</a></h1>
+<p>My second project for the audio programming course was to accurately simulate a guitar strum in <a href="https://puredata.info/">Pure Data</a> (Pd) using the sensors on a mobile device. I wanted its interaction to be reflective of the direction, speed, and acoustic uniqueness of a real guitar strum. By uniqueness I mean the qualities of a strum that are not necessarily intended by the musician, like the intensity of each string strike and the delay between each individual string as the fingers (or pick) slide across the strings. These additions make both the sound and the experience of strumming quite realistic and, as implemented in this patch, benefit the realism of the virtual strum. However, a number of unforeseen difficulties made the feat of a seamless gesture-to-sound production a challenge. As I will discuss, one of the greatest barriers to responsiveness was network latency and the inability for native, local interfacing within both Pure Data and sensor data on my mobile device.</p>
+<figure>
+		  <img src="/img/oscguitar-g-main.png" width="100%" alt="Frontpage of Pd patch" />
+		  <figcaption>Frontpage of Pd patch</figcaption>
+		</figure>
+<h2 id="strings-and-things" tabindex="-1">Strings and Things <a class="header-anchor" href="#strings-and-things">#</a></h2>
+<p>I began the project with a detailed search for an accurate model of a string. While I could have built a simple string, the focus of my work was integrating the string model into a framework from which it could serve as a guitar. The string was built using a digital waveguide model by <a href="https://ccrma.stanford.edu/realsimple/waveguideintro/">Edgar J. Berdahl and Julius O. Smith</a>. Their model is quite good, both to the ear and to the standards of Stanford's Department of Music.</p>
+<figure>
+		  <img src="/img/oscguitar-g-waveguide.png" width="100%" alt="Waveguide model of a string" />
+		  <figcaption>Waveguide model of a string</figcaption>
+		</figure>
+<p>However, the model was not designed in a way to be used in polyphony. To correct their design, I renamed each array, send, and receive to be unique for each instance of the waveguide model using a prefix of &quot;$0-&quot;. This allowed each object to be instantiated with a unique identity and as a result, enabled the messages passed by each of the six strings to exist without overwriting potential shared arrays or variables. I also reformatted some of their code to better fit my purposes like adding inlets and outlets that would communicate with the main patch and the six strings in concert. I also cleaned and reorganized their layouts to make more functional sense (it was messy, sorry Stanford).</p>
+<figure>
+		  <img src="/img/oscguitar-g-model.png" width="100%" alt="The guitar model sub-patch" />
+		  <figcaption>The guitar model sub-patch</figcaption>
+		</figure>
+<p>Once the strings were in place, I assigned the fundamental frequency of each string of four chords to four messages and made a simple metronome to send a chord pattern to play the chords (for a non-interactive demo). To create a delay between each string I used the &quot;pipe&quot; object prior to reaching the waveguide model. The delays' right-hand argument allows for an input number, whose sign (positive of negative) determines whether the string delays will cascade downwards or upwards. The expression also considers randomness by calling six variables that were assigned six random numbers included in the sub-patch &quot;rnd-strings&quot;.</p>
+<figure>
+		  <img src="/img/oscguitar-rnd-strings.png" width="100%" alt="Sub-patch for the randomizer" />
+		  <figcaption>Sub-patch for the randomizer</figcaption>
+		</figure>
+<p>These random variables are created on every &quot;strum-bang&quot;, a global variable used to send a bang when there is a strum (either from the metro or OSC). The random variables in the delay between each string pluck increase or decrease the total delay time. This delay between each string in a strum is also factored by the acceleration of the strum). After the audio signals are generated, they have their amplitude reduced by the same random factors used before. There is then some light panning of the mono signals of the top two and bottom two strings. This is finally sent to the dac.</p>
+<h2 id="the-notorious-osc" tabindex="-1">The Notorious OSC <a class="header-anchor" href="#the-notorious-osc">#</a></h2>
+<figure>
+		  <img src="https://sensors2.org/wp-content/uploads/2015/02/osc.png" width="100%" alt="Sensor2OSC" />
+		  <figcaption>Sensor2OSC</figcaption>
+		</figure>
+<p>The last step was into employ a method to send <a href="https://en.wikipedia.org/wiki/Open_Sound_Control">OSC</a> messages, generated from my smartphone's sensors, to the patch running on my computer. I used the Android app <a href="https://github.com/SensorApps/Sensors2OSC">Sensors2OSC</a> to send OSC messages from the gravity and linear acceleration sensors in the phone. I assigned the IP and port within the Android app to which the OSC messages would be sent and then assigned the same port within the patch to receive these messages over the local network (though it could be potentially on any network). For sensor data, I chose the gravity sensor over the accelerometer sensor because the tilt values that correspond to rotating the top of the phone downwards and upwards were distinctly positive and negative as the top the crossed over the y-axis (horizon).</p>
+<figure>
+		  <img src="/img/oscguitar-g-osc.png" width="100%" alt="Receiving and manipulating OSC data from the phone" />
+		  <figcaption>Receiving and manipulating OSC data from the phone</figcaption>
+		</figure>
+<p>Two mechanisms were created to trigger a bang from a strum using the phone. The first opens or closs a gate depending on whether or not there is a sufficient change in the tilt of the top of the phone from the gravity sensor. The second mechanism determines if the acceleration of the strum is enough to trigger a bang. In its design, the second impulse generator can only be activated if there is enough of a properly shaped strum gesture. In addition to the thresholds preventing any rapid activation, I also created a refractory period that prevents a bang from being sent until the previous strum has completed from calculating strum duration. The impulse that is sent when a strum makes it through the thresholds is a positive value from the linear acceleration. The sign of this number is then changed depending on whether the strum was down or up (using the sign of the gravity sensor's change). This number determines the speed and direction of the strum. If all thresholds were tuned perfectly and there was zero latency (my next point), this would allow rapid strumming of the virtual guitar.</p>
+<h2 id="complications" tabindex="-1">Complications <a class="header-anchor" href="#complications">#</a></h2>
+<p>Unfortunately, one of the first issues I recognized was the latency that appeared from communicating over the local network. The latency was also inconsistent as well as the message rate that was being received (not to mention messages dropped). There were some moments where the speed and response of the OSC messages was incredibly fast and at other times inoperably slow. Because of this, a good portion of my time was spent finding threshold values and averages that catered to the message rate and latency. There is also the issue of this configuration being device dependent. Different smartphones will likely have different sensor hardware, sensor names, ranges, rates, etc. so this patch is certain to need some configuring in each case. The initial goal of this project was to build the app in Pd and afterwards &quot;simply and easily&quot; port it over to the <a href="https://danieliglesia.com/mobmuplat/">MobMuPlat</a> application for Android and iOS. However, this app does not appear to read the necessary sensor data natively and there do not appear to be alternatives in hosting Pd patches on Android. For the time being, this patch will have to be hosted on a remote computer and receive OSC messages from a device connected to the same network.</p>
+<figure>
+    <div class="iframe-wrapper pb-169">
+        <iframe src="https://drive.google.com/file/d/1QV9hIkVoMbOr3DCNpR-IlDPX7_Y8l3zE/preview" frameborder="0" allowfullscreen="true" alt="Video demo of the OSC functionality"></iframe>
+    </div>
+    <figcaption>Video demo of the OSC functionality - credit: Thomas Anda</figcaption>
+</figure>
+<p>The audio within the video was recorded internally (oddly the pops only appeared after video editing - my computer was struggling with that fabulous transition).</p>
+<p>All in all, this project was a great introduction to Pure Data and definitely taught us the general principles of the language as well as some of the challenges you only encounter in hour 11 of debugging. While making this a standalone app would require a bit more investigation into MobMuPlat or some other Pd host-able interface, I think my goals were met. And when the network connection is good and the thresholds are polished, it's quite suprising how responsive a network connection can be.</p>
+<p>My project's code can be found <a href="https://github.com/jacksongoode/osc-guitar">here</a>.</p>
+<h2 id="works-cited" tabindex="-1">Works Cited <a class="header-anchor" href="#works-cited">#</a></h2>
+<p>Iglesia, Daniel. <em>Monkeyswarm/MobMuPlat</em>. 2013. 2020. GitHub, <a href="https://github.com/monkeyswarm/MobMuPlat">https://github.com/monkeyswarm/MobMuPlat</a>.</p>
+<p><em>MobMuPlat - Mobile Music Platform</em>. <a href="https://danieliglesia.com/mobmuplat/">https://danieliglesia.com/mobmuplat/</a>. Accessed 7 Feb. 2020.</p>
+<p><em>Plucked String Digital Waveguide Model</em>. <a href="https://ccrma.stanford.edu/realsimple/waveguideintro/">https://ccrma.stanford.edu/realsimple/waveguideintro/</a>. Accessed 7 Feb. 2020.</p>
+<p><em>SensorApps/Sensors2OSC</em>. 2014. SensorApps, 2020. GitHub, <a href="https://github.com/SensorApps/Sensors2OSC">https://github.com/SensorApps/Sensors2OSC</a>.</p>
+<p><em>Sensors2OSC - Sensors2</em>. <a href="https://sensors2.org/osc/">https://sensors2.org/osc/</a>. Accessed 7 Feb. 2020.</p>
+
+		<ul class="links-nextprev">
+				<li>Previous: <a href="/blog/2019-10-01-memory-avalanches/">Memory and Modality through The Avalanches&#39; Wildflower and &quot;The Was&quot;</a>
+				</li>
+			
+				<li>Next: <a href="/blog/2020-03-09-soniweb/">Soniweb: An Experiment in Web Traffic Sonification and Ambisonics</a>
+				</li>
+			
+		</ul>
+
+<script src="/js/lite-yt-embed.js" defer></script>
+		</main>
+
+		<footer></footer>
+
+		<!-- This page `/blog/2020-02-10-osc-guitar/` was built on 2024-08-15T21:46:17.992Z -->
+	</body>
+</html>
+<script>
+	// Toggle dark/light mode and save
+const toggle = document.getElementById('dark-mode-toggle');
+const root = document.documentElement;
+
+const setTheme = isDark => {
+    root.classList.toggle('dark-mode', isDark);
+    root.style.colorScheme = isDark ? 'dark' : 'light';
+    toggle.textContent = isDark ? '🌞' : '🌚';
+    localStorage.setItem('color-scheme', isDark ? 'dark' : 'light');
+};
+
+const storedTheme = localStorage.getItem('color-scheme');
+setTheme(storedTheme ? storedTheme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+toggle.style.display = 'block';
+toggle.onclick = () => setTheme(root.style.colorScheme !== 'dark');
+</script>

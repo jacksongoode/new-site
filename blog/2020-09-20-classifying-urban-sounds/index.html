@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Classifying Urban Sounds in a Multi-label Database</title>
+		<meta name="description" content="This experiment explores augmenting the UrbanSound8K database to test a well performing CNN architecture in a multi-label, multi-class scenario">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Jackson Goode">
+		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Jackson Goode">
+		<style>
+			/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono,
+		Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono,
+		Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New,
+		Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	color-scheme: light dark;
+
+	--color-gray-20: #333333;
+	--color-gray-50: #7f7f7f;
+	--color-gray-90: #e5e5e5;
+
+	--syntax-tab-size: 2;
+}
+.dark-mode {
+	--color-gray-20: #cccccc;
+	--color-gray-50: #808080;
+	--color-gray-90: #1a1a1a;
+}
+/* @media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #cccccc;
+		--color-gray-50: #808080;
+		--color-gray-90: #1a1a1a;
+	}
+} */
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+main {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+
+.links-nextprev {
+	list-style: none;
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: 0.5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em 0.5em;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+	margin-right: 2em;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+	margin-right: 1em;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	list-style: none;
+	padding: 0;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	margin-bottom: 1em;
+	padding-left: 1.5em; /* Add left padding to make room for the arrow */
+	position: relative;
+}
+.postlist-item::before {
+	content: "\2192"; /* Default to arrow */
+	margin-right: 0.5em;
+	color: var(--color-gray-20);
+	left: 0;
+	top: 0.2em;
+	position: absolute;
+	transition: all 0.5s ease-out;
+	filter: saturate(100%);
+	transform: scale(1);
+}
+.postlist-item[data-emoji]::before {
+	content: attr(data-emoji);
+}
+.postlist-item::before {
+	transition: all 0.5s ease-out;
+}
+.postlist-item:hover::before,
+.postlist-item:focus-within::before {
+	animation: pulseSat 2s linear infinite;
+}
+
+.postlist-item:not(:hover)::before {
+	animation: none;
+	filter: saturate(100%);
+	transform: scale(1);
+	transition: all 0.5s ease-out;
+}
+@keyframes pulseSat {
+	0%,
+	50%,
+	100% {
+		filter: saturate(100%);
+		transform: scale(1);
+	}
+	25% {
+		filter: saturate(50%);
+		transform: scale(0.9);
+	}
+	75% {
+		filter: saturate(150%);
+		transform: scale(1.1);
+	}
+}
+.postlist-date {
+	color: var(--color-gray-20);
+	font-size: 0.8125em; /* 13px /16 */
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: 100%;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item {
+	position: relative;
+}
+
+.postlist-item:has(.postlist-link:hover) .postlist-date::after {
+	content: attr(data-tooltip);
+	padding-left: 1em;
+	position: absolute;
+	color: var(--color-gray-20);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: calc(100% - 3em);
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: 0.5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* Direct Links / Markdown Headers */
+.header-anchor {
+	text-decoration: none;
+	font-style: normal;
+	font-size: 1em;
+	margin-left: 0.1em;
+}
+a[href].header-anchor,
+a[href].header-anchor:visited {
+	color: transparent;
+}
+a[href].header-anchor:focus,
+a[href].header-anchor:hover {
+	text-decoration: underline;
+}
+a[href].header-anchor:focus,
+:hover > a[href].header-anchor {
+	color: #aaa;
+}
+
+h2 + .header-anchor {
+	font-size: 1.5em;
+}
+
+/* Starting custom */
+@font-face {
+	font-family: "Sans Serif Shaded";
+	src: url("/fonts/SansSerifShaded.ttf");
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: "Bonbance";
+	src: url("/fonts/Bonbance-BoldCondensed.woff2") format("woff2");
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: "AntiqueSerie";
+	src: url("/fonts/AntiqueSerie-Regular.woff2") format("woff2");
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: "Anybody";
+	src: url("/fonts/Anybody-VariableFont_wdth,wght.ttf") format("ttf");
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: "Folio";
+	src: url("/fonts/Folio-Std-Light.woff") format("woff");
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: "Whirlybats";
+	src: url("/fonts/Whirlybats.ttf") format("truetype");
+}
+@font-face {
+	font-family: "WhirlyBirdie";
+	src: url("/fonts/WhirlyBirdieVariable.ttf") format("truetype");
+	/* font-weight: 200; */
+	font-variation-settings:
+		"wght" 75,
+		"wdth" 75;
+}
+@font-face {
+	font-family: "Switzer";
+	src: url("/fonts/Switzer-Variable.woff2") format("woff2");
+	font-weight: 500;
+	/* font-variation-settings: "wght" 400; */
+}
+@font-face {
+	font-family: "Rag";
+	src:
+		url("/fonts/Rag-Regular.woff2") format("woff2"),
+		url("/fonts/Rag-Italic.woff2") format("woff2"),
+		url("/fonts/Rag-Bold.woff2") format("woff2"),
+		url("/fonts/Rag-BoldItalic.woff2") format("woff2");
+	font-weight: 400;
+	font-style: normal italic;
+	font-display: swap;
+}
+
+.wb-icon {
+	font-family: "Whirlybats";
+	font-weight: normal;
+	font-style: normal;
+	display: inline-block;
+	white-space: nowrap;
+	word-wrap: normal;
+	direction: ltr;
+	font-feature-settings: "liga";
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+:root {
+	--font-family: "Rag", -apple-system, system-ui, sans-serif;
+}
+
+h1,
+h2,
+h3,
+.letter {
+	font-family: "Switzer";
+}
+
+h1 {
+	display: flex; /* Use flexbox layout */
+	flex-wrap: wrap; /* Allow wrapping if necessary */
+	gap: 0.25em; /* Optional: Add a gap between letter containers if needed */
+}
+
+.row {
+	width: 100%;
+}
+
+.nav-right {
+	margin-left: auto;
+	margin-right: 0;
+}
+
+/* Dark mode toggle styles */
+#dark-mode-toggle {
+	background: none;
+	border: none;
+	cursor: pointer;
+	font-size: 1em;
+}
+
+figcaption {
+	color: var(--color-gray-20);
+}
+
+figure {
+	text-align: center;
+}
+
+figure > * {
+	max-width: 100%;
+}
+		</style>
+
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,100..900;1,100..900&family=Archivo:ital,wght@0,100..900;1,100..900&family=Chivo:ital,wght@0,100..900;1,100..900&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Rubik:ital,wght@0,300..900;1,300..900&family=Syne:wght@400..800&display=swap');
+		</style>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header class="container">
+			<nav class="row">
+				<h2 class="visually-hidden">Top level navigation menu</h2>
+				<ul class="nav">
+						<li class="nav-item">
+							<a href="/">Home</a>
+						</li>
+						<li class="nav-item">
+							<a href="/blog/">Blog</a>
+						</li>
+						<li class="nav-item">
+							<a href="/projects/">Projects</a>
+						</li>
+						<li class="nav-item">
+							<a href="/about/">About Me</a>
+						</li>
+					<li class="nav-item nav-right">
+						<button id="dark-mode-toggle" aria-label="Toggle dark mode" style="display: none;">🌙</button>
+					</li>
+				</ul>
+			</nav>
+		</header>
+
+		<main id="skip" class="container">
+			<link rel="stylesheet" href="/css/lite-yt-embed.css"/>
+
+<h1>Classifying Urban Sounds in a Multi-label Database</h1>
+
+<ul class="post-metadata">
+	<li>
+		<time datetime="2020-09-20">20 September 2020</time>
+	</li>
+</ul>
+
+<h1 id="environmental-sound-classification-over-concurrent-samples" tabindex="-1">Environmental Sound Classification over Concurrent Samples <a class="header-anchor" href="#environmental-sound-classification-over-concurrent-samples">#</a></h1>
+<p>Given the short two week span to develop a machine learning model, I decided instead of beginning anew, to repurpose some pre-existing methods in approaching environmental sound classification. Environmental sound classification (ESC) is a field that benefits well from machine learning techniques, as the data examined will always be unique and noisy. Two well known databases, UrbanSound8K (US8K) [5] and ESC-50 [9] provide recordings from <a href="https://freesound.org">Freesound.org</a>, trimmed, labeled and grouped into categories for analysis. This system attempts to utilise a <a href="https://en.wikipedia.org/wiki/Convolutional_neural_network">convolutional neural network</a> (CNN) on an augmented UrbanSound8K dataset for multi-label classification.</p>
+<p><a href="https://urbansounddataset.weebly.com/urbansound8k.html">UrbanSound8K</a> contains over 8000 sound files separated by categories of sounds typically found in an urban setting. Instead of exclusive categorical labels in its original state, the dataset has been recreated with the purpose of exploring how a successful architecture might perform on multi-label samples rather than simply uni-label, multi-class sounds. Thus, this project investigates how techniques in classifying an environmental noise database might generalize to a multi-label scenario with a new database composed of overlaid sound pairs.</p>
+<figure>
+    <img alt='UrbanSound8K classes' src='/img/us8k_spec.jpg'/>
+    <figcaption>Spectrograms of three UrbanSound8K classes</figcaption>
+</figure>
+<p>The initial code that I forked was sourced from <a href="https://github.com/aqibsaeed/Urban-Sound-Classification">Aapid Saeed’s implementation</a> which was in turn inspired by Karol Piczak’s 2015 paper that provides a scientific example of ENC using a CNN [4]. The experiment tested here provides some insight into the obstacles that appear when shifting this problem space both in terms of performance but also how features and parameters must be resituated.</p>
+<h2 id="overview-of-dataset-and-fabrication" tabindex="-1">Overview of dataset and fabrication <a class="header-anchor" href="#overview-of-dataset-and-fabrication">#</a></h2>
+<p>The original dataset, UrbanSound8K, contains 8732 .wav sounds sourced from Freesound.org across 10 classes of urban sounds:</p>
+<ol>
+<li>air conditioner</li>
+<li>car horn</li>
+<li>children playing</li>
+<li>dog bark</li>
+<li>drilling</li>
+<li>engine idling</li>
+<li>gun shot</li>
+<li>jackhammer</li>
+<li>siren</li>
+<li>street music</li>
+</ol>
+<p>All are separated into 10 folds (each containing an equal distribution selection of the classes). These sounds are all less than 4s but vary in length, recording device, sample rate and perceptual loudness. Many of the sounds were generated as slices from longer sounds - meaning that many sounds share the same sound file source.</p>
+<p>For creating a new dataset, I composed of multiple tracks of audio from UrbanSound8K. Using the library pydub, I created a separate script to use a randomized list of each fold’s files and overplayed each file with a randomized gain reduction between -6 and 0. This enabled a more authentic mixture of sound in a live context and would also contribute to the robustness of the model and its consequent difficulty during training (10 classes to 45 conceptual classes (or 10 choose 2)).</p>
+<pre class="language-python" tabindex="0"><code class="language-python"><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token keyword">for</span> j <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>multi_num<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token comment"># number of samples to mix</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f'Processing: </span><span class="token interpolation"><span class="token punctuation">{</span>samples<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">}</span></span><span class="token string">'</span></span><span class="token punctuation">)</span>
+
+    labels<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> samples<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">'-'</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token comment"># get label</span>
+    sounds<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> effects<span class="token punctuation">.</span>normalize<span class="token punctuation">(</span>sounds<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment"># normalize</span>
+    sounds<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> sounds<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">+</span> rand_gain<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token comment"># add random gain reduction</span>
+    p_ratio<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token builtin">pow</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> rand_gain<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">/</span><span class="token number">10</span><span class="token punctuation">)</span> <span class="token comment"># convert to power</span>
+    names<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string-interpolation"><span class="token string">f'-</span><span class="token interpolation"><span class="token punctuation">{</span>labels<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">}</span></span><span class="token string">(</span><span class="token interpolation"><span class="token punctuation">{</span><span class="token builtin">round</span><span class="token punctuation">(</span>p_ratio<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">)'</span></span> <span class="token comment"># label file with params</span>
+
+combined <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+combined<span class="token punctuation">.</span>append<span class="token punctuation">(</span>sounds<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>overlay<span class="token punctuation">(</span>sounds<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> times<span class="token operator">=</span><span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment"># overlay sound (repeat if base sound is longer)</span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span></code></pre>
+<p>Two tracks of audio were chosen after testing the capabilities with three concurrent sounds, which appeared even too difficult to discern by ear - however, the script was written with the possibility of any number of overlays. This brings up another point - some of these classes of sound like 'air conditioner' and 'engine idling' closely resembled white noise, something that every recording ultimately contains due to the nature of recording sound. The final “multi” database is a little less than half the size of US8K as some of the samples of US8K were unreadable and were skipped.</p>
+<h2 id="implementation-of-model" tabindex="-1">Implementation of model <a class="header-anchor" href="#implementation-of-model">#</a></h2>
+<p>In addition to the creation of a script to fabricate and label a multi-labeled dataset, I augmented the scripts used to evaluate a CNN on the original UrbanSound8K database to suit this new multi-label scenario. The actual feature processing was identical to the one-sound-per-sample database. The audio data’s features (mel-spectrogram) were extracted and filtered with <a href="https://librosa.org/doc/latest/generated/librosa.feature.melspectrogram.html?highlight=mel#librosa.feature.melspectrogram">librosa</a>.</p>
+<figure>
+    <img width='560px' alt='One example of the mel-spectrogram feature' src='/img/spec_1.png'/>
+    <figcaption>One example of the mel-spectrogram feature</figcaption>
+</figure>
+<figure>
+    <img width='560px' alt='Another example' src='/img/spec_2.png'/>
+    <figcaption>Another example</figcaption>
+</figure>
+<p>Most of my efforts here went into changing how the labels were being processed. The network used to train and test the data was fashioned with the Keras wrapper for TensorFlow and other ML backends. Keras was chosen as it offers the ability to construcasdast neural networks at a lower level than the sklearn package whilst being fairly novice-friendly.</p>
+<h2 id="model-tuning-for-new-dataset" tabindex="-1">Model tuning for new dataset <a class="header-anchor" href="#model-tuning-for-new-dataset">#</a></h2>
+<p>Parameters that were previously provided by Saeed needed to be adjusted considering the new multi-label problem space. The first major change needed to happen at the label encoding level as labels were no longer a number from 0-9, an array of n values from 0-9. To resolve this, the labels were transformed into one-hot binary encoding. This allowed multiple simultaneous classes to be represented in an array of the same length.</p>
+<p>Another major change concerned the end of the network, where predictions and evaluations are made on the training data. The final dense layer was set to the softmax activation function which was <a href="https://glassboxmedicine.com/2019/05/26/classification-sigmoid-vs-softmax/">inappropriate for a non-exclusive multi-label scenario</a>. The softmax function outputs probabilities for classes that sum to one, making it impossible for multiple classes to reach a binary activation. In this case, sigmoid offers probability distributions that are unconstrained, enabling multiple classes to reach binary classification.</p>
+<figure>
+    <img width='560px' alt='Applications of softmax vs. sigmoid' src='https://miro.medium.com/max/1268/1*-fADiyqSH9AHPPO7VB4XaQ.png'/>
+    <figcaption>Applications of softmax vs. sigmoid - <a href='https://medium.com/aidevnepal/for-sigmoid-funcion-f7a5da78fec2'>Credit to Ashis Parajuli</a></figcaption>
+</figure>
+<p>In parallel, the loss function needed to be changed from categorical cross entropy to binary cross-entropy for this binary data.</p>
+<h2 id="evaluation-of-performance" tabindex="-1">Evaluation of performance <a class="header-anchor" href="#evaluation-of-performance">#</a></h2>
+<p>During training, the accuracy score increased to around 44% after 15 epochs while the loss continuously decreased. However, the last 10 epochs showed only a 4% increase in accuracy, suggesting the model was approaching convergence of the weight values and perhaps over-fitting (I had also attempted with longer training sessions with similar outcomes).</p>
+<figure>
+    <img alt='Categorical accuracy over epochs' src='/img/cat_acc.png' width='560px' />
+    <figcaption>Categorical accuracy over epochs</figcaption>
+</figure>
+<figure>
+    <img alt='Model loss over epochs' src='/img/model_loss.png' width='560px' />
+    <figcaption>Model loss over epochs</figcaption>
+</figure>
+<p>In testing the data, again the migration from a single categorical label to a one hot binary array means that the accuracy metric (a mean average of predictions on the test set) does not give us the whole picture. Moving to <a href="https://en.wikipedia.org/wiki/Hamming_distance">hamming loss</a>, an estimate that shows use what percent of our answer's elements were correct, is a much better metric when predicting on a multi-label sample.</p>
+<p>The average accuracy was quite poor, as expected, sitting at 18%, however, the hamming loss (less is better) was 15%, meaning that 85% of the model's label predictions were correct. These metrics are in sharp contrast to the performance of the untampered UrbanSound8K dataset, which was observed to have an accuracy of around 75-85% for most state of the art models [1, 2, 4, 8].</p>
+<figure>
+    <img alt='Confusion matrix across the ten classes' src='/img/confusion_matrix.png' width='480px' />
+    <figcaption>Confusion matrix across the ten classes</figcaption>
+</figure>
+<p>The confusion matrix and classification report, of one training instance, also provide interesting insights into how the test data was predicted. One major point to note is the time scale of some of these classes. It appears that those sounds that appear briefly with high impulses like the car honk, dog bark, and gunshot (1, 3, 6) are some of the most precisely predicted classes (low-false positives).</p>
+<p>And as one might expect, the classes most difficult to label correctly turn out to be the noisiest and likely most organic and spectrally dynamic sounds within US8K: children playing, air conditioner and street music corresponding to 2, 0, 9. Of course, these metrics would need to be compared to the performance of the model on the raw UB8K database for one to make clear conclusions about how the shift into a multi-labeled dataset</p>
+<h2 id="reflections" tabindex="-1">Reflections <a class="header-anchor" href="#reflections">#</a></h2>
+<p>Not all of the details of the network employed have been fully elaborated and it may be that some transformations of the input data have been overlooked. Given the provided window of time and simultaneous introduction to techniques in machine learning, this investigation fulfils, at least, a tentative exploration into the field of ML based ENC.</p>
+<p>One obvious challenge in mixing sounds as was performed in this experiment is the perceptual presence of the sound within the sample. This is actually accounted for by a subjective estimate in the taxonomy of the UrbanSound8K database where they determine if the category was a foreground or background sound. For categories like “air_conditioner” and “engine_idling”, poor classification performance would be expected when mixing sounds of these classes due to their lack of a sonic shape - they mostly consist of white noise. One might predict then that these categories were over-predicted on average across all sounds. Indeed, that does appear to be the case and this can be seen through the confusion matrix.</p>
+<p>Another issue tied to the source database was its sheer size. The total time required to load around 9000 .wav files makes it prohibitively expensive when tuning parameters, or in this case, adapting the processing of files for a new problem space. K-fold validation would have been helpful in estimating the average accuracy of the model and providing greater confidence in our reflections of the model but there was not enough time to do so.</p>
+<p>Code and instructions for setting up this project can be found <a href="https://github.com/jacksongoode/enc-multi-label">here</a>.</p>
+<h2 id="references" tabindex="-1">References <a class="header-anchor" href="#references">#</a></h2>
+<ol>
+<li>
+<p>Abdoli, S., Cardinal, P., &amp; Koerich, A. L. (2019). End-to-End Environmental Sound Classification using a 1D Convolutional Neural Network. ArXiv:1904.08990 [Cs, Stat]. <a href="http://arxiv.org/abs/1904.08990">http://arxiv.org/abs/1904.08990</a></p>
+</li>
+<li>
+<p>Mushtaq, Z., &amp; Su, S.-F. (2020). Environmental sound classification using a regularized deep convolutional neural network with data augmentation. Applied Acoustics, 167, 107389. <a href="https://doi.org/10.1016/j.apacoust.2020.107389">https://doi.org/10.1016/j.apacoust.2020.107389</a></p>
+</li>
+<li>
+<p>Piczak, K. J. (2020). Karolpiczak/ESC-50 [Python]. <a href="https://github.com/karolpiczak/ESC-50">https://github.com/karolpiczak/ESC-50</a> (Original work published 2015)</p>
+</li>
+<li>
+<p>Piczak, K. J. (2015a). Environmental sound classification with convolutional neural networks. 2015 IEEE 25th International Workshop on Machine Learning for Signal Processing (MLSP), 1–6. <a href="https://doi.org/10.1109/MLSP.2015.7324337">https://doi.org/10.1109/MLSP.2015.7324337</a></p>
+</li>
+<li>
+<p>Piczak, K. J. (2015b). ESC: Dataset for Environmental Sound Classification. Proceedings of the 23rd ACM International Conference on Multimedia, 1015–1018. <a href="https://doi.org/10.1145/2733373.2806390">https://doi.org/10.1145/2733373.2806390</a></p>
+</li>
+<li>
+<p>Saeed, A. (n.d.). Urban Sound Classification, Part 2. Retrieved 18 September 2020, from <a href="http://aqibsaeed.github.io/2016-09-24-urban-sound-classification-part-2/">http://aqibsaeed.github.io/2016-09-24-urban-sound-classification-part-2/</a></p>
+</li>
+<li>
+<p>Aaqib. (2020). Aqibsaeed/Urban-Sound-Classification [Jupyter Notebook]. <a href="https://github.com/aqibsaeed/Urban-Sound-Classification">https://github.com/aqibsaeed/Urban-Sound-Classification</a> (Original work published 2016)</p>
+</li>
+<li>
+<p>Su, Y., Zhang, K., Wang, J., &amp; Madani, K. (2019). Environment Sound Classification Using a Two-Stream CNN Based on Decision-Level Fusion. Sensors, 19(7), 1733. <a href="https://doi.org/10.3390/s19071733">https://doi.org/10.3390/s19071733</a></p>
+</li>
+<li>
+<p>UrbanSound8K. (n.d.). Urban Sound Datasets. Retrieved 23 August 2020, from <a href="https://urbansounddataset.weebly.com/urbansound8k.html">https://urbansounddataset.weebly.com/urbansound8k.html</a></p>
+</li>
+</ol>
+
+		<ul class="links-nextprev">
+				<li>Previous: <a href="/blog/2020-05-20-breathing-through-max/">Breathing through Max</a>
+				</li>
+			
+				<li>Next: <a href="/blog/2020-10-16-musings-bela/">Musings with Bela</a>
+				</li>
+			
+		</ul>
+
+<script src="/js/lite-yt-embed.js" defer></script>
+		</main>
+
+		<footer></footer>
+
+		<!-- This page `/blog/2020-09-20-classifying-urban-sounds/` was built on 2024-08-15T21:46:17.992Z -->
+	</body>
+</html>
+<script>
+	// Toggle dark/light mode and save
+const toggle = document.getElementById('dark-mode-toggle');
+const root = document.documentElement;
+
+const setTheme = isDark => {
+    root.classList.toggle('dark-mode', isDark);
+    root.style.colorScheme = isDark ? 'dark' : 'light';
+    toggle.textContent = isDark ? '🌞' : '🌚';
+    localStorage.setItem('color-scheme', isDark ? 'dark' : 'light');
+};
+
+const storedTheme = localStorage.getItem('color-scheme');
+setTheme(storedTheme ? storedTheme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+toggle.style.display = 'block';
+toggle.onclick = () => setTheme(root.style.colorScheme !== 'dark');
+</script>

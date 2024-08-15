@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Soniweb: An Experiment in Web Traffic Sonification and Ambisonics</title>
+		<meta name="description" content="A project created for the MCT Master&#39;s program&#39;s sonification course">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Jackson Goode">
+		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Jackson Goode">
+		<style>
+			/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono,
+		Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono,
+		Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New,
+		Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	color-scheme: light dark;
+
+	--color-gray-20: #333333;
+	--color-gray-50: #7f7f7f;
+	--color-gray-90: #e5e5e5;
+
+	--syntax-tab-size: 2;
+}
+.dark-mode {
+	--color-gray-20: #cccccc;
+	--color-gray-50: #808080;
+	--color-gray-90: #1a1a1a;
+}
+/* @media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #cccccc;
+		--color-gray-50: #808080;
+		--color-gray-90: #1a1a1a;
+	}
+} */
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+main {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+
+.links-nextprev {
+	list-style: none;
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: 0.5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em 0.5em;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+	margin-right: 2em;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+	margin-right: 1em;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	list-style: none;
+	padding: 0;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	margin-bottom: 1em;
+	padding-left: 1.5em; /* Add left padding to make room for the arrow */
+	position: relative;
+}
+.postlist-item::before {
+	content: "\2192"; /* Default to arrow */
+	margin-right: 0.5em;
+	color: var(--color-gray-20);
+	left: 0;
+	top: 0.2em;
+	position: absolute;
+	transition: all 0.5s ease-out;
+	filter: saturate(100%);
+	transform: scale(1);
+}
+.postlist-item[data-emoji]::before {
+	content: attr(data-emoji);
+}
+.postlist-item::before {
+	transition: all 0.5s ease-out;
+}
+.postlist-item:hover::before,
+.postlist-item:focus-within::before {
+	animation: pulseSat 2s linear infinite;
+}
+
+.postlist-item:not(:hover)::before {
+	animation: none;
+	filter: saturate(100%);
+	transform: scale(1);
+	transition: all 0.5s ease-out;
+}
+@keyframes pulseSat {
+	0%,
+	50%,
+	100% {
+		filter: saturate(100%);
+		transform: scale(1);
+	}
+	25% {
+		filter: saturate(50%);
+		transform: scale(0.9);
+	}
+	75% {
+		filter: saturate(150%);
+		transform: scale(1.1);
+	}
+}
+.postlist-date {
+	color: var(--color-gray-20);
+	font-size: 0.8125em; /* 13px /16 */
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: 100%;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item {
+	position: relative;
+}
+
+.postlist-item:has(.postlist-link:hover) .postlist-date::after {
+	content: attr(data-tooltip);
+	padding-left: 1em;
+	position: absolute;
+	color: var(--color-gray-20);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: calc(100% - 3em);
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: 0.5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* Direct Links / Markdown Headers */
+.header-anchor {
+	text-decoration: none;
+	font-style: normal;
+	font-size: 1em;
+	margin-left: 0.1em;
+}
+a[href].header-anchor,
+a[href].header-anchor:visited {
+	color: transparent;
+}
+a[href].header-anchor:focus,
+a[href].header-anchor:hover {
+	text-decoration: underline;
+}
+a[href].header-anchor:focus,
+:hover > a[href].header-anchor {
+	color: #aaa;
+}
+
+h2 + .header-anchor {
+	font-size: 1.5em;
+}
+
+/* Starting custom */
+@font-face {
+	font-family: "Sans Serif Shaded";
+	src: url("/fonts/SansSerifShaded.ttf");
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: "Bonbance";
+	src: url("/fonts/Bonbance-BoldCondensed.woff2") format("woff2");
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: "AntiqueSerie";
+	src: url("/fonts/AntiqueSerie-Regular.woff2") format("woff2");
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: "Anybody";
+	src: url("/fonts/Anybody-VariableFont_wdth,wght.ttf") format("ttf");
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: "Folio";
+	src: url("/fonts/Folio-Std-Light.woff") format("woff");
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: "Whirlybats";
+	src: url("/fonts/Whirlybats.ttf") format("truetype");
+}
+@font-face {
+	font-family: "WhirlyBirdie";
+	src: url("/fonts/WhirlyBirdieVariable.ttf") format("truetype");
+	/* font-weight: 200; */
+	font-variation-settings:
+		"wght" 75,
+		"wdth" 75;
+}
+@font-face {
+	font-family: "Switzer";
+	src: url("/fonts/Switzer-Variable.woff2") format("woff2");
+	font-weight: 500;
+	/* font-variation-settings: "wght" 400; */
+}
+@font-face {
+	font-family: "Rag";
+	src:
+		url("/fonts/Rag-Regular.woff2") format("woff2"),
+		url("/fonts/Rag-Italic.woff2") format("woff2"),
+		url("/fonts/Rag-Bold.woff2") format("woff2"),
+		url("/fonts/Rag-BoldItalic.woff2") format("woff2");
+	font-weight: 400;
+	font-style: normal italic;
+	font-display: swap;
+}
+
+.wb-icon {
+	font-family: "Whirlybats";
+	font-weight: normal;
+	font-style: normal;
+	display: inline-block;
+	white-space: nowrap;
+	word-wrap: normal;
+	direction: ltr;
+	font-feature-settings: "liga";
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+:root {
+	--font-family: "Rag", -apple-system, system-ui, sans-serif;
+}
+
+h1,
+h2,
+h3,
+.letter {
+	font-family: "Switzer";
+}
+
+h1 {
+	display: flex; /* Use flexbox layout */
+	flex-wrap: wrap; /* Allow wrapping if necessary */
+	gap: 0.25em; /* Optional: Add a gap between letter containers if needed */
+}
+
+.row {
+	width: 100%;
+}
+
+.nav-right {
+	margin-left: auto;
+	margin-right: 0;
+}
+
+/* Dark mode toggle styles */
+#dark-mode-toggle {
+	background: none;
+	border: none;
+	cursor: pointer;
+	font-size: 1em;
+}
+
+figcaption {
+	color: var(--color-gray-20);
+}
+
+figure {
+	text-align: center;
+}
+
+figure > * {
+	max-width: 100%;
+}
+		</style>
+
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,100..900;1,100..900&family=Archivo:ital,wght@0,100..900;1,100..900&family=Chivo:ital,wght@0,100..900;1,100..900&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Rubik:ital,wght@0,300..900;1,300..900&family=Syne:wght@400..800&display=swap');
+		</style>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header class="container">
+			<nav class="row">
+				<h2 class="visually-hidden">Top level navigation menu</h2>
+				<ul class="nav">
+						<li class="nav-item">
+							<a href="/">Home</a>
+						</li>
+						<li class="nav-item">
+							<a href="/blog/">Blog</a>
+						</li>
+						<li class="nav-item">
+							<a href="/projects/">Projects</a>
+						</li>
+						<li class="nav-item">
+							<a href="/about/">About Me</a>
+						</li>
+					<li class="nav-item nav-right">
+						<button id="dark-mode-toggle" aria-label="Toggle dark mode" style="display: none;">🌙</button>
+					</li>
+				</ul>
+			</nav>
+		</header>
+
+		<main id="skip" class="container">
+			<link rel="stylesheet" href="/css/lite-yt-embed.css"/>
+
+<h1>Soniweb: An Experiment in Web Traffic Sonification and Ambisonics</h1>
+
+<ul class="post-metadata">
+	<li>
+		<time datetime="2020-03-09">09 March 2020</time>
+	</li>
+</ul>
+
+<h1 id="sonification-of-the-net" tabindex="-1">Sonification of the Net <a class="header-anchor" href="#sonification-of-the-net">#</a></h1>
+<p>For the MCT's sonification course, our group developed a system that collects and geo-locates web requests in real-time <em>and</em> <a href="https://en.wikipedia.org/wiki/Sonification">sonified</a> this incoming data. We were inspired by the paper and project <a href="https://www.researchgate.net/publication/334041357_Surfing_In_Sound_Sonification_of_Hidden_Web_Tracking">Surfing in Sound</a> which sonifies web-trackers via Ableton with an emphasis on user awareness and with potential of extending the experience into an audio-visual installation. A demo of their system can be viewed <a href="https://www.youtube.com/watch?v=ug3GfEe801k">here</a>. Another project with similar aims, <a href="https://www.researchgate.net/publication/335452963_Soundbeam_a_Platform_for_Sonifying_Web_Tracking">Soundbeam</a>, sonifies various trackers through SuperCollider while visiting a web-page as a lens into internet privacy. Our project, Soniweb, finds closer alignment with Surfing in Sound, employing a combination of Wireshark, Python, and Pure Data.</p>
+<p>Our initial plan was to filter network traffic exclusively from the web browser and then analyze the HTTP response headers for information regarding the resources that are loaded when one visits a webpage. From there, we would send that data over OSC to Pure Data, a visual audio programming language and generate sound from it. However, we found (after extensive testing with various programs) that https webpages encrypt the view of the pages' resources (the s stands for the SSL protocol) - this should have been more obvious at the beginning. This prevents a 3rd party application like <a href="https://www.wireshark.org/">Wireshark</a> from spying in on the network activity and reading the data that is transferred. While this is a wonderful standard for the sake of security, it prevented us from going in that direction as Wireshark is unable to decrypt SSL layers. Another application, <a href="https://www.telerik.com/fiddler">Fiddler</a>, an alternative to Wireshark, is able to achieve this, however, its implementation has poor integration with Python and even less on macOS. So our vision broadened to include all possible network activity that is transmitted on a computer and we went with Wireshark as a tried and true stable of the data-sniffing community.</p>
+<h2 id="implementation" tabindex="-1">Implementation <a class="header-anchor" href="#implementation">#</a></h2>
+<p>We decided early on that it would be quite interesting if we were able to sonify the locations of the data packets that were being sent and received when one uses the computer. From a research oriented position, the sonification and spatialization of web data might provide the computer user with insights into:</p>
+<ol>
+<li>Where the data you see, while casually browsing the web or using a web-dependent application, actually originates from (<strong>digital-physical correspondence &amp; global network monopolies</strong>)</li>
+<li>How one's device is constantly sending and receiving information, even in a seemingly inactive state (<strong>the inextricable internet</strong>) and in contrast...</li>
+<li>How some webpages and applications take much more aggressive approaches in making contact with your device (<strong>web tracking &amp; privacy overreach</strong>)</li>
+</ol>
+<p>These guided our development and led us to tailor the data manipulation towards a sonified experience that could encompass these ideas. This led us to look for databases that would provide a massive list of IP’s with associated geodata (country, city and IP address). We ended up with one of <a href="https://dev.maxmind.com/geoip/geoip2/downloadable/">Geoip2’s</a> free databases, which appeared to be the most comprehensive, free collection of IP-to-coordinate entries available for this task. With their accompanying python package, we were able to import the database quite easily and look up the source and destination IP addresses of every packet that passed through our Wireshark server (tshark) that would be hosted in Python.</p>
+<p>Half of us were first tasked with the development of the network sniffing script in Python. This involved working with a Wireshark wrapper for Python called <a href="https://github.com/KimiNewt/pyshark">pyshark</a> which allows us to host a Wireshark instance and read and filter packet data completely within Python.</p>
+<pre class="language-python" tabindex="0"><code class="language-python"><span class="token comment"># Set up capture and filter by host IP and packet size</span>
+capture <span class="token operator">=</span> pyshark<span class="token punctuation">.</span>LiveCapture<span class="token punctuation">(</span>interface<span class="token operator">=</span><span class="token string">"en0"</span><span class="token punctuation">,</span>
+                              bpf_filter<span class="token operator">=</span><span class="token string">"host "</span><span class="token operator">+</span>host_ip<span class="token operator">+</span>
+                              <span class="token string">"&amp;&amp; length > 60"</span><span class="token punctuation">)</span></code></pre>
+<p>This snippet of code constructed the capture stream and specified the network we were listening to (the Wi-Fi), which IP addresses we wanted to filter into our stream (our machine's host IP), and what size we wanted the packets to be (this was to reduce the torrents of data that may be less relevant to our network activity).</p>
+<p>There wasn't too much documentation on pyshark’s full capabilities, so we spent a good portion of time getting familiar with the package as well as Wireshark, which the package relied upon. Once we had exhausted the aforementioned possibility of getting metadata from webpages, we began to program a simple packet to OSC script that would send OSC messages to <a href="https://puredata.info/">Pure Data</a> (Pd) when a packet was sent or received into the computer. We would have a Pd patch running simultaneously to the Python script to listen to our OSC messages with the port specified. Here's the code that does this below</p>
+<pre class="language-python" tabindex="0"><code class="language-python"><span class="token comment"># Set up OSC server</span>
+parser <span class="token operator">=</span> argparse<span class="token punctuation">.</span>ArgumentParser<span class="token punctuation">(</span><span class="token punctuation">)</span>
+parser<span class="token punctuation">.</span>add_argument<span class="token punctuation">(</span><span class="token string">"--ip"</span><span class="token punctuation">,</span> default<span class="token operator">=</span><span class="token string">"127.0.0.1"</span><span class="token punctuation">)</span>
+parser<span class="token punctuation">.</span>add_argument<span class="token punctuation">(</span><span class="token string">"--port"</span><span class="token punctuation">,</span> <span class="token builtin">type</span><span class="token operator">=</span><span class="token builtin">int</span><span class="token punctuation">,</span> default<span class="token operator">=</span><span class="token number">8888</span><span class="token punctuation">)</span>
+args <span class="token operator">=</span> parser<span class="token punctuation">.</span>parse_args<span class="token punctuation">(</span><span class="token punctuation">)</span>
+client <span class="token operator">=</span> udp_client<span class="token punctuation">.</span>SimpleUDPClient<span class="token punctuation">(</span>args<span class="token punctuation">.</span>ip<span class="token punctuation">,</span> args<span class="token punctuation">.</span>port<span class="token punctuation">)</span></code></pre>
+<p>Further development included generating longitude and latitude from the IP addresses and transforming them into ranges that we could eventually use in the Pd patch. We ended up splitting longitudinal values across 8 positions and 4 positions for latitude. This was a compromise due to the computational expense involved using 32 channels from which we would play multiple samples. Because we filtered in packets that either contained our host IP (the IP of the computer running the script) as the source IP or destination IP, we were able to send a single latitude and longitude pair along with a message giving the direction (sent or received). The protocol of the packet (TCP, UDP, TLS, DNS, other) and its length (or size) was also sent as OSC messages.</p>
+<pre class="language-python" tabindex="0"><code class="language-python"><span class="token comment"># Sent</span>
+<span class="token keyword">if</span> packet<span class="token punctuation">.</span>ip<span class="token punctuation">.</span>src <span class="token operator">==</span> host_ip<span class="token punctuation">:</span>
+    dst_resp <span class="token operator">=</span> reader<span class="token punctuation">.</span>city<span class="token punctuation">(</span>packet<span class="token punctuation">.</span>ip<span class="token punctuation">.</span>dst<span class="token punctuation">)</span>
+    client<span class="token punctuation">.</span>send_message<span class="token punctuation">(</span><span class="token string">"/dest_name"</span><span class="token punctuation">,</span> dst_resp<span class="token punctuation">.</span>country<span class="token punctuation">.</span>name<span class="token punctuation">)</span>
+    client<span class="token punctuation">.</span>send_message<span class="token punctuation">(</span><span class="token string">"/direction"</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
+    client<span class="token punctuation">.</span>send_message<span class="token punctuation">(</span><span class="token string">"/ip_lat"</span><span class="token punctuation">,</span>
+                        <span class="token builtin">round</span><span class="token punctuation">(</span><span class="token punctuation">(</span>dst_resp<span class="token punctuation">.</span>location<span class="token punctuation">.</span>latitude<span class="token operator">+</span><span class="token number">90</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">60</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                        <span class="token comment"># 0 to 3 (4 degrees of differentiation)</span>
+    client<span class="token punctuation">.</span>send_message<span class="token punctuation">(</span><span class="token string">"/ip_long"</span><span class="token punctuation">,</span>
+                        <span class="token builtin">round</span><span class="token punctuation">(</span><span class="token punctuation">(</span>dst_resp<span class="token punctuation">.</span>location<span class="token punctuation">.</span>longitude<span class="token operator">+</span><span class="token number">180</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">51.43</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                        <span class="token comment"># 0 to 7 (8 degrees of differentiation)</span>
+
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Sent to "</span><span class="token operator">+</span><span class="token builtin">str</span><span class="token punctuation">(</span>dst_resp<span class="token punctuation">.</span>country<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
+<h2 id="sonification" tabindex="-1">Sonification <a class="header-anchor" href="#sonification">#</a></h2>
+<p>All the while, our third group member started development on the Pure Data patch simultaneous to our work in Python. He began with a sample handler that would play five different samples that corresponded to the protocol type, amplitude. We initially attempted ambisonics production through <a href="https://www.reaper.fm/">Reaper</a> as a DAW but found a wonderful (and actively developed updated) library for Pd called <a href="https://github.com/Spacechild1/vstplugin">vstplugin~</a> where we loaded the <a href="https://plugins.iem.at/">IEM</a> plugin suite for ambisonics. The library worked quite well for our purposes and we were able to load each of our 32 channel’s azimuth and elevations as an initialization process. Each of the “voice” sub-patches contain five “samplehandler” sub-patches to play any of the potential five sounds given the protocol message. Within these sub-patches is one “singlesample” sub-patch that plays the sample with “tabread4~”. However, this sub-patch is cloned for times for the possibility of a single channel playing a particular sample up to four times simultaneously. This was built in due to the high frequency of packet data that we receive during the python script’s playback.</p>
+<figure>
+		  <img src="/img/soniweb-pd.png" width="100%" alt="The Pure Data patch (and sub-patches)" />
+		  <figcaption>The Pure Data patch (and sub-patches)</figcaption>
+		</figure>
+<h2 id="the-effect" tabindex="-1">The Effect <a class="header-anchor" href="#the-effect">#</a></h2>
+<p>When running the script and patch simultaneously, the network activity that your current machine is relaying is sonified and located in a <a href="https://en.wikipedia.org/wiki/Ambisonics">5th order ambisonics</a> environment. The various bells ping around the listener as if they were sitting in the center of the Earth listening to the machines around them speak to one another. While we achieved our set goals, there are a few unanswered questions as to whether the packets that are being received are actually too quick to receive and process in real-time and may become backlogged over the course of a session. This may either have to do with limitations imposed by Pd, Python, Wireshark or the CPU power afforded by the user’s computer. In a recent update, converting one of the &quot;if&quot; statements to a dpf filter within pyshark's instantiation made the incoming packets quite responsive to web browsing activity. However, it may be possible to mitigate these issues and enhance the sonification by generating the instruments within Pd rather than using sample files. This project has great potential for an extension into a live installation, one, perhaps, that asks the audience to connect their devices to a network hosted in the space so that they could listen to the network activity of their collective devices.</p>
+<figure>
+    <div class="iframe-wrapper pd-169">
+        <iframe src="https://drive.google.com/file/d/1SvbQL49VJSdYc1OFBi6q53ccDQ52BzUA/preview" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen alt="A demo of Soniweb (headphones required!)"></iframe>
+    </div>
+    <figcaption>A demo of Soniweb (headphones required!)</figcaption>
+</figure>
+<h1 id="works-cited" tabindex="-1">Works Cited <a class="header-anchor" href="#works-cited">#</a></h1>
+<p>“Fiddler - Free Web Debugging Proxy - Telerik.” <em>Telerik.com</em>, <a href="https://www.telerik.com/fiddler">https://www.telerik.com/fiddler</a>. Accessed 19 Apr. 2020.</p>
+<p>Hutchins, Charles, et al. <em>Soundbeam: A Platform for Sonifying Web Tracking</em>. 2014.</p>
+<p><em>GeoIP2 Downloadable Databases « MaxMind Developer Site</em>. <a href="https://dev.maxmind.com/geoip/geoip2/downloadable/">https://dev.maxmind.com/geoip/geoip2/downloadable/</a>. Accessed 19 Apr. 2020.</p>
+<p>Green, Dor. <em>KimiNewt/Pyshark</em>. 2013. 2020. GitHub, <a href="https://github.com/KimiNewt/pyshark">https://github.com/KimiNewt/pyshark</a>.</p>
+<p>Lutz, Otto, et al. <em>Surfing In Sound: Sonification of Hidden Web Tracking</em>. 2019. ResearchGate, doi:10.21785/icad2019.071.</p>
+<p><em>Pure Data — Pd Community Site</em>. <a href="https://puredata.info/">https://puredata.info/</a>. Accessed 19 Apr. 2020.</p>
+<p><em>REAPER — Audio Production Without Limits</em>. <a href="https://www.reaper.fm/">https://www.reaper.fm/</a>. Accessed 19 Apr. 2020.</p>
+<p>Ressi, Christof. <em>Spacechild1/Vstplugin</em>. 2019. 2020. GitHub, <a href="https://github.com/Spacechild1/vstplugin">https://github.com/Spacechild1/vstplugin</a>.</p>
+<p>Rudrich, Daniel. <em>IEM Plug-in Suite. plugins.iem.at</em>, <a href="https://plugins.iem.at/">https://plugins.iem.at/</a>. Accessed 19 Apr. 2020.</p>
+<p><em>Wireshark · Go Deep</em>. <a href="https://www.wireshark.org/">https://www.wireshark.org/</a>. Accessed 19 Apr. 2020.</p>
+
+		<ul class="links-nextprev">
+				<li>Previous: <a href="/blog/2020-02-10-osc-guitar/">Strumming through space and OSC</a>
+				</li>
+			
+				<li>Next: <a href="/blog/2020-04-08-soniweb-2/">Soniweb: Epilogue</a>
+				</li>
+			
+		</ul>
+
+<script src="/js/lite-yt-embed.js" defer></script>
+		</main>
+
+		<footer></footer>
+
+		<!-- This page `/blog/2020-03-09-soniweb/` was built on 2024-08-15T21:46:17.992Z -->
+	</body>
+</html>
+<script>
+	// Toggle dark/light mode and save
+const toggle = document.getElementById('dark-mode-toggle');
+const root = document.documentElement;
+
+const setTheme = isDark => {
+    root.classList.toggle('dark-mode', isDark);
+    root.style.colorScheme = isDark ? 'dark' : 'light';
+    toggle.textContent = isDark ? '🌞' : '🌚';
+    localStorage.setItem('color-scheme', isDark ? 'dark' : 'light');
+};
+
+const storedTheme = localStorage.getItem('color-scheme');
+setTheme(storedTheme ? storedTheme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+toggle.style.display = 'block';
+toggle.onclick = () => setTheme(root.style.colorScheme !== 'dark');
+</script>
