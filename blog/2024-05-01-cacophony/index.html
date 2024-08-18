@@ -5,8 +5,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Sound Pedro 2024: Cacophony</title>
 		<meta name="description" content="A sonic installation exploring live networked media for Sound Pedro 2024">
-		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Jackson Goode">
-		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Jackson Goode">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Jackson">
+		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Jackson">
 		<style>
 			/* Defaults */
 :root {
@@ -89,7 +89,20 @@ main :first-child {
 }
 
 header {
-	border-bottom: 1px dashed var(--color-gray-20);
+	position: relative;
+}
+
+:root {
+	--wave-width: 30px;
+	--wave-height: 10px;
+}
+
+.wave-divider {
+	width: 100%;
+	height: var(--wave-height);
+	background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='10'%3E%3Cpath d='M0 5q15-5 30 0t30 0' stroke='lightgray' fill='none' stroke-width='1.5'/%3E%3C/svg%3E")
+		repeat-x bottom;
+	background-size: var(--wave-width) var(--wave-height);
 }
 
 .links-nextprev {
@@ -156,6 +169,7 @@ header {
 .nav-item {
 	display: inline-block;
 	margin-right: 1em;
+	padding-bottom: 0.5em;
 }
 .nav-item a[href]:not(:hover) {
 	text-decoration: none;
@@ -246,7 +260,8 @@ header {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	max-width: calc(100% - 3em);
+	/* BUG - This needs to be set to the width of the postlist-item */
+	max-width: calc(100% - 12em);
 }
 .postlist-item-active .postlist-link {
 	font-weight: bold;
@@ -304,41 +319,41 @@ h2 + .header-anchor {
 /* Starting custom */
 @font-face {
 	font-family: "Sans Serif Shaded";
-	src: url("/fonts/SansSerifShaded.ttf");
+	src: url("/font/SansSerifShaded.ttf");
 	font-weight: normal;
 	font-style: normal;
 }
 @font-face {
 	font-family: "Bonbance";
-	src: url("/fonts/Bonbance-BoldCondensed.woff2") format("woff2");
+	src: url("/font/Bonbance-BoldCondensed.woff2") format("woff2");
 	font-weight: normal;
 	font-style: normal;
 }
 @font-face {
 	font-family: "AntiqueSerie";
-	src: url("/fonts/AntiqueSerie-Regular.woff2") format("woff2");
+	src: url("/font/AntiqueSerie-Regular.woff2") format("woff2");
 	font-weight: normal;
 	font-style: normal;
 }
 @font-face {
 	font-family: "Anybody";
-	src: url("/fonts/Anybody-VariableFont_wdth,wght.ttf") format("ttf");
+	src: url("/font/Anybody-VariableFont_wdth,wght.ttf") format("ttf");
 	font-weight: normal;
 	font-style: normal;
 }
 @font-face {
 	font-family: "Folio";
-	src: url("/fonts/Folio-Std-Light.woff") format("woff");
+	src: url("/font/Folio-Std-Light.woff") format("woff");
 	font-weight: normal;
 	font-style: normal;
 }
 @font-face {
 	font-family: "Whirlybats";
-	src: url("/fonts/Whirlybats.ttf") format("truetype");
+	src: url("/font/Whirlybats.ttf") format("truetype");
 }
 @font-face {
 	font-family: "WhirlyBirdie";
-	src: url("/fonts/WhirlyBirdieVariable.ttf") format("truetype");
+	src: url("/font/WhirlyBirdieVariable.ttf") format("truetype");
 	/* font-weight: 200; */
 	font-variation-settings:
 		"wght" 75,
@@ -346,17 +361,17 @@ h2 + .header-anchor {
 }
 @font-face {
 	font-family: "Switzer";
-	src: url("/fonts/Switzer-Variable.woff2") format("woff2");
+	src: url("/font/Switzer-Variable.woff2") format("woff2");
 	font-weight: 500;
 	/* font-variation-settings: "wght" 400; */
 }
 @font-face {
 	font-family: "Rag";
 	src:
-		url("/fonts/Rag-Regular.woff2") format("woff2"),
-		url("/fonts/Rag-Italic.woff2") format("woff2"),
-		url("/fonts/Rag-Bold.woff2") format("woff2"),
-		url("/fonts/Rag-BoldItalic.woff2") format("woff2");
+		url("/font/Rag-Regular.woff2") format("woff2"),
+		url("/font/Rag-Italic.woff2") format("woff2"),
+		url("/font/Rag-Bold.woff2") format("woff2"),
+		url("/font/Rag-BoldItalic.woff2") format("woff2");
 	font-weight: 400;
 	font-style: normal italic;
 	font-display: swap;
@@ -388,18 +403,29 @@ h3,
 }
 
 h1 {
-	display: flex; /* Use flexbox layout */
-	flex-wrap: wrap; /* Allow wrapping if necessary */
-	gap: 0.25em; /* Optional: Add a gap between letter containers if needed */
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.25em;
 }
 
-.row {
+header {
+	gap: unset;
+}
+
+nav {
+	padding-bottom: 0.5em;
 	width: 100%;
+	align-items: baseline;
+	display: flex;
 }
 
 .nav-right {
 	margin-left: auto;
 	margin-right: 0;
+}
+
+.nav-toggle {
+	margin-left: auto;
 }
 
 /* Dark mode toggle styles */
@@ -418,6 +444,111 @@ figcaption {
 	color: var(--color-gray-20);
 	text-align: center;
 }
+
+blockquote {
+	padding-left: 1em;
+	border-left: 2px solid var(--color-gray-90);
+}
+
+/* Talk bubble */
+.talk-bubble {
+	position: absolute;
+	top: 12px;
+	left: 0px;
+	width: calc(100% - 48px);
+	background: var(--color-gray-90);
+	border-radius: 5px;
+	padding: 1em;
+	z-index: -1;
+}
+
+.talk-bubble:after {
+	content: "";
+	position: absolute;
+	right: -7.5px;
+	top: 50%;
+	border: 7.5px solid transparent;
+	border-left-color: var(--color-gray-90);
+	border-right: 0;
+	margin-top: -7.5px;
+}
+
+/* Custom header */
+@media (min-width: 840px) {
+	body {
+		display: flex;
+		justify-content: center;
+		max-width: none;
+		padding: 0;
+	}
+
+	.content-wrapper {
+		display: flex;
+		max-width: calc(40em + 200px + 1rem);
+		width: 100%;
+	}
+
+	.side-header {
+		position: sticky;
+		top: 0;
+		height: 100vh;
+		width: 200px;
+		overflow-y: auto;
+		align-items: start;
+		justify-content: end;
+	}
+
+	.side-header .nav {
+		flex-direction: column;
+		align-items: end;
+	}
+
+	nav {
+		width: unset;
+	}
+
+	main {
+		flex: 1;
+		max-width: 40em;
+		padding: 1rem;
+	}
+
+	.wave-divider {
+		width: var(--wave-height);
+		height: 150px;
+		background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='60'%3E%3Cpath d='M5 0q-5 15 0 30t0 30' stroke='lightgray' fill='none' stroke-width='1.5'/%3E%3C/svg%3E")
+			repeat-y right;
+		background-size: var(--wave-height) var(--wave-width);
+		margin-left: 1em;
+		color: green;
+		stroke: green;
+	}
+
+	/* Talk bubble movement */
+	.side-header {
+		--item-top: 12px;
+		--nav-item-height: 32px;
+	}
+
+	.talk-bubble,
+	.nav-toggle {
+		transform: translateY(calc(var(--item-top) - 12px));
+		transition: transform 0.3s ease;
+	}
+
+	.side-header:has(.nav-item:nth-child(1):hover) {
+		--item-top: calc(12px + 0 * var(--nav-item-height));
+	}
+	.side-header:has(.nav-item:nth-child(2):hover) {
+		--item-top: calc(12px + 1 * var(--nav-item-height));
+	}
+	.side-header:has(.nav-item:nth-child(3):hover) {
+		--item-top: calc(12px + 2 * var(--nav-item-height));
+	}
+	.side-header:has(.nav-item:nth-child(4):hover) {
+		--item-top: calc(12px + 3 * var(--nav-item-height));
+	}
+}
 		</style>
 
 		<style>
@@ -426,32 +557,34 @@ figcaption {
 	</head>
 	<body>
 		<a href="#skip" class="visually-hidden">Skip to main content</a>
-
-		<header class="container">
-			<nav class="row">
-				<h2 class="visually-hidden">Top level navigation menu</h2>
-				<ul class="nav">
-						<li class="nav-item">
-							<a href="/">Home</a>
-						</li>
-						<li class="nav-item">
-							<a href="/blog/">Blog</a>
-						</li>
-						<li class="nav-item">
-							<a href="/projects/">Projects</a>
-						</li>
-						<li class="nav-item">
-							<a href="/about/">About Me</a>
-						</li>
-					<li class="nav-item nav-right">
+		<div class="content-wrapper">
+			<header class="side-header">
+				<nav>
+					<h2 class="visually-hidden">Top level navigation menu</h2>
+					<ul class="nav">
+							<li class="nav-item">
+								<a href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a href="/blog/">Blog</a>
+							</li>
+							<li class="nav-item">
+								<a href="/projects/">Projects</a>
+							</li>
+							<li class="nav-item">
+								<a href="/about/">About Me</a>
+							</li>
+					</ul>
+					<div class="nav-toggle">
 						<button id="dark-mode-toggle" aria-label="Toggle dark mode" style="display: none;">🌙</button>
-					</li>
-				</ul>
-			</nav>
-		</header>
+					</div>
+					<div class="talk-bubble"></div>
+				</nav>
+				
+			</header>
 
-		<main id="skip" class="container">
-			<link rel="stylesheet" href="/css/lite-yt-embed.css"/>
+			<main id="skip" class="container">
+				<link rel="stylesheet" href="/css/lite-yt-embed.css"/>
 
 <h1>Sound Pedro 2024: Cacophony</h1>
 
@@ -464,9 +597,9 @@ figcaption {
 <h1 id="sound-pedro-2024" tabindex="-1">Sound Pedro 2024 <a class="header-anchor" href="#sound-pedro-2024">#</a></h1>
 <p>This year I presented a sonic installation at Sound Pedro alongside a cohort of other artists presenting wacky and experimental audio works. Initially, I thought it would just make sense to write up a technical overview of my piece but the whole experience and very existence of Sound Pedro made me think it would be interesting to tell a story alongside the technical details.</p>
 <h2 id="a-little-context" tabindex="-1">A little context <a class="header-anchor" href="#a-little-context">#</a></h2>
-<p>In 2021, prior to moving to Long Beach, I was first introduced to the cast of wacky sound artists that regularly filled San Pedro each year. For those unacquainted with the south coast of LA, San Pedro is a sleepy blue-collar town perched right off the massive twin ports of LA and Long Beach. I would have never ended up in that town had an up-end for a co-worker of a friend who liked to quote all a shit-ton of speakers and wire up an array. Now that's my kind of stuff.</p>
+<p>In 2021, prior to moving to Long Beach, I was first introduced to the cast of wacky sound artists that regularly filled San Pedro each year. For those unacquainted with the south coast of LA, San Pedro is a sleepy blue-collar town perched right off the massive twin ports of LA and Long Beach. I would have never ended up in that town had an up-end for a co-worker of a friend who liked to &quot;get a shit-ton of speakers and wire up an array&quot;. Now that's my kind of stuff.</p>
 <figure>
-			<video src="/assets/videos/tape.mp4" width="100%" controls>Your browser does not support the video tag.</video>
+			<video src="/vid/tape.mp4" width="100%" controls>Your browser does not support the video tag.</video>
 			<figcaption>Playing the sound of tape, unspooled between chairs and concrete</figcaption>
 		</figure>
 <p>That's my time at Oslo at school for an esoteric degree in music technology. I had always wanted to put up my own sound insulation. The idea of occupying some permanent sonic space that people might pass through and observe thought was genuinely so cool. When I saw dozens and dozens of weirdos scattered around the Angels Gate Cultural Center I was beaming.</p>
@@ -478,20 +611,20 @@ figcaption {
 </blockquote>
 <p>For the installation, I wanted to go as big as I could under my strict budget of $60. After some extensive Facebook marketplace sleuthing, I found a five-channel home speaker setup with an amplifier. I spent a few more hours than I should, reprograming the script and getting everything to work in a five-channel array (all programmed in Python - yes, you heard that's right. An a-sync real-time multi-channel installation in Python - clearly the best language for this use-case).</p>
 <figure>
-			<video src="/assets/videos/pad.mp4" width="100%" controls>Your browser does not support the video tag.</video>
+			<video src="/vid/pad.mp4" width="100%" controls>Your browser does not support the video tag.</video>
 			<figcaption>My spot</figcaption>
 		</figure>
 <p>The hours preparing before Sound Pedro were just as frantic as it was the first time arriving on that defunct naval base. I spent the past night dusting off speakers, cutting wire, frantically coding and adding catches for robustness and so the speakers wouldn't accidentally explode. Yet, there was very little at home to give an impression of the concrete cave I would be in.</p>
 <p>I was happy when my friends quietly appeared in the stream of visitors.</p>
 <figure>
-			<img src="/assets/videos/surprise.jpg" width="100%" alt="Me, surprised" />
+			<img src="/vid/surprise.jpg" width="100%" alt="Me, surprised" />
 			<figcaption>Me, surprised</figcaption>
 		</figure>
 <h2 id="after-the-noise" tabindex="-1">After the noise <a class="header-anchor" href="#after-the-noise">#</a></h2>
 <p>Like with a lot of art projects, you spend far more time invested, perfecting, tuning, scrutinizing than anyone will ever see. When I came down to setting up the space, I decided to bring my whole living room up and into whatever space I would be given. Lamps, lights, chairs, my table. Mine turned out to be one of the coziest concrete bungalows there.</p>
 <p>With some continued routing woes, I wasn't able to project the colorful display of video thumbnails as I intended, so I used my laptop's display instead. Folks passing by were excited, confused, disturbed, entertained, and generally interested, since there is very little visual indication of all of the many simultaneous streams of audio that were booming off the semi-circular apartment I was squatting in for the evening.</p>
 <figure>
-			<video src="/assets/videos/ongoing.mp4" width="100%" controls>Your browser does not support the video tag.</video>
+			<video src="/vid/ongoing.mp4" width="100%" controls>Your browser does not support the video tag.</video>
 			<figcaption>A quick clip - sadly the drones of the surrounding performances did just that :)</figcaption>
 		</figure>
 
@@ -502,11 +635,11 @@ figcaption {
 		</ul>
 
 <script src="/js/lite-yt-embed.js" defer></script>
-		</main>
-
+			</main>
+		</div>
 		<footer></footer>
 
-		<!-- This page `/blog/2024-05-01-cacophony/` was built on 2024-08-16T19:54:44.618Z -->
+		<!-- This page `/blog/2024-05-01-cacophony/` was built on 2024-08-18T06:35:55.003Z -->
 	</body>
 </html>
 <script>
@@ -517,13 +650,13 @@ const root = document.documentElement;
 const setTheme = isDark => {
     root.classList.toggle('dark-mode', isDark);
     root.style.colorScheme = isDark ? 'dark' : 'light';
-    toggle.textContent = isDark ? '🌞' : '🌚';
+    toggle.textContent = isDark ? '🐸' : '🐓';
     localStorage.setItem('color-scheme', isDark ? 'dark' : 'light');
 };
 
 const storedTheme = localStorage.getItem('color-scheme');
 setTheme(storedTheme ? storedTheme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches);
 
-toggle.style.display = 'block';
+toggle.style.display = 'inline-block';
 toggle.onclick = () => setTheme(root.style.colorScheme !== 'dark');
 </script>
