@@ -413,15 +413,10 @@ header {
 }
 
 nav {
-	padding-bottom: 0.5em;
+	/* padding-bottom: 0.5em; */
 	width: 100%;
 	align-items: baseline;
 	display: flex;
-}
-
-.nav-right {
-	margin-left: auto;
-	margin-right: 0;
 }
 
 .nav-toggle {
@@ -452,14 +447,15 @@ blockquote {
 
 /* Talk bubble */
 .talk-bubble {
-	position: absolute;
-	top: 12px;
-	left: 0px;
+	position: relative;
 	width: calc(100% - 48px);
 	background: var(--color-gray-90);
 	border-radius: 5px;
-	padding: 1em;
-	z-index: -1;
+	padding: 0.25em;
+	margin: 0;
+	align-items: center;
+	justify-content: space-between;
+	display: flex;
 }
 
 .talk-bubble:after {
@@ -471,6 +467,51 @@ blockquote {
 	border-left-color: var(--color-gray-90);
 	border-right: 0;
 	margin-top: -7.5px;
+}
+
+.nav-list {
+	margin: 0.5em 0;
+	z-index: 1;
+}
+
+.nav-phrase {
+	padding: 0 0.5em;
+}
+
+.side-nav {
+	text-align: right;
+	margin-right: 0.5em;
+}
+
+.nav-toggle {
+	margin-top: 0.25em;
+	position: relative;
+	right: -36px;
+}
+
+@media (max-width: 839px) {
+	/* Desktop */
+	.side-nav {
+		display: none;
+	}
+	/* Mobile */
+	.nav-phrase {
+		display: inherit;
+	}
+}
+
+@media (min-width: 840px) {
+	.side-nav {
+		display: inherit;
+	}
+	.nav-phrase {
+		display: none;
+	}
+}
+
+
+header {
+	padding-bottom: 0;
 }
 
 /* Custom header */
@@ -531,14 +572,22 @@ blockquote {
 		--nav-item-height: 32px;
 	}
 
+	.talk-bubble {
+		position: absolute;
+		margin: 0.25em;
+	}
+
 	.talk-bubble,
 	.nav-toggle {
-		transform: translateY(calc(var(--item-top) - 12px));
 		transition: all 0.3s ease;
 	}
 
+	.talk-bubble {
+		transform: translateY(calc(var(--item-top) - 12px));
+	}
+
 	.nav-toggle {
-		transform: translateY(calc(var(--item-top) - 12px)) rotate(var(--item-rot));
+		transform: rotate(var(--item-rot));
 	}
 
 	.side-header:has(.nav-item:nth-child(1):hover) {
@@ -569,25 +618,32 @@ blockquote {
 			<header class="side-header">
 				<nav>
 					<h2 class="visually-hidden">Top level navigation menu</h2>
-					<ul class="nav">
-							<li class="nav-item">
-								<a href="/">Home</a>
-							</li>
-							<li class="nav-item">
-								<a href="/blog/">Blog</a>
-							</li>
-							<li class="nav-item">
-								<a href="/projects/">Projects</a>
-							</li>
-							<li class="nav-item">
-								<a href="/about/">About Me</a>
-							</li>
-					</ul>
-					<div class="nav-toggle">
-						<button id="dark-mode-toggle" aria-label="Toggle dark mode">🐸</button>
+					<div class="talk-bubble">
+						<div class="nav-phrase">
+							
+						</div>
+						<div class="nav-toggle">
+							<button id="dark-mode-toggle" aria-label="Toggle dark mode">🐸</button>
+						</div>
 					</div>
-					<div class="talk-bubble"></div>
+					<div class="side-nav">
+						<ul class="nav-list">
+								<li class="nav-item">
+									<a href="/">Home</a>
+								</li>
+								<li class="nav-item">
+									<a href="/blog/">Blog</a>
+								</li>
+								<li class="nav-item">
+									<a href="/projects/">Projects</a>
+								</li>
+								<li class="nav-item">
+									<a href="/about/">About Me</a>
+								</li>
+						</ul>
+					</div>
 				</nav>
+
 				
 			</header>
 
@@ -610,7 +666,7 @@ This will work for both GitHub pages and Netlify:
 		</div>
 		<footer></footer>
 
-		<!-- This page `/404.html` was built on 2024-08-18T07:41:48.266Z -->
+		<!-- This page `/404.html` was built on 2024-08-20T09:04:52.464Z -->
 	</body>
 </html>
 <script>
