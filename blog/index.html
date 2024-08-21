@@ -7,6 +7,24 @@
 		<meta name="description" content="Hello, I&#39;m Jackson.">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Jackson">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Jackson">
+
+		<script>
+			(function () {
+				function getColorPreference() {
+					if (localStorage.getItem('color-scheme')) {
+						return localStorage.getItem('color-scheme');
+					}
+					return window
+						.matchMedia('(prefers-color-scheme: dark)')
+						.matches
+							? 'dark'
+							: 'light';
+				}
+				document
+					.documentElement
+					.setAttribute('data-theme', getColorPreference());
+			})();
+		</script>
 		<style>
 			/* Defaults */
 :root {
@@ -160,16 +178,16 @@ header {
 }
 
 /* Nav */
-.nav {
+nav {
 	display: flex;
+	position: relative;
 	padding: 0;
 	margin: 0;
 	list-style: none;
 }
 .nav-item {
 	display: inline-block;
-	margin-right: 1em;
-	padding-bottom: 0.5em;
+	padding: 0.25em 0;
 }
 .nav-item a[href]:not(:hover) {
 	text-decoration: none;
@@ -317,7 +335,7 @@ h2 + .header-anchor {
 }
 
 /* Starting custom */
-@font-face {
+/* @font-face {
 	font-family: "Sans Serif Shaded";
 	src: url("/font/SansSerifShaded.ttf");
 	font-weight: normal;
@@ -354,11 +372,11 @@ h2 + .header-anchor {
 @font-face {
 	font-family: "WhirlyBirdie";
 	src: url("/font/WhirlyBirdieVariable.ttf") format("truetype");
-	/* font-weight: 200; */
+	font-weight: 200;
 	font-variation-settings:
 		"wght" 75,
 		"wdth" 75;
-}
+} */
 @font-face {
 	font-family: "Switzer";
 	src: url("/font/Switzer-Variable.woff2") format("woff2");
@@ -423,14 +441,6 @@ nav {
 	margin-left: auto;
 }
 
-/* Dark mode toggle styles */
-#dark-mode-toggle {
-	background: none;
-	border: none;
-	cursor: pointer;
-	font-size: 1em;
-}
-
 figure > * {
 	max-width: 100%;
 }
@@ -442,16 +452,16 @@ figcaption {
 
 blockquote {
 	padding-left: 1em;
-	border-left: 2px solid var(--color-gray-90);
+	border-left: 2px solid ButtonFace;
 }
 
 /* Talk bubble */
 .talk-bubble {
 	position: relative;
-	width: calc(100% - 48px);
-	background: var(--color-gray-90);
+	width: calc(100% - 2em);
+	background: ButtonFace;
 	border-radius: 5px;
-	padding: 0.25em;
+	padding: 0.125em;
 	margin: 0;
 	align-items: center;
 	justify-content: space-between;
@@ -464,14 +474,17 @@ blockquote {
 	right: -7.5px;
 	top: 50%;
 	border: 7.5px solid transparent;
-	border-left-color: var(--color-gray-90);
+	border-left-color: ButtonFace;
 	border-right: 0;
 	margin-top: -7.5px;
 }
 
 .nav-list {
-	margin: 0.5em 0;
+	margin: 0;
 	z-index: 1;
+	list-style: none;
+	display: flex;
+	flex-direction: column;
 }
 
 .nav-phrase {
@@ -480,13 +493,13 @@ blockquote {
 
 .side-nav {
 	text-align: right;
-	margin-right: 0.5em;
+	margin-right: 1em;
 }
 
 .nav-toggle {
 	margin-top: 0.25em;
 	position: relative;
-	right: -36px;
+	right: -2em;
 }
 
 @media (max-width: 839px) {
@@ -508,7 +521,6 @@ blockquote {
 		display: none;
 	}
 }
-
 
 header {
 	padding-bottom: 0;
@@ -544,10 +556,6 @@ header {
 		align-items: end;
 	}
 
-	nav {
-		width: unset;
-	}
-
 	main {
 		flex: 1;
 		max-width: 40em;
@@ -574,7 +582,7 @@ header {
 
 	.talk-bubble {
 		position: absolute;
-		margin: 0.25em;
+		/* margin: 0.25em; */
 	}
 
 	.talk-bubble,
@@ -606,10 +614,72 @@ header {
 		--item-rot: -15deg;
 	}
 }
-		</style>
 
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,100..900;1,100..900&family=Archivo:ital,wght@0,100..900;1,100..900&family=Chivo:ital,wght@0,100..900;1,100..900&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Rubik:ital,wght@0,300..900;1,300..900&family=Syne:wght@400..800&display=swap');
+/* :root {
+	color-scheme: light dark;
+
+	--color-gray-20: light-dark(#333333, #cccccc);
+	--color-gray-50: light-dark(#7f7f7f, #808080);
+	--color-gray-90: light-dark(#e5e5e5, #1a1a1a);
+} */
+
+:root {
+	color-scheme: light;
+	--color-gray-20: #333333;
+	--color-gray-50: #7f7f7f;
+	--color-gray-90: #e5e5e5;
+}
+
+:root[data-theme="dark"] {
+	color-scheme: dark;
+	--color-gray-20: #cccccc;
+	--color-gray-50: #808080;
+	--color-gray-90: #1a1a1a;
+}
+
+body {
+	color: CanvasText;
+	background-color: Canvas;
+	transition:
+		color 0.1s,
+		background-color 0.1s;
+}
+
+#dark-mode-toggle {
+	display: none;
+}
+
+#dark-mode-toggle + label {
+	background: none;
+	border: none;
+	cursor: pointer;
+	font-size: 1em;
+}
+
+#dark-mode-toggle + label::before {
+	content: "🐓";
+}
+
+#dark-mode-toggle:checked + label::before {
+	content: "🐸";
+}
+
+@media (prefers-color-scheme: dark) {
+	#dark-mode-toggle:not(:checked) + label::before {
+		content: "🐓";
+	}
+	#dark-mode-toggle:checked + label::before {
+		content: "🐸";
+	}
+}
+
+:root:has(#dark-mode-toggle:checked) {
+	color-scheme: dark;
+}
+
+:root:has(#dark-mode-toggle:not(:checked)) {
+	color-scheme: light;
+}
 		</style>
 	</head>
 	<body>
@@ -652,9 +722,10 @@ header {
 									<a href="/about/">about me</a>!</span>
 							
 						</div>
-						<div class="nav-toggle">
-							<button id="dark-mode-toggle" aria-label="Toggle dark mode">🐸</button>
-						</div>
+						<form method="post"  id="theme-form" class="nav-toggle">
+							<input type="checkbox" id="dark-mode-toggle" name="theme" value="dark" aria-label="Toggle dark mode">
+							<label for="dark-mode-toggle"></label>
+						</form>
 					</div>
 					<div class="side-nav">
 						<ul class="nav-list">
@@ -803,23 +874,37 @@ header {
 		</div>
 		<footer></footer>
 
-		<!-- This page `/blog/` was built on 2024-08-20T09:04:52.463Z -->
+		<!-- This page `/blog/` was built on 2024-08-21T04:05:14.974Z -->
 	</body>
 </html>
 <script>
-	// Toggle dark/light mode and save
-const toggle = document.getElementById('dark-mode-toggle');
-const root = document.documentElement;
+	// Minimal JS for handling user preference
+(function () {
+    const toggle = document.getElementById('dark-mode-toggle');
+    const root = document.documentElement;
 
-const setTheme = isDark => {
-    root.classList.toggle('dark-mode', isDark);
-    root.style.colorScheme = isDark ? 'dark' : 'light';
-    toggle.textContent = isDark ? '🐸' : '🐓';
-    localStorage.setItem('color-scheme', isDark ? 'dark' : 'light');
-};
+    function setTheme(isDark) {
+        root.setAttribute('data-theme', isDark ? 'dark' : 'light');
+        toggle.checked = isDark;
+        localStorage.setItem('color-scheme', isDark ? 'dark' : 'light');
+    }
 
-const storedTheme = localStorage.getItem('color-scheme');
-setTheme(storedTheme ? storedTheme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches);
+    toggle.addEventListener('change', () => setTheme(toggle.checked));
 
-toggle.onclick = () => setTheme(root.style.colorScheme !== 'dark');
+    // Set initial state
+    setTheme(root.getAttribute('data-theme') === 'dark');
+
+    // const form = document.getElementById('theme-form');
+    // Handle form submission (for no-JS fallback)
+    // form.addEventListener('submit', (e) => {
+    //     e.preventDefault();
+    //     const formData = new FormData(form);
+    //     fetch('/set-theme', {
+    //         method: 'POST',
+    //         body: formData
+    //     }).then(() => {
+    //         location.reload();
+    //     });
+    // });
+})();
 </script>
