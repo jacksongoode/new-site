@@ -7,24 +7,6 @@
 		<meta name="description" content="A reflection on visiting Montreal, exploring its French influence, cultural shifts, and urban landscape.">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Jackson">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Jackson">
-
-		<script>
-			(function () {
-				function getColorPreference() {
-					if (localStorage.getItem('color-scheme')) {
-						return localStorage.getItem('color-scheme');
-					}
-					return window
-						.matchMedia('(prefers-color-scheme: dark)')
-						.matches
-							? 'dark'
-							: 'light';
-				}
-				document
-					.documentElement
-					.setAttribute('data-theme', getColorPreference());
-			})();
-		</script>
 		<style>
 			/* Defaults */
 :root {
@@ -381,6 +363,7 @@ h2 + .header-anchor {
 	font-family: "Switzer";
 	src: url("/font/Switzer-Variable.woff2") format("woff2");
 	font-weight: 500;
+	font-display: swap;
 	/* font-variation-settings: "wght" 400; */
 }
 @font-face {
@@ -458,7 +441,7 @@ blockquote {
 /* Talk bubble */
 .talk-bubble {
 	position: relative;
-	width: calc(100% - 2em);
+	width: calc(100% - 2.5em);
 	background: ButtonFace;
 	border-radius: 5px;
 	padding: 0.125em;
@@ -479,21 +462,25 @@ blockquote {
 	margin-top: -7.5px;
 }
 
+.side-nav {
+	margin-right: 2.25em;
+	width: 100%;
+	justify-content: center;
+}
+
 .nav-list {
 	margin: 0;
 	z-index: 1;
 	list-style: none;
 	display: flex;
 	flex-direction: column;
+	padding-inline-start: 0;
+	width: 100%;
+	text-align: center;
 }
 
 .nav-phrase {
 	padding: 0 0.5em;
-}
-
-.side-nav {
-	text-align: right;
-	margin-right: 1em;
 }
 
 .nav-toggle {
@@ -625,6 +612,7 @@ header {
 
 :root {
 	color-scheme: light;
+	--color-bg: white;
 	--color-gray-20: #333333;
 	--color-gray-50: #7f7f7f;
 	--color-gray-90: #e5e5e5;
@@ -632,6 +620,7 @@ header {
 
 :root[data-theme="dark"] {
 	color-scheme: dark;
+	--color-bg: black;
 	--color-gray-20: #cccccc;
 	--color-gray-50: #808080;
 	--color-gray-90: #1a1a1a;
@@ -767,25 +756,27 @@ body {
 		</div>
 		<footer></footer>
 
-		<!-- This page `/blog/2023-07-19-montreal/` was built on 2024-08-21T06:12:16.098Z -->
+		<!-- This page `/blog/2023-07-19-montreal/` was built on 2024-08-21T07:44:33.824Z -->
 	</body>
 </html>
 <script>
 	// Minimal JS for handling user preference
 (function () {
     const toggle = document.getElementById('dark-mode-toggle');
-    const root = document.documentElement;
 
-    function setTheme(isDark) {
-        root.setAttribute('data-theme', isDark ? 'dark' : 'light');
-        toggle.checked = isDark;
-        localStorage.setItem('color-scheme', isDark ? 'dark' : 'light');
+    // Set initial state based on localStorage or system preference
+    const storedTheme = localStorage.getItem('color-scheme');
+    if (storedTheme) {
+        document.documentElement.setAttribute('data-theme', storedTheme);
+        toggle.checked = storedTheme === 'dark';
     }
 
-    toggle.addEventListener('change', () => setTheme(toggle.checked));
-
-    // Set initial state
-    setTheme(root.getAttribute('data-theme') === 'dark');
+    // Handle toggle changes
+    toggle.addEventListener('change', () => {
+        const newTheme = toggle.checked ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('color-scheme', newTheme);
+    });
 
     // const form = document.getElementById('theme-form');
     // Handle form submission (for no-JS fallback)
