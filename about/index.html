@@ -486,7 +486,9 @@ blockquote {
 }
 
 .nav-phrase {
+	width: 100%;
 	padding: 0 0.5em;
+	cursor: text;
 }
 
 .nav-toggle {
@@ -675,6 +677,23 @@ body {
 :root:has(#dark-mode-toggle:not(:checked)) {
 	color-scheme: light;
 }
+
+#chatInput {
+    background: none;
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    outline: none;
+}
+
+#chatInput::placeholder {
+    color: var(--color-gray-50);
+    opacity: 0.7;
+}
 		</style>
 	</head>
 	<body>
@@ -770,7 +789,7 @@ body {
 		</div>
 		<footer></footer>
 
-		<!-- This page `/about/` was built on 2024-08-23T08:34:23.500Z -->
+		<!-- This page `/about/` was built on 2024-08-23T09:05:16.786Z -->
 	</body>
 </html>
 <script defer>
@@ -805,62 +824,67 @@ body {
     //     });
     // });
 })();
-</script>
-<script>
-	const chatBubble = document.getElementById('chatBubble');
-	const originalContent = chatBubble.dataset.originalContent;
-	let isInputMode = false;
 
-	chatBubble.addEventListener('click', function () {
-		if (!isInputMode) {
-			isInputMode = true;
-			chatBubble.innerHTML = '<input type="text" id="chatInput" placeholder="Type your message...">';
-			document
-				.getElementById('chatInput')
-				.focus();
-		}
-	});
+		const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+const baseUrl = isDevelopment ? 'http://localhost:8090' : '';
 
-	document.addEventListener('keypress', function (e) {
-		if (e.key === 'Enter' && isInputMode) {
-			const input = document.getElementById('chatInput');
-			const message = input.value;
-			if (message) {
-				chatBubble.innerHTML = 'Processing...';
-				sendMessageToWorker(message);
-			}
-		}
-	});
+const chatBubble = document.getElementById('chatBubble');
+const originalContent = chatBubble.dataset.originalContent;
+let isInputMode = false;
 
-	function sendMessageToWorker(message) {
-		chatBubble.textContent = '';
-		const eventSource = new EventSource(`/?talk=${encodeURIComponent(message)}`);
+chatBubble.addEventListener('click', function () {
+    if (!isInputMode) {
+        isInputMode = true;
+        chatBubble.innerHTML = '<input type="text" id="chatInput" placeholder="What do you want to know?">';
+        document
+            .getElementById('chatInput')
+            .focus();
+    }
+});
 
-		eventSource.onmessage = (event) => {
-			const data = event.data;
-			if (data !== '[DONE]') {
-				try {
-					const parsed = JSON.parse(data);
-					if (parsed.response) {
-						chatBubble.textContent += parsed.response;
-					}
-				} catch (error) {
-					console.error('Error parsing JSON:', error);
-					chatBubble.textContent += data;
-				}
-			} else {
-				eventSource.close();
-				isInputMode = false;
-			}
-		};
+document.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter' && isInputMode) {
+        const input = document.getElementById('chatInput');
+        const message = input.value;
+        if (message) {
+            chatBubble.innerHTML = 'Processing...';
+            sendMessageToWorker(message);
+        }
+    }
+});
 
-		eventSource.onerror = (error) => {
-			console.error('EventSource failed:', error);
-			eventSource.close();
-			isInputMode = false;
-			if (!chatBubble.textContent) {
-				chatBubble.textContent = originalContent;
-			}
-		};
-	}
+function sendMessageToWorker(message) {
+    const isDarkMode = document.documentElement.getAttribute('data-theme') === 'dark';
+    const animalParam = isDarkMode ? 'frog' : 'chicken';
+
+    chatBubble.textContent = '';
+    const eventSource = new EventSource(`${baseUrl}/?message=${encodeURIComponent(message)}&animal=${animalParam}`);
+
+    eventSource.onmessage = (event) => {
+        const data = event.data;
+        if (data !== '[DONE]') {
+            try {
+                const parsed = JSON.parse(data);
+                if (parsed.response) {
+                    chatBubble.textContent += parsed.response;
+                }
+            } catch (error) {
+                console.error('Error parsing JSON:', error);
+                chatBubble.textContent += data;
+            }
+        } else {
+            eventSource.close();
+            isInputMode = false;
+        }
+    };
+
+    eventSource.onerror = (error) => {
+        console.error('EventSource failed:', error);
+        eventSource.close();
+        isInputMode = false;
+        if (!chatBubble.textContent) {
+            chatBubble.textContent = originalContent;
+        }
+    };
+}
 </script>
