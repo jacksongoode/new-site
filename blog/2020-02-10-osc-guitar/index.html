@@ -810,7 +810,7 @@ body {
 		</div>
 		<footer></footer>
 
-		<!-- This page `/blog/2020-02-10-osc-guitar/` was built on 2024-08-23T09:05:16.792Z -->
+		<!-- This page `/blog/2020-02-10-osc-guitar/` was built on 2024-08-23T09:14:43.238Z -->
 	</body>
 </html>
 <script defer>
@@ -879,7 +879,7 @@ function sendMessageToWorker(message) {
     const animalParam = isDarkMode ? 'frog' : 'chicken';
 
     chatBubble.textContent = '';
-    const eventSource = new EventSource(`${baseUrl}/?message=${encodeURIComponent(message)}&animal=${animalParam}`);
+    const eventSource = new EventSource(`${baseUrl}/ai?message=${encodeURIComponent(message)}&animal=${animalParam}`);
 
     eventSource.onmessage = (event) => {
         const data = event.data;
