@@ -678,21 +678,43 @@ body {
 	color-scheme: light;
 }
 
+/* AI chat related */
 #chatInput {
-    background: none;
-    border: none;
-    font-family: inherit;
-    font-size: inherit;
-    color: inherit;
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    outline: none;
+	background: none;
+	border: none;
+	font-family: inherit;
+	font-size: inherit;
+	color: inherit;
+	padding: 0;
+	margin: 0;
+	width: 100%;
+	outline: none;
 }
 
-#chatInput::placeholder {
-    color: var(--color-gray-50);
-    opacity: 0.7;
+#chatInput::placeholder,
+.waiting {
+	color: var(--color-gray-50);
+	opacity: 0.7;
+}
+
+@keyframes ellipsis {
+	0% {
+		content: ".";
+	}
+	33% {
+		content: "..";
+	}
+	66% {
+		content: "...";
+	}
+}
+
+.waiting::after {
+	content: ".";
+	animation: ellipsis 1s infinite;
+	display: inline-block;
+	width: 1em;
+	text-align: left;
 }
 		</style>
 	</head>
@@ -765,7 +787,7 @@ body {
 		</div>
 		<footer></footer>
 
-		<!-- This page `/blog/2023-06-03-thought/` was built on 2024-08-23T09:16:31.962Z -->
+		<!-- This page `/blog/2023-06-03-thought/` was built on 2024-08-23T09:58:00.522Z -->
 	</body>
 </html>
 <script defer>
@@ -832,11 +854,18 @@ document.addEventListener('keypress', function (e) {
 function sendMessageToWorker(message) {
     const isDarkMode = document.documentElement.getAttribute('data-theme') === 'dark';
     const animalParam = isDarkMode ? 'frog' : 'chicken';
+    const waitText = isDarkMode ? 'Ribbit' : 'Cluck';
+    chatBubble.textContent = waitText;
+    chatBubble.classList.add('waiting');
 
-    chatBubble.textContent = '';
     const eventSource = new EventSource(`${baseUrl}/ai?message=${encodeURIComponent(message)}&animal=${animalParam}`);
 
     eventSource.onmessage = (event) => {
+        if (chatBubble.classList.contains('waiting')) {
+            chatBubble.textContent = '';
+            chatBubble.classList.remove('waiting');
+        }
+
         const data = event.data;
         if (data !== '[DONE]') {
             try {
