@@ -424,6 +424,12 @@ nav {
 	margin-left: auto;
 }
 
+figure {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
 figure > * {
 	max-width: 100%;
 }
@@ -677,8 +683,8 @@ body {
 			<header class="side-header">
 				<nav>
 					<h2 class="visually-hidden">Top level navigation menu</h2>
-					<div class="talk-bubble">
-						<div class="nav-phrase">
+					<div class="talk-bubble" >
+						<div id="chatBubble" class="nav-phrase" data-original-content="Welcome">
 							
 						</div>
 						<form method="post"  id="theme-form" class="nav-toggle">
@@ -760,7 +766,7 @@ body {
 <p>You can find the code <a href="https://github.com/jacksongoode/breathingthroughmax">here</a> along with a setup.</p>
 <figure>
     <div class="iframe-wrapper pb-169">
-        <iframe src="https://drive.google.com/file/d/1G64dQ5iub0O7MClNNkbH5ktVX5hHf0e8/preview" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen alt="A demo of the system"></iframe>
+        <iframe src="https://drive.google.com/file/d/1G64dQ5iub0O7MClNNkbH5ktVX5hHf0e8/preview" frameborder="0"  allowfullscreen alt="A demo of the system"></iframe>
     </div>
     <figcaption>A demo of the system using pre-recorded data</figcaption>
 </figure>
@@ -779,14 +785,15 @@ body {
 		</ul>
 
 <script src="/js/lite-yt-embed.js" defer></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/lite-vimeo-embed/+esm" defer></script>
 			</main>
 		</div>
 		<footer></footer>
 
-		<!-- This page `/blog/2020-05-20-breathing-through-max/` was built on 2024-08-23T05:05:33.627Z -->
+		<!-- This page `/blog/2020-05-20-breathing-through-max/` was built on 2024-08-23T08:34:23.506Z -->
 	</body>
 </html>
-<script>
+<script defer>
 	// Minimal JS for handling user preference
 (function () {
     const toggle = document.getElementById('dark-mode-toggle');
@@ -818,4 +825,62 @@ body {
     //     });
     // });
 })();
+</script>
+<script>
+	const chatBubble = document.getElementById('chatBubble');
+	const originalContent = chatBubble.dataset.originalContent;
+	let isInputMode = false;
+
+	chatBubble.addEventListener('click', function () {
+		if (!isInputMode) {
+			isInputMode = true;
+			chatBubble.innerHTML = '<input type="text" id="chatInput" placeholder="Type your message...">';
+			document
+				.getElementById('chatInput')
+				.focus();
+		}
+	});
+
+	document.addEventListener('keypress', function (e) {
+		if (e.key === 'Enter' && isInputMode) {
+			const input = document.getElementById('chatInput');
+			const message = input.value;
+			if (message) {
+				chatBubble.innerHTML = 'Processing...';
+				sendMessageToWorker(message);
+			}
+		}
+	});
+
+	function sendMessageToWorker(message) {
+		chatBubble.textContent = '';
+		const eventSource = new EventSource(`/?talk=${encodeURIComponent(message)}`);
+
+		eventSource.onmessage = (event) => {
+			const data = event.data;
+			if (data !== '[DONE]') {
+				try {
+					const parsed = JSON.parse(data);
+					if (parsed.response) {
+						chatBubble.textContent += parsed.response;
+					}
+				} catch (error) {
+					console.error('Error parsing JSON:', error);
+					chatBubble.textContent += data;
+				}
+			} else {
+				eventSource.close();
+				isInputMode = false;
+			}
+		};
+
+		eventSource.onerror = (error) => {
+			console.error('EventSource failed:', error);
+			eventSource.close();
+			isInputMode = false;
+			if (!chatBubble.textContent) {
+				chatBubble.textContent = originalContent;
+			}
+		};
+	}
 </script>
