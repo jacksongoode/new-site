@@ -253,7 +253,7 @@ nav {
 	position: relative;
 }
 
-.postlist-item:has(.postlist-link:hover) .postlist-date::after {
+.postlist-item .postlist-date::after {
 	content: attr(data-tooltip);
 	padding-left: 1em;
 	position: absolute;
@@ -261,9 +261,19 @@ nav {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	/* BUG - This needs to be set to the width of the postlist-item */
 	max-width: calc(100% - 12em);
+	opacity: 0;
+	visibility: hidden;
+	transition:
+		opacity 0.3s ease,
+		visibility 0.3s ease;
 }
+
+.postlist-item:has(.postlist-link:hover) .postlist-date::after {
+	opacity: 1;
+	visibility: visible;
+}
+
 .postlist-item-active .postlist-link {
 	font-weight: bold;
 }
@@ -435,6 +445,11 @@ figure > * {
 	max-width: 100%;
 }
 
+.side-header:has(.talk-bubble.chat-active) {
+	--item-top: 12px;
+	--item-rot: 0deg;
+}
+
 figcaption {
 	color: var(--color-gray-20);
 	text-align: center;
@@ -483,7 +498,8 @@ blockquote {
 	flex-direction: column;
 	padding-inline-start: 0;
 	width: 100%;
-	text-align: center;
+	text-align: right;
+	padding-right: 1em;
 }
 
 .nav-phrase {
@@ -542,7 +558,6 @@ header {
 		top: 0;
 		height: 100vh;
 		width: 200px;
-		overflow-y: auto;
 		align-items: start;
 		justify-content: end;
 	}
@@ -608,6 +623,34 @@ header {
 	.side-header:has(.nav-item:nth-child(4):hover) {
 		--item-top: calc(12px + 3 * var(--nav-item-height));
 		--item-rot: -15deg;
+	}
+	.side-header:has(.nav-item:nth-child(5):hover) {
+		--item-top: calc(12px + 4 * var(--nav-item-height));
+		--item-rot: 15deg;
+	}
+
+	#chat-trigger {
+		cursor: pointer;
+		transition: all 0.3s ease;
+	}
+
+	.talk-bubble {
+		position: absolute;
+		transition: all 0.3s ease;
+		transform: translateY(calc(var(--item-top) - 12px));
+	}
+
+	.talk-bubble.chat-active {
+		left: calc(50% + 200px);
+		width: calc(640px - 200px);
+	}
+
+	.talk-bubble.chat-active > * {
+		display: block;
+	}
+
+	main.chat-active {
+		margin-top: 3em;
 	}
 }
 
@@ -680,22 +723,33 @@ body {
 }
 
 /* AI chat related */
-#chatInput {
+#user-input {
 	background: none;
 	border: none;
 	font-family: inherit;
 	font-size: inherit;
 	color: inherit;
-	padding: 0;
-	margin: 0;
 	width: 100%;
 	outline: none;
 }
 
-#chatInput::placeholder,
+#user-input::placeholder,
 .waiting {
 	color: var(--color-gray-50);
 	opacity: 0.7;
+}
+
+/* Add these new styles */
+#chat-form {
+	width: 100%;
+}
+
+#chat-form button {
+	display: none;
+}
+
+.talk-bubble.chat-active {
+	padding: 0.125em;
 }
 
 @keyframes ellipsis {
@@ -728,6 +782,8 @@ body {
 					<div class="talk-bubble" >
 						<div id="chatBubble" class="nav-phrase" data-original-content="Welcome">
 							
+								Welcome!
+							
 						</div>
 						<form method="post"  id="theme-form" class="nav-toggle">
 							<input type="checkbox" id="dark-mode-toggle" name="theme" value="dark" aria-label="Toggle dark mode">
@@ -736,6 +792,7 @@ body {
 					</div>
 					<div class="side-nav">
 						<ul class="nav-list">
+							<li id="chat-trigger" class="nav-item">Welcome!</li>
 								<li class="nav-item">
 									<a href="/">Home</a>
 								</li>
@@ -888,7 +945,7 @@ body {
 		</div>
 		<footer></footer>
 
-		<!-- This page `/blog/2020-10-16-musings-bela/` was built on 2024-08-26T07:10:20.680Z -->
+		<!-- This page `/blog/2020-10-16-musings-bela/` was built on 2024-08-29T07:10:59.430Z -->
 	</body>
 </html>
 <script defer>
@@ -929,29 +986,6 @@ body {
 	window.location.hostname === "127.0.0.1";
 const baseUrl = isDevelopment ? "http://localhost:8090" : "";
 
-const chatBubble = document.getElementById("chatBubble");
-const originalContent = chatBubble.dataset.originalContent;
-let isInputMode = false;
-
-chatBubble.addEventListener("click", function () {
-	if (!isInputMode) {
-		isInputMode = true;
-		chatBubble.innerHTML =
-			'<input type="text" id="chatInput" placeholder="What do you want to know?">';
-		document.getElementById("chatInput").focus();
-	}
-});
-
-document.addEventListener("keypress", function (e) {
-	if (e.key === "Enter" && isInputMode) {
-		const input = document.getElementById("chatInput");
-		if (input.value.trim()) {
-			chatBubble.innerHTML = "Processing...";
-			sendMessageToWorker(input.value.trim());
-		}
-	}
-});
-
 // Generate a random user ID if not already stored
 function getUserId() {
 	let userId = localStorage.getItem("userId");
@@ -982,14 +1016,81 @@ function sendMessageToWorker(message) {
 		.catch((error) => {
 			console.error("Fetch error:", error);
 			updateChatBubble("Sorry, something went wrong.");
-		})
-		.finally(() => {
-			isInputMode = false;
 		});
 }
 
 function updateChatBubble(text, isWaiting = false) {
+	const chatBubble = document.getElementById("chatBubble");
 	chatBubble.textContent = text;
 	chatBubble.classList.toggle("waiting", isWaiting);
+
+	// Add this line to make the chat bubble clickable again after receiving a response
+	if (!isWaiting) {
+		chatBubble.classList.add("clickable");
+	}
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+	const chatTrigger = document.getElementById("chat-trigger");
+	const talkBubble = document.querySelector(".talk-bubble");
+	const mainContent = document.querySelector("main");
+	const chatBubble = document.getElementById("chatBubble");
+	let originalContent = chatBubble.innerHTML;
+
+	function activateChatInterface() {
+		chatBubble.innerHTML = `
+			<form id="chat-form">
+				<input type="text" id="user-input" placeholder="Type your message...">
+				<button type="submit" style="display:none;">Send</button>
+			</form>
+		`;
+		document.getElementById("user-input").focus();
+
+		document
+			.getElementById("chat-form")
+			.addEventListener("submit", function (e) {
+				e.preventDefault();
+				const userInput = document.getElementById("user-input");
+				if (userInput.value.trim() !== "") {
+					sendMessageToWorker(userInput.value.trim());
+					userInput.value = "";
+				}
+			});
+	}
+
+	function handleChatTrigger() {
+		talkBubble.classList.toggle("chat-active");
+		mainContent.classList.toggle("chat-active");
+
+		if (talkBubble.classList.contains("chat-active")) {
+			activateChatInterface();
+		} else {
+			chatBubble.innerHTML = originalContent;
+		}
+	}
+
+	chatTrigger.addEventListener("click", handleChatTrigger);
+
+	// Modify this event listener to handle clicks on the chat bubble
+	chatBubble.addEventListener("click", function () {
+		if (
+			window.innerWidth < 840 &&
+			!talkBubble.classList.contains("chat-active")
+		) {
+			handleChatTrigger();
+		} else if (chatBubble.classList.contains("clickable")) {
+			activateChatInterface();
+			chatBubble.classList.remove("clickable");
+		}
+	});
+
+	// Handle window resize
+	window.addEventListener("resize", function () {
+		if (window.innerWidth >= 840) {
+			if (!talkBubble.classList.contains("chat-active")) {
+				chatBubble.innerHTML = originalContent;
+			}
+		}
+	});
+});
 </script>
