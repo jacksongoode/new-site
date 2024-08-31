@@ -8,7 +8,34 @@
 		<meta name="generator" content="Eleventy v3.0.0">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Jackson">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Jackson">
-		<style>:root {
+		<style>/*
+  Josh's Custom CSS Reset
+  https://www.joshwcomeau.com/css/custom-css-reset/
+*/
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+}
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+input, button, textarea, select {
+  font: inherit;
+}
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+#root, #__next {
+  isolation: isolate;
+}
+		:root {
 	color-scheme: light dark;
 	--color-bg: white;
 	--color-gray-20: #333333;
@@ -54,20 +81,14 @@
 }
 
 /* Global stylesheet */
-* {
-	box-sizing: border-box;
-}
-
 html,
 body {
 	padding: 0;
-	margin: 0 auto;
 	font-family: var(--font-family);
 	background-color: Canvas;
 	color: CanvasText;
-}
-html {
-	overflow-y: scroll;
+	width: 100%;
+	overflow-x: hidden;
 }
 body {
 	/* transition:
@@ -728,7 +749,7 @@ header {
 		</div>
 		<footer></footer>
 
-		<!-- This page `/projects/` was built on 2024-08-31T19:04:14.545Z -->
+		<!-- This page `/projects/` was built on 2024-08-31T19:33:56.060Z -->
 	</body>
 </html>
 <script defer>
