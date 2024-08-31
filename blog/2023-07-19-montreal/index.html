@@ -79,24 +79,6 @@ body {
 	color: CanvasText;
 }
 
-.noise-container {
-	position: fixed;
-	z-index: -1;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-
-	background:
-		repeating-radial-gradient(#000 0 0.0001%, #fff 0 0.0002%) 50% 50%/1000px
-			1000px,
-		repeating-conic-gradient(#000 0 0.0001%, #fff 0 0.0002%) 50% 50%/1000px
-			1000px;
-	pointer-events: none;
-	background-blend-mode: difference;
-	opacity: 0.05;
-}
-
 .layout-wrapper {
 	display: flex;
 	width: 100%;
@@ -422,14 +404,19 @@ blockquote {
 		margin-top: -7.5px;
 		border-left-color: ButtonFace;
 	}
+}
 
-	&:where(.chat-active) {
-		left: calc(50% + 200px);
-		width: calc(640px - 200px);
-	}
+/* Only do nav switch on wide screens */
+@media (min-width: 840px) {
+	.nav-bubble {
+		&:where(.chat-active) {
+			left: calc(50% + 200px);
+			width: calc(640px - 200px);
+		}
 
-	&:where(.chat-active) > * {
-		display: block;
+		&:where(.chat-active) > * {
+			display: block;
+		}
 	}
 }
 
@@ -643,10 +630,23 @@ header {
 		position: relative;
 		left: initial;
 	}
+}
+
+.chat-reset {
+	display: none;
+	background: none;
+	border: none;
+	cursor: pointer;
+	font-size: 1em;
+	padding: 0;
+	margin-left: 0.25em;
+}
+
+.nav-bubble.chat-active .chat-reset {
+	display: inline-block;
 }</style>
 	</head>
 	<body>
-		<div class="noise-container"></div>
 		<a href="#skip" class="visually-hidden">Skip to main content</a>
 		<div class="layout-wrapper">
 			<header class="site-header">
@@ -658,6 +658,7 @@ header {
 								Welcome!
 							
 						</div>
+						<button id="chat-reset" class="chat-reset" aria-label="Reset chat">⟲</button>
 						<form method="post"  id="theme-form" class="theme-toggle">
 							<input type="checkbox" id="dark-mode-toggle" name="theme" value="dark" aria-label="Toggle dark mode">
 							<label for="dark-mode-toggle"></label>
@@ -735,7 +736,7 @@ header {
 		</div>
 		<footer></footer>
 
-		<!-- This page `/blog/2023-07-19-montreal/` was built on 2024-08-30T09:55:06.797Z -->
+		<!-- This page `/blog/2023-07-19-montreal/` was built on 2024-08-31T06:57:02.054Z -->
 	</body>
 </html>
 <script defer>
@@ -826,6 +827,16 @@ document.addEventListener("DOMContentLoaded", function () {
 	const mainContent = document.querySelector("main");
 	const navPhrase = document.getElementById("navPhrase");
 	let originalContent = navPhrase.innerHTML;
+
+	const chatReset = document.getElementById("chat-reset");
+
+	function resetChatInterface() {
+		navPhrase.innerHTML = originalContent;
+		talkBubble.classList.remove("chat-active");
+		mainContent.classList.remove("chat-active");
+	}
+
+	chatReset.addEventListener("click", resetChatInterface);
 
 	function activateChatInterface() {
 		navPhrase.innerHTML = `
