@@ -8,6 +8,11 @@
 		<meta name="generator" content="Eleventy v3.0.0">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Jackson">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Jackson">
+
+		
+		
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.2/src/lite-yt-embed.css">
+		
 		<style>/*
   Josh's Custom CSS Reset
   https://www.joshwcomeau.com/css/custom-css-reset/
@@ -15,9 +20,9 @@
 *, *::before, *::after {
   box-sizing: border-box;
 }
-* {
+/* * {
   margin: 0;
-}
+} */
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -86,7 +91,6 @@ p, h1, h2, h3, h4, h5, h6 {
 /* Global stylesheet */
 html,
 body {
-	overflow-x: hidden;
 	width: 100%;
 	padding: 0;
 	background-color: Canvas;
@@ -380,14 +384,9 @@ h2 + .header-anchor {
 }
 
 /* Starting custom */
-figure {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-
 figure > * {
 	max-width: 100%;
+	margin: 0 auto;
 }
 
 figcaption {
@@ -741,8 +740,7 @@ header {
 			</header>
 
 			<main id="skip" class="container">
-				<link rel="stylesheet" href="/css/lite-yt-embed.css"/>
-
+				
 <h1>Music for a Series of Scenes: Part 2</h1>
 
 <ul class="post-metadata">
@@ -758,12 +756,12 @@ header {
 <p>Without motion, La Jetée strips an additional layer of dimensionality from the presentation. We are left with words, incredible musical themes, and stills strung together through narration. Much like the unfortunate souls that have survived the final human war, we're viewers without our bearings and left with moments that appear to stand outside of time. But as the prisoner progresses further into the past to build a relationship with a woman he recognizes, we suddenly see a brief breath of frames spun together in motion for the first time.</p>
 <p>I wanted to capture this collection of fleeting moments that appear transcendental as the protagonist is transported away from the destroyed world to live in this borrowed past.</p>
 <figure>
-    <div class="iframe-wrapper pb-137">
-        <iframe title="vimeo-player" src="https://player.vimeo.com/video/716660835?h=b763739fa3?h=4a1c9e404d&title=0&byline=0&portrait=0" frameborder="0" allowfullscreen></iframe>
-    </div>
+    <lite-vimeo videoid="716660835" style="background-image: url('https://i.vimeocdn.com/video/716660835.webp?mw=1370&mh=1000&q=70'); aspect-ratio: 1.37/1;">
+        <div class="ltv-playbtn"></div>
+    </lite-vimeo>
     <figcaption><cite>La Jetée</cite></figcaption>
 </figure>
-<p>The track I chose is a theme from the 1975 Italian film L'Uomo Dagli Occhiali A Specchio, La Notte Muore, that is at once captures a wistful longing and melancholy. It felt right for this most hopeful of sequences in La Jetée. Of primary interest was attempting to restore the momentum of motion that is absent through music. By tieing each frame to every eighth of the soundtrack I was hoping to rebuild the pace and continuity of the scene. I also chose to layer frames upon one another as divisions over time, creating a sense that each photo from the scene might've existed at any time or even simultaneously. The passage culminates in the three frames from the final scene whereafter we finally experience motion and emergence of color - a kind of post-mortem decoupling from the medium as we knew it. In that moment, a mix of blue and rose, fills the skin of the woman on the bed.</p>
+<p>The track I chose is a theme from the 1975 Italian film L'Uomo Dagli Occhiali A Specchio, La Notte Muore, that captures a wistful longing and melancholy. It felt right for this most hopeful of sequences in La Jetée. My main goal was to restore the sense of momentum through music. By tieing each frame with every eighth of the soundtrack, I aimed to rebuild the pace and continuity of the scene. I also decided to overlay frames on top of each other as temporal divisions, creating a feeling that each photo from the scene could have existed at any time or even simultaneously. The sequence reaches its peak with the three frames from the final scene, where we finally witness motion and the emergence of color - a sort of posthumous detachment from the familiar medium. In that moment, a blend of blue and rose fills the skin of the woman on the bed.</p>
 <h2 id="il-sorpasso" tabindex="-1">Il Sorpasso <a class="header-anchor" href="#il-sorpasso">#</a></h2>
 <p>Upon a machine-learning generated recommendation, I found Il Sorpasso - The Takeover in English, an Karaowkian Italian film out of the 60's. This post-war feeling of freedom and exploration much have been sweeping Europe as it had the US.</p>
 <p>To see more shorts from this ongoing series, you can find the showcase, hosted on Vimeo, <a href="https://vimeo.com/showcase/7853493">here</a>.</p>
@@ -776,14 +774,11 @@ header {
 				</li>
 			
 		</ul>
-
-<script src="/js/lite-yt-embed.js" defer></script>
-<script type="module" src="https://cdn.jsdelivr.net/npm/lite-vimeo-embed/+esm" defer></script>
 			</main>
 		</div>
 		<footer></footer>
 
-		<!-- This page `/blog/2022-08-24-film-for-music-2/` was built on 2024-09-01T01:46:47.919Z -->
+		<!-- This page `/blog/2022-08-24-film-for-music-2/` was built on 2024-09-01T04:01:38.713Z -->
 	</body>
 </html>
 <script defer>
@@ -948,3 +943,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 });
 </script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.3/src/lite-yt-embed.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/lite-vimeo-embed/+esm" defer></script>

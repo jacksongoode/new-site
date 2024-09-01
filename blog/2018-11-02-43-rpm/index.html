@@ -8,6 +8,11 @@
 		<meta name="generator" content="Eleventy v3.0.0">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Jackson">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Jackson">
+
+		
+		
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.2/src/lite-yt-embed.css">
+		
 		<style>/*
   Josh's Custom CSS Reset
   https://www.joshwcomeau.com/css/custom-css-reset/
@@ -15,9 +20,9 @@
 *, *::before, *::after {
   box-sizing: border-box;
 }
-* {
+/* * {
   margin: 0;
-}
+} */
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -86,7 +91,6 @@ p, h1, h2, h3, h4, h5, h6 {
 /* Global stylesheet */
 html,
 body {
-	overflow-x: hidden;
 	width: 100%;
 	padding: 0;
 	background-color: Canvas;
@@ -380,14 +384,9 @@ h2 + .header-anchor {
 }
 
 /* Starting custom */
-figure {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-
 figure > * {
 	max-width: 100%;
+	margin: 0 auto;
 }
 
 figcaption {
@@ -741,8 +740,7 @@ header {
 			</header>
 
 			<main id="skip" class="container">
-				<link rel="stylesheet" href="/css/lite-yt-embed.css"/>
-
+				
 <h1>43 rpm</h1>
 
 <ul class="post-metadata">
@@ -859,14 +857,11 @@ Clover looks down at the mess but is uninterested having fallen under some sort 
 				</li>
 			
 		</ul>
-
-<script src="/js/lite-yt-embed.js" defer></script>
-<script type="module" src="https://cdn.jsdelivr.net/npm/lite-vimeo-embed/+esm" defer></script>
 			</main>
 		</div>
 		<footer></footer>
 
-		<!-- This page `/blog/2018-11-02-43-rpm/` was built on 2024-09-01T01:46:47.917Z -->
+		<!-- This page `/blog/2018-11-02-43-rpm/` was built on 2024-09-01T04:01:38.711Z -->
 	</body>
 </html>
 <script defer>
@@ -1031,3 +1026,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 });
 </script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.3/src/lite-yt-embed.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/lite-vimeo-embed/+esm" defer></script>

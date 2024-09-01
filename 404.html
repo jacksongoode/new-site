@@ -8,6 +8,9 @@
 		<meta name="generator" content="Eleventy v3.0.0">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Jackson">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Jackson">
+
+		
+		
 		<style>/*
   Josh's Custom CSS Reset
   https://www.joshwcomeau.com/css/custom-css-reset/
@@ -15,9 +18,9 @@
 *, *::before, *::after {
   box-sizing: border-box;
 }
-* {
+/* * {
   margin: 0;
-}
+} */
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -86,7 +89,6 @@ p, h1, h2, h3, h4, h5, h6 {
 /* Global stylesheet */
 html,
 body {
-	overflow-x: hidden;
 	width: 100%;
 	padding: 0;
 	background-color: Canvas;
@@ -380,14 +382,9 @@ h2 + .header-anchor {
 }
 
 /* Starting custom */
-figure {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-
 figure > * {
 	max-width: 100%;
+	margin: 0 auto;
 }
 
 figcaption {
@@ -759,7 +756,7 @@ This will work for both GitHub pages and Netlify:
 		</div>
 		<footer></footer>
 
-		<!-- This page `/404.html` was built on 2024-09-01T01:46:47.917Z -->
+		<!-- This page `/404.html` was built on 2024-09-01T04:01:38.711Z -->
 	</body>
 </html>
 <script defer>
@@ -924,3 +921,4 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 });
 </script>
+

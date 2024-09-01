@@ -8,6 +8,11 @@
 		<meta name="generator" content="Eleventy v3.0.0">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Jackson">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Jackson">
+
+		
+		
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.2/src/lite-yt-embed.css">
+		
 		<style>/*
   Josh's Custom CSS Reset
   https://www.joshwcomeau.com/css/custom-css-reset/
@@ -15,9 +20,9 @@
 *, *::before, *::after {
   box-sizing: border-box;
 }
-* {
+/* * {
   margin: 0;
-}
+} */
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -86,7 +91,6 @@ p, h1, h2, h3, h4, h5, h6 {
 /* Global stylesheet */
 html,
 body {
-	overflow-x: hidden;
 	width: 100%;
 	padding: 0;
 	background-color: Canvas;
@@ -380,14 +384,9 @@ h2 + .header-anchor {
 }
 
 /* Starting custom */
-figure {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-
 figure > * {
 	max-width: 100%;
+	margin: 0 auto;
 }
 
 figcaption {
@@ -741,8 +740,7 @@ header {
 			</header>
 
 			<main id="skip" class="container">
-				<link rel="stylesheet" href="/css/lite-yt-embed.css"/>
-
+				
 <h1>Soniweb: An Experiment in Web Traffic Sonification and Ambisonics</h1>
 
 <ul class="post-metadata">
@@ -791,10 +789,7 @@ client <span class="token operator">=</span> udp_client<span class="token punctu
     <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Sent to "</span><span class="token operator">+</span><span class="token builtin">str</span><span class="token punctuation">(</span>dst_resp<span class="token punctuation">.</span>country<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
 <h2 id="sonification" tabindex="-1">Sonification <a class="header-anchor" href="#sonification">#</a></h2>
 <p>All the while, our third group member started development on the Pure Data patch simultaneous to our work in Python. He began with a sample handler that would play five different samples that corresponded to the protocol type, amplitude. We initially attempted ambisonics production through <a href="https://www.reaper.fm/">Reaper</a> as a DAW but found a wonderful (and actively developed updated) library for Pd called <a href="https://github.com/Spacechild1/vstplugin">vstplugin~</a> where we loaded the <a href="https://plugins.iem.at/">IEM</a> plugin suite for ambisonics. The library worked quite well for our purposes and we were able to load each of our 32 channel’s azimuth and elevations as an initialization process. Each of the “voice” sub-patches contain five “samplehandler” sub-patches to play any of the potential five sounds given the protocol message. Within these sub-patches is one “singlesample” sub-patch that plays the sample with “tabread4~”. However, this sub-patch is cloned for times for the possibility of a single channel playing a particular sample up to four times simultaneously. This was built in due to the high frequency of packet data that we receive during the python script’s playback.</p>
-<figure>
-			<img src="/img/soniweb-pd.png" width="100%" alt="The Pure Data patch (and sub-patches)" />
-			<figcaption>The Pure Data patch (and sub-patches)</figcaption>
-		</figure>
+<figure><img src="/img/soniweb-pd.png" width="100%" alt="The Pure Data patch (and sub-patches)" /><figcaption>The Pure Data patch (and sub-patches)</figcaption></figure>
 <h2 id="the-effect" tabindex="-1">The Effect <a class="header-anchor" href="#the-effect">#</a></h2>
 <p>When running the script and patch simultaneously, the network activity that your current machine is relaying is sonified and located in a <a href="https://en.wikipedia.org/wiki/Ambisonics">5th order ambisonics</a> environment. The various bells ping around the listener as if they were sitting in the center of the Earth listening to the machines around them speak to one another. While we achieved our set goals, there are a few unanswered questions as to whether the packets that are being received are actually too quick to receive and process in real-time and may become backlogged over the course of a session. This may either have to do with limitations imposed by Pd, Python, Wireshark or the CPU power afforded by the user’s computer. In a recent update, converting one of the &quot;if&quot; statements to a dpf filter within pyshark's instantiation made the incoming packets quite responsive to web browsing activity. However, it may be possible to mitigate these issues and enhance the sonification by generating the instruments within Pd rather than using sample files. This project has great potential for an extension into a live installation, one, perhaps, that asks the audience to connect their devices to a network hosted in the space so that they could listen to the network activity of their collective devices.</p>
 <figure>
@@ -823,14 +818,11 @@ client <span class="token operator">=</span> udp_client<span class="token punctu
 				</li>
 			
 		</ul>
-
-<script src="/js/lite-yt-embed.js" defer></script>
-<script type="module" src="https://cdn.jsdelivr.net/npm/lite-vimeo-embed/+esm" defer></script>
 			</main>
 		</div>
 		<footer></footer>
 
-		<!-- This page `/blog/2020-03-09-soniweb/` was built on 2024-09-01T01:46:47.918Z -->
+		<!-- This page `/blog/2020-03-09-soniweb/` was built on 2024-09-01T04:01:38.712Z -->
 	</body>
 </html>
 <script defer>
@@ -995,3 +987,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 });
 </script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.3/src/lite-yt-embed.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/lite-vimeo-embed/+esm" defer></script>

@@ -8,6 +8,11 @@
 		<meta name="generator" content="Eleventy v3.0.0">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Jackson">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Jackson">
+
+		
+		
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.2/src/lite-yt-embed.css">
+		
 		<style>/*
   Josh's Custom CSS Reset
   https://www.joshwcomeau.com/css/custom-css-reset/
@@ -15,9 +20,9 @@
 *, *::before, *::after {
   box-sizing: border-box;
 }
-* {
+/* * {
   margin: 0;
-}
+} */
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -86,7 +91,6 @@ p, h1, h2, h3, h4, h5, h6 {
 /* Global stylesheet */
 html,
 body {
-	overflow-x: hidden;
 	width: 100%;
 	padding: 0;
 	background-color: Canvas;
@@ -380,14 +384,9 @@ h2 + .header-anchor {
 }
 
 /* Starting custom */
-figure {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-
 figure > * {
 	max-width: 100%;
+	margin: 0 auto;
 }
 
 figcaption {
@@ -741,8 +740,7 @@ header {
 			</header>
 
 			<main id="skip" class="container">
-				<link rel="stylesheet" href="/css/lite-yt-embed.css"/>
-
+				
 <h1>Music for a Series of Scenes</h1>
 
 <ul class="post-metadata">
@@ -758,9 +756,9 @@ header {
 <p>I hope to continue making these shorts both for satisfying ideas I've had in the log and for getting some experience with video editing. In this first blog, I'll talk about two of the shorts I've done and the stories that accompany my choices.</p>
 <h2 id="funeral-parade-of-roses" tabindex="-1"><em>Funeral Parade of Roses</em> <a class="header-anchor" href="#funeral-parade-of-roses">#</a></h2>
 <figure>
-    <div class="iframe-wrapper pb-137">
-        <iframe title="vimeo-player" src="https://player.vimeo.com/video/457926908?h=4a1c9e404d&title=0&byline=0&portrait=0" frameborder="0" allowfullscreen></iframe>
-    </div>
+    <lite-vimeo videoid="457926908" style="background-image: url('https://i.vimeocdn.com/video/810965406.webp?mw=1370&mh=1000&q=70'); aspect-ratio: 1.37/1;">
+        <div class="ltv-playbtn"></div>
+    </lite-vimeo>
     <figcaption><cite>Funeral Parade of Roses</cite></figcaption>
 </figure>
 <p>One of my favorite films that I've seen over the last few years, and beyond that, is the first feature length film by art-house director Toshio Matsumoto. The film was firmly situated in the <a href="https://en.wikipedia.org/wiki/Japanese_New_Wave">Japanese New Wave</a> led by the Art Theatre Guild production company. To say that <em>Funeral Parade of Roses</em> is unlike most films is an understatement. Without giving too much away, Roses follows the life of Peter, a young transvestite (or more likely transgender, in a modern context) through the underground gay scene of 1960's Tokyo.</p>
@@ -768,9 +766,9 @@ header {
 <p>For Roses, I ended up landing on a an artist I had been introduced to by the director Apichatpong Weerasethakul in the erie, final scene of his last film <em>Cemetary of Splendour</em>. DJ Soulscape is a Korean producer whose 2003 album <em>Lovers:</em> is a collection of samples ranging from downbeat electronic to hip-hop - navigating between the legacies of Nujabes and Air. The first track off Lovers:, &quot;People&quot; begins with a piano bang, reminiscent of &quot;A Day in the Life&quot;, and builds over new samples in each measure. It's a wonderfully cinematic track and really grooves when the bass line kicks in.</p>
 <h2 id="suspiria" tabindex="-1"><em>Suspiria</em> <a class="header-anchor" href="#suspiria">#</a></h2>
 <figure>
-    <div class="iframe-wrapper pb-235">
-    <iframe title="vimeo-player" src="https://player.vimeo.com/video/471716567?h=33439aee12&title=0&byline=0&portrait=0" frameborder="0" allowfullscreen></iframe>
-    </div>
+    <lite-vimeo videoid="471716567" style="background-image: url('https://i.vimeocdn.com/video/810965406.webp?mw=2350&mh=1000&q=70'); aspect-ratio: 2.35/1;">
+        <div class="ltv-playbtn"></div>
+    </lite-vimeo>
     <figcaption><cite>Suspiria</cite></figcaption>
 </figure>
 <p><em>Suspiria</em> was a film that I had wanted to see for a while. An Italian film with an American lead actress and casting from both Italy and Germany, it was quite an ambitious project and one where many of the actors simply spoke in their native language to be overdubbed. But besides the logistics, <em>Suspiria</em> is known as a staple of the euro-horror genre.</p>
@@ -787,14 +785,11 @@ header {
 				</li>
 			
 		</ul>
-
-<script src="/js/lite-yt-embed.js" defer></script>
-<script type="module" src="https://cdn.jsdelivr.net/npm/lite-vimeo-embed/+esm" defer></script>
 			</main>
 		</div>
 		<footer></footer>
 
-		<!-- This page `/blog/2020-10-23-film-for-music/` was built on 2024-09-01T01:46:47.919Z -->
+		<!-- This page `/blog/2020-10-23-film-for-music/` was built on 2024-09-01T04:01:38.713Z -->
 	</body>
 </html>
 <script defer>
@@ -959,3 +954,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 });
 </script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.3/src/lite-yt-embed.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/lite-vimeo-embed/+esm" defer></script>

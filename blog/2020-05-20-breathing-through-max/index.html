@@ -8,6 +8,11 @@
 		<meta name="generator" content="Eleventy v3.0.0">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Jackson">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Jackson">
+
+		
+		
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.2/src/lite-yt-embed.css">
+		
 		<style>/*
   Josh's Custom CSS Reset
   https://www.joshwcomeau.com/css/custom-css-reset/
@@ -15,9 +20,9 @@
 *, *::before, *::after {
   box-sizing: border-box;
 }
-* {
+/* * {
   margin: 0;
-}
+} */
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -86,7 +91,6 @@ p, h1, h2, h3, h4, h5, h6 {
 /* Global stylesheet */
 html,
 body {
-	overflow-x: hidden;
 	width: 100%;
 	padding: 0;
 	background-color: Canvas;
@@ -380,14 +384,9 @@ h2 + .header-anchor {
 }
 
 /* Starting custom */
-figure {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-
 figure > * {
 	max-width: 100%;
+	margin: 0 auto;
 }
 
 figcaption {
@@ -741,8 +740,7 @@ header {
 			</header>
 
 			<main id="skip" class="container">
-				<link rel="stylesheet" href="/css/lite-yt-embed.css"/>
-
+				
 <h1>Breathing through Max</h1>
 
 <ul class="post-metadata">
@@ -764,28 +762,16 @@ header {
 </ol>
 <p>Most of these apps transmit their sensor data over a UDP connection using the OSC protocol. This type of communication is well supported by many DAWs and platforms like Max and Pure Data. However, the app that was used, SensorLog unfortunately, did not send data with the OSC protocol. Instead, it sends the data over UDP as it would when writing a CSV file that was not compatible with Max’s [udpreceive] object.</p>
 <p>To work around this, I wrote a python script that acted as a node to receive, format the stream into proper OSC messages, and finally, send the data locally to a specified port within Max. The script operated by receiving a row of data, splitting the list of data points into an array, and then sending each index of the array as a pair with a specified OSC message. I used the messages “/x”, “/y”, and “/z” as shorthand for the x, y, z, acceleration data. Once this was passed into Max, the data was able to be handled the same way as any other OSC message.</p>
-<figure>
-			<img src="/img/breathing-code.png" width="100%" alt="Sample of the code used to transport the messages into Max" />
-			<figcaption>Sample of the code used to transport the messages into Max</figcaption>
-		</figure>
+<figure><img src="/img/breathing-code.png" width="100%" alt="Sample of the code used to transport the messages into Max" /><figcaption>Sample of the code used to transport the messages into Max</figcaption></figure>
 <p>After some initial testing of various sensors and positions during recording, I found that the acceleration value for the y-axis was the most reliable source of information for tracking respiratory motion. Because of the placement of the phone, none of the other sensors render any useful information. The only other sensor that appeared to follow the same information was the gyroscope, but the sensor upon inspection looked like a transformation of the acceleration data. In the first trial recording set of breathing, I was able to find that this sensor’s y-axis extracted recognizable oscillations of the rise and fall of my stomach. However, because the movements were quite small, the noise of the sensor clouded what was, in reality, a smooth envelope of motion.</p>
 <p>Reading the CSV data into Max was achieved by loading each line of the CSV as a text file from which I could use a [metro] object to iterate through the [coll] dictionary that stored the sensor data (<a href="https://cycling74.com/forums/importing-from-excel-csv-questions/">I stole this bit of Max data</a>). From Max, I could visualize the data stream easily using a [multislider] window. I then set out to smooth this data through a variety of techniques. I found that a reliable method of smoothing the noisy data was to create a buffer of the last x number of samples (with [zl.stream]) and then output the mean ([mean]) of that sliding window. The larger the number of samples, the smoother the data, yet this stunts some of the local dynamics within the stream and creates latency. After exploring further I found a 3rd party object [dot.denoise.sliding] that includes better logic for excluding outliers within streams.</p>
-<figure>
-			<img src="/img/breathing-noisey.png" width="20px" alt="Before and after de-noising the stream" />
-			<figcaption>Before and after de-noising the stream</figcaption>
-		</figure>
+<figure><img src="/img/breathing-noisey.png" width="20px" alt="Before and after de-noising the stream" /><figcaption>Before and after de-noising the stream</figcaption></figure>
 <p>This returns to an observation I noticed when looking at sensor data. I noticed that one of the gyroscope sensors also was repeating in a rhythmic pattern, but much faster and pronounced than breathing should be. I realized that these were pronounced fulgurations of my heartbeat and that these impulses were actually affecting the accelerometer sensor data I was analyzing from the y-axis.</p>
-<figure>
-			<img src="/img/breathing-gyro.png" width="600px" alt="Notice the fast paced impulses from the gyroscope sensor" />
-			<figcaption>Notice the fast paced impulses from the gyroscope sensor</figcaption>
-		</figure>
+<figure><img src="/img/breathing-gyro.png" width="600px" alt="Notice the fast paced impulses from the gyroscope sensor" /><figcaption>Notice the fast paced impulses from the gyroscope sensor</figcaption></figure>
 <p>Once the oscillations were smoothed, the next step was identifying local minimums and maximums of each breath. Again, the dot library had a nifty object to find local max/mins by checking for changes in sign (+/-) from a previous data point to the next. This would have worked nicely if the data rose and fell with continuity. But due to the noise, there were a number of places near the peak or trough of the oscillations where even a smoothed data point might change the sign of the differences between the current and previous point.</p>
 <p>I tried number of techniques to suppress the improper max/mins that would appear such as forcing a minimum delay to check for a max after finding a min or max, as well as attempting to doubly embed local max/min detection. The most successful and flexible method by far was setting a minimum distance between the breaths that were taken. This is a reliable method as a single breath could vary in speed and the expansion of the torso would be the same.</p>
 <p>I further enhanced this solution by making the distance dynamically shift by an average of the distance between the last five maxes and mins.</p>
-<figure>
-			<img src="/img/breathing-distance.png" width="540px" alt="Gating the frequent max/mins" />
-			<figcaption>Gating the frequent max/mins</figcaption>
-		</figure>
+<figure><img src="/img/breathing-distance.png" width="540px" alt="Gating the frequent max/mins" /><figcaption>Gating the frequent max/mins</figcaption></figure>
 <p>Finally, the last piece of data that is inferred from identifying the local max/mins of each breath is the average time between each inhale and exhale. This is calculated as a metric of respiratory rate consistency which is the difference between the last period between a max/min and the average of these last 10 periods. This value is then scaled and used to attenuate a sound clip of wind chimes that enter when the consistency value is low. Thus, the wind chimes should emerge as a result of a restful cycle of breath and provide positive feedback to the user. In addition to the wind chime samples, there is a three-oscillator drone instrument was driven by the noisy data from the x and z-axis accelerometer streams. This drone adds a subtle resonance to the bells and provides some ambient feedback of the motion of the breath. This is achieved by scaling the smoothed acceleration data from the y-axis and modulating the amplitude.</p>
 <h2 id="results-and-conclusions" tabindex="-1">Results and Conclusions <a class="header-anchor" href="#results-and-conclusions">#</a></h2>
 <p>After debugging the system for quite some time, I may not be able to provide the best perspective on how useful it is for its intended purpose. Even still, the system may allow a user to pay attention to their biorhythms and less to other distracting thoughts that might interrupt a session. Most of the time spent building the system was in an effort to fine-tune the analysis of these data streams in real-time so many of the acoustic elements were secondary to this objective. The streams were processed flexibly and reliably for the dynamic stream and I’m quite happy with the way the data is handled throughout the system – even in extreme cases such as erratic motion where the amplitude of all sounds is reduced to silence. From this perspective, I find the system quite usable but I am not entirely pleased with the sound of the instruments and sonic environments.</p>
@@ -810,14 +796,11 @@ header {
 				</li>
 			
 		</ul>
-
-<script src="/js/lite-yt-embed.js" defer></script>
-<script type="module" src="https://cdn.jsdelivr.net/npm/lite-vimeo-embed/+esm" defer></script>
 			</main>
 		</div>
 		<footer></footer>
 
-		<!-- This page `/blog/2020-05-20-breathing-through-max/` was built on 2024-09-01T01:46:47.918Z -->
+		<!-- This page `/blog/2020-05-20-breathing-through-max/` was built on 2024-09-01T04:01:38.712Z -->
 	</body>
 </html>
 <script defer>
@@ -982,3 +965,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 });
 </script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.3/src/lite-yt-embed.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/lite-vimeo-embed/+esm" defer></script>
