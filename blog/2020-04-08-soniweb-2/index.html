@@ -17,29 +17,46 @@
   Josh's Custom CSS Reset
   https://www.joshwcomeau.com/css/custom-css-reset/
 */
-*, *::before, *::after {
-  box-sizing: border-box;
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
 }
-/* * {
-  margin: 0;
-} */
+* {
+	line-height: calc(1em + 0.5rem);
+	/* margin: 0; */
+}
 body {
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
+	-webkit-font-smoothing: antialiased;
 }
-img, picture, video, canvas, svg {
-  display: block;
-  max-width: 100%;
+img,
+picture,
+video,
+canvas,
+svg {
+	display: block;
+	max-width: 100%;
 }
-input, button, textarea, select {
-  font: inherit;
+input,
+button,
+textarea,
+select {
+	font: inherit;
 }
-p, h1, h2, h3, h4, h5, h6 {
-  overflow-wrap: break-word;
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	overflow-wrap: break-word;
 }
-#root, #__next {
-  isolation: isolate;
+#root,
+#__next {
+	isolation: isolate;
 }
+
 		:root {
 	color-scheme: light dark;
 	--color-bg: white;
@@ -161,13 +178,6 @@ h1 {
 
 p:last-child {
 	margin-bottom: 0;
-}
-p {
-	line-height: 1.5;
-}
-
-li {
-	line-height: 1.5;
 }
 
 .links-nextprev {
@@ -569,14 +579,14 @@ header {
 /* Chat bubble related */
 #user-input {
 	width: 100%;
+	/* Mozilla? */
+	padding: 0;
 	border: none;
 	background: none;
 	color: inherit;
 	font-family: inherit;
 	font-size: inherit;
 	outline: none;
-	/* Mozilla? */
-	padding: 0;
 }
 
 #user-input::placeholder,
@@ -814,7 +824,7 @@ capture <span class="token operator">=</span> pyshark<span class="token punctuat
 		</div>
 		<footer></footer>
 
-		<!-- This page `/blog/2020-04-08-soniweb-2/` was built on 2024-09-01T06:54:29.791Z -->
+		<!-- This page `/blog/2020-04-08-soniweb-2/` was built on 2024-09-01T07:42:06.658Z -->
 	</body>
 </html>
 <script defer>

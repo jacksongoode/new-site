@@ -97,7 +97,7 @@
 &lt;p&gt;Without motion, La Jetée strips an additional layer of dimensionality from the presentation. We are left with words, incredible musical themes, and stills strung together through narration. Much like the unfortunate souls that have survived the final human war, we&#39;re viewers without our bearings and left with moments that appear to stand outside of time. But as the prisoner progresses further into the past to build a relationship with a woman he recognizes, we suddenly see a brief breath of frames spun together in motion for the first time.&lt;/p&gt;
 &lt;p&gt;I wanted to capture this collection of fleeting moments that appear transcendental as the protagonist is transported away from the destroyed world to live in this borrowed past.&lt;/p&gt;
 &lt;figure&gt;
-    &lt;lite-vimeo videoid=&quot;716660835&quot; style=&quot;background-image: url(&#39;https://i.vimeocdn.com/video/716660835.webp?mw=1370&amp;mh=1000&amp;q=70&#39;); aspect-ratio: 1.37/1;&quot;&gt;
+    &lt;lite-vimeo videoid=&quot;716660835&quot; style=&quot;background-image: url(&#39;https://i.vimeocdn.com/video/716660835.webp?mw=1920&amp;mh=1080&amp;q=70&#39;); aspect-ratio: 16/9;&quot;&gt;
         &lt;div class=&quot;ltv-playbtn&quot;&gt;&lt;/div&gt;
     &lt;/lite-vimeo&gt;
     &lt;figcaption&gt;&lt;cite&gt;La Jetée&lt;/cite&gt;&lt;/figcaption&gt;
@@ -162,9 +162,9 @@
 &lt;/ul&gt;
 &lt;p&gt;With this, I integrated dynamic, toggle-able, spatial audio for each participant audio stream in a meeting. The voices of the participants appear coherent with the video streams as participants appear and disappear.&lt;/p&gt;
 &lt;figure&gt;
-    &lt;div class=&quot;iframe-wrapper pb-169&quot;&gt;
-        &lt;iframe title=&quot;vimeo-player&quot; src=&quot;https://player.vimeo.com/video/548286337?h=e82ab81d30&amp;title=0&amp;byline=0&amp;portrait=0&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
-    &lt;/div&gt;
+    &lt;lite-vimeo videoid=&quot;548286337&quot; style=&quot;background-image: url(&#39;https://i.vimeocdn.com/video/810965406.webp?mw=1920&amp;mh=1080&amp;q=70&#39;); aspect-ratio: 16/9;&quot;&gt;
+        &lt;div class=&quot;ltv-playbtn&quot;&gt;&lt;/div&gt;
+    &lt;/lite-vimeo&gt;
     &lt;figcaption&gt;&lt;a href=&quot;https://vimeo.com/548286337&quot;&gt;Demo of Meet in Space&lt;/a&gt;&lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;h2 id=&quot;validating-with-a-user-study&quot; tabindex=&quot;-1&quot;&gt;Validating with a User Study &lt;a class=&quot;header-anchor&quot; href=&quot;https://jackson.gd/blog/2021-05-14-meet-in-space/#validating-with-a-user-study&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
