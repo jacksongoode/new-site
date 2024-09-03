@@ -11,6 +11,7 @@
 
 		
 		
+		<link rel="stylesheet" href="/css/prism.css"/>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.2/src/lite-yt-embed.css">
 		
 		<style>/*
@@ -167,7 +168,8 @@ main {
 }
 
 /* Add soft corners to images */
-img {
+img,
+video {
 	border-radius: 0.5em;
 }
 
@@ -203,6 +205,7 @@ p:last-child {
 .links-nextprev {
 	padding: 1em 0;
 	border-top: 1px dashed var(--color-gray-20);
+	margin-top: 1em;
 	list-style: none;
 }
 
@@ -423,6 +426,7 @@ figure > * {
 }
 
 figcaption {
+	margin-top: 0.5em;
 	color: var(--color-gray-20);
 	text-align: center;
 }
@@ -536,7 +540,7 @@ header {
 }
 
 .side-nav {
-	display: inherit;
+	display: flex;
 }
 
 .theme-toggle {
@@ -674,7 +678,7 @@ header {
 	}
 	/* Mobile */
 	.nav-phrase {
-		display: inherit;
+		display: inline-block;
 	}
 
 	body {
@@ -757,11 +761,11 @@ header {
         
             
             
-                <a href="/" style="text-decoration: none;">Home</a>&nbsp;-&nbsp;
+                <a href="/" style="text-decoration: none;">Home</a> •
             
-                <a href="/blog/" style="text-decoration: none;">Blog</a>&nbsp;-&nbsp;
+                <a href="/blog/" style="text-decoration: none;">Blog</a> •
             
-                <a href="/projects/" style="text-decoration: none;">Projects</a>&nbsp;-&nbsp;
+                <a href="/projects/" style="text-decoration: none;">Projects</a> •
             
                 <a href="/about/" style="text-decoration: none;">About Me</a>
             
@@ -822,12 +826,7 @@ header {
 <p>Two mechanisms were created to trigger a bang from a strum using the phone. The first opens or closs a gate depending on whether or not there is a sufficient change in the tilt of the top of the phone from the gravity sensor. The second mechanism determines if the acceleration of the strum is enough to trigger a bang. In its design, the second impulse generator can only be activated if there is enough of a properly shaped strum gesture. In addition to the thresholds preventing any rapid activation, I also created a refractory period that prevents a bang from being sent until the previous strum has completed from calculating strum duration. The impulse that is sent when a strum makes it through the thresholds is a positive value from the linear acceleration. The sign of this number is then changed depending on whether the strum was down or up (using the sign of the gravity sensor's change). This number determines the speed and direction of the strum. If all thresholds were tuned perfectly and there was zero latency (my next point), this would allow rapid strumming of the virtual guitar.</p>
 <h2 id="complications" tabindex="-1">Complications <a class="header-anchor" href="#complications">#</a></h2>
 <p>Unfortunately, one of the first issues I recognized was the latency that appeared from communicating over the local network. The latency was also inconsistent as well as the message rate that was being received (not to mention messages dropped). There were some moments where the speed and response of the OSC messages was incredibly fast and at other times inoperably slow. Because of this, a good portion of my time was spent finding threshold values and averages that catered to the message rate and latency. There is also the issue of this configuration being device dependent. Different smartphones will likely have different sensor hardware, sensor names, ranges, rates, etc. so this patch is certain to need some configuring in each case. The initial goal of this project was to build the app in Pd and afterwards &quot;simply and easily&quot; port it over to the <a href="https://danieliglesia.com/mobmuplat/">MobMuPlat</a> application for Android and iOS. However, this app does not appear to read the necessary sensor data natively and there do not appear to be alternatives in hosting Pd patches on Android. For the time being, this patch will have to be hosted on a remote computer and receive OSC messages from a device connected to the same network.</p>
-<figure>
-    <div class="iframe-wrapper pb-169">
-        <iframe src="https://drive.google.com/file/d/1QV9hIkVoMbOr3DCNpR-IlDPX7_Y8l3zE/preview" frameborder="0" allowfullscreen="true" alt="Video demo of the OSC functionality"></iframe>
-    </div>
-    <figcaption>Video demo of the OSC functionality - credit: Thomas Anda</figcaption>
-</figure>
+<figure><video src="vid/osc-guitar.mp4" width="100%" controls>Your browser does not support the video tag.</video><figcaption>Video demo of the OSC functionality - credit: Thomas Anda</figcaption></figure>
 <p>The audio within the video was recorded internally (oddly the pops only appeared after video editing - my computer was struggling with that fabulous transition).</p>
 <p>All in all, this project was a great introduction to Pure Data and definitely taught us the general principles of the language as well as some of the challenges you only encounter in hour 11 of debugging. While making this a standalone app would require a bit more investigation into MobMuPlat or some other Pd host-able interface, I think my goals were met. And when the network connection is good and the thresholds are polished, it's quite suprising how responsive a network connection can be.</p>
 <p>My project's code can be found <a href="https://github.com/jacksongoode/osc-guitar">here</a>.</p>
@@ -850,7 +849,7 @@ header {
 		</div>
 		<footer></footer>
 
-		<!-- This page `/blog/2020-02-10-osc-guitar/` was built on 2024-09-02T08:09:45.787Z -->
+		<!-- This page `/blog/2020-02-10-osc-guitar/` was built on 2024-09-03T07:44:18.596Z -->
 	</body>
 </html>
 <script defer>

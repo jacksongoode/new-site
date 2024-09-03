@@ -11,6 +11,7 @@
 
 		
 		
+		<link rel="stylesheet" href="/css/prism.css"/>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.2/src/lite-yt-embed.css">
 		
 		<style>/*
@@ -167,7 +168,8 @@ main {
 }
 
 /* Add soft corners to images */
-img {
+img,
+video {
 	border-radius: 0.5em;
 }
 
@@ -203,6 +205,7 @@ p:last-child {
 .links-nextprev {
 	padding: 1em 0;
 	border-top: 1px dashed var(--color-gray-20);
+	margin-top: 1em;
 	list-style: none;
 }
 
@@ -423,6 +426,7 @@ figure > * {
 }
 
 figcaption {
+	margin-top: 0.5em;
 	color: var(--color-gray-20);
 	text-align: center;
 }
@@ -536,7 +540,7 @@ header {
 }
 
 .side-nav {
-	display: inherit;
+	display: flex;
 }
 
 .theme-toggle {
@@ -674,7 +678,7 @@ header {
 	}
 	/* Mobile */
 	.nav-phrase {
-		display: inherit;
+		display: inline-block;
 	}
 
 	body {
@@ -757,11 +761,11 @@ header {
         
             
             
-                <a href="/" style="text-decoration: none;">Home</a>&nbsp;-&nbsp;
+                <a href="/" style="text-decoration: none;">Home</a> •
             
-                <a href="/blog/" style="text-decoration: none;">Blog</a>&nbsp;-&nbsp;
+                <a href="/blog/" style="text-decoration: none;">Blog</a> •
             
-                <a href="/projects/" style="text-decoration: none;">Projects</a>&nbsp;-&nbsp;
+                <a href="/projects/" style="text-decoration: none;">Projects</a> •
             
                 <a href="/about/" style="text-decoration: none;">About Me</a>
             
@@ -865,7 +869,7 @@ header {
 		</div>
 		<footer></footer>
 
-		<!-- This page `/blog/2019-10-01-memory-avalanches/` was built on 2024-09-02T08:09:45.787Z -->
+		<!-- This page `/blog/2019-10-01-memory-avalanches/` was built on 2024-09-03T07:44:18.595Z -->
 	</body>
 </html>
 <script defer>
