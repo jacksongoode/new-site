@@ -746,6 +746,43 @@ header {
 .spotify-widget img {
 	border-radius: 0.5em;
 	box-shadow: var(--shadow-elevation-medium);
+}
+
+/* Sidebar progress bar */
+.progress-bar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 0.5em;
+	height: 100vh;
+	background-color: var(--color-gray-50);
+	transform-origin: 0 0;
+	transform: scaleY(0);
+}
+
+@supports (animation-timeline: scroll()) {
+	html {
+		scrollbar-width: none; /* Firefox */
+		-ms-overflow-style: none; /* Internet Explorer 10+ */
+	}
+
+	html::-webkit-scrollbar {
+		width: 0;
+		height: 0;
+		display: none; /* Chrome, Safari, and Opera */
+	}
+
+	.progress-bar {
+		animation: grow-progress linear;
+		animation-timeline: scroll(root block);
+		animation-range: entry 0% cover 100%;
+	}
+
+	@keyframes grow-progress {
+		to {
+			transform: scaleY(1);
+		}
+	}
 }</style>
 	</head>
 	<body>
@@ -800,15 +837,18 @@ header {
 
 			<main id="skip" class="container">
 				
-<h1>Toward a Telepresence of Sound: Video Conferencing in Spatial Audio</h1>
+<div class="progress-bar"></div>
 
-<ul class="post-metadata">
-	<li>
-		<time datetime="2021-05-18">18 May 2021</time>
-	</li>
-</ul>
+<article class="post">
+  <h1>Toward a Telepresence of Sound: Video Conferencing in Spatial Audio</h1>
 
-<h1 id="meet-in-space" tabindex="-1">Meet in Space <a class="header-anchor" href="#meet-in-space">#</a></h1>
+  <ul class="post-metadata">
+    <li>
+      <time datetime="2021-05-18">18 May 2021</time>
+    </li>
+  </ul>
+
+  <h1 id="meet-in-space" tabindex="-1">Meet in Space <a class="header-anchor" href="#meet-in-space">#</a></h1>
 <h2 id="video-conferencing-in-spatial-audio" tabindex="-1">Video Conferencing in Spatial Audio <a class="header-anchor" href="#video-conferencing-in-spatial-audio">#</a></h2>
 <h3 id="abstract" tabindex="-1">Abstract <a class="header-anchor" href="#abstract">#</a></h3>
 <p>Digital communications technologies have developed at an increasingly rapid pace, with the COVID-19 pandemic accelerating its recent adoption. This shift over the last few decades has seen a mass migration online, where utilities like video conferencing software have become essential to entire industries and institutions. Yet, there are clear limitations with this new digital work space - most of which exist from the nuance of natural communication. My master's thesis for the Music, Communications and Technology program at the University of Oslo and Norwegian University of Science and Technology proposes the integration of binaural spatialized audio within a web-based video conferencing platform for small-group, distributed conversations. The proposed system builds upon findings on the benefits of spatial audio in video conferencing platforms and is guided by the tenets of telepresence. The developed implementation is based on Jitsi Meet, a robust open-source conferencing system. It localizes participant’s voices through sound spatialization methods provided by the Web Audio API, a modern library in JavaScript for complex audio manipulation on the web.</p>
@@ -873,19 +913,20 @@ header {
 <h2 id="and-the-future" tabindex="-1">And the future? <a class="header-anchor" href="#and-the-future">#</a></h2>
 <p>Spatial audio is being adopted at a rapid pace, but has still yet to be introduced in small group interactions like the ones presented here. Hopefully, this thesis can provide a valid proof of concept for the benefits of spatial audio in video conferencing platforms.</p>
 
-		<ul class="links-nextprev">
-				<li>Previous: <a href="/blog/2020-10-23-film-for-music/">Music for a Series of Scenes</a>
-				</li>
-			
-				<li>Next: <a href="/blog/2022-08-24-film-for-music-2/">Music for a Series of Scenes: Part 2</a>
-				</li>
-			
-		</ul>
+      <ul class="links-nextprev">
+          <li>Previous: <a href="/blog/2020-10-23-film-for-music/">Music for a Series of Scenes</a>
+          </li>
+        
+          <li>Next: <a href="/blog/2022-08-24-film-for-music-2/">Music for a Series of Scenes: Part 2</a>
+          </li>
+        
+      </ul>
+</article>
 			</main>
 		</div>
 		<footer></footer>
 
-		<!-- This page `/blog/2021-05-14-meet-in-space/` was built on 2024-09-03T18:33:46.075Z -->
+		<!-- This page `/blog/2021-05-14-meet-in-space/` was built on 2024-09-03T21:20:13.742Z -->
 	</body>
 </html>
 <script defer>

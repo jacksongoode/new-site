@@ -746,6 +746,43 @@ header {
 .spotify-widget img {
 	border-radius: 0.5em;
 	box-shadow: var(--shadow-elevation-medium);
+}
+
+/* Sidebar progress bar */
+.progress-bar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 0.5em;
+	height: 100vh;
+	background-color: var(--color-gray-50);
+	transform-origin: 0 0;
+	transform: scaleY(0);
+}
+
+@supports (animation-timeline: scroll()) {
+	html {
+		scrollbar-width: none; /* Firefox */
+		-ms-overflow-style: none; /* Internet Explorer 10+ */
+	}
+
+	html::-webkit-scrollbar {
+		width: 0;
+		height: 0;
+		display: none; /* Chrome, Safari, and Opera */
+	}
+
+	.progress-bar {
+		animation: grow-progress linear;
+		animation-timeline: scroll(root block);
+		animation-range: entry 0% cover 100%;
+	}
+
+	@keyframes grow-progress {
+		to {
+			transform: scaleY(1);
+		}
+	}
 }</style>
 	</head>
 	<body>
@@ -811,15 +848,18 @@ header {
 
 			<main id="skip" class="container">
 				
-<h1>Sound Pedro 2024: Cacophony</h1>
+<div class="progress-bar"></div>
 
-<ul class="post-metadata">
-	<li>
-		<time datetime="2024-05-01">01 May 2024</time>
-	</li>
-</ul>
+<article class="post">
+  <h1>Sound Pedro 2024: Cacophony</h1>
 
-<h1 id="sound-pedro-2024" tabindex="-1">Sound Pedro 2024 <a class="header-anchor" href="#sound-pedro-2024">#</a></h1>
+  <ul class="post-metadata">
+    <li>
+      <time datetime="2024-05-01">01 May 2024</time>
+    </li>
+  </ul>
+
+  <h1 id="sound-pedro-2024" tabindex="-1">Sound Pedro 2024 <a class="header-anchor" href="#sound-pedro-2024">#</a></h1>
 <p>This year I presented a sonic installation at Sound Pedro alongside a cohort of other artists presenting wacky and experimental audio works. Initially, I thought it would just make sense to write up a technical overview of my piece but the whole experience and very existence of Sound Pedro made me think it would be interesting to tell a story alongside the technical details.</p>
 <h2 id="a-little-context" tabindex="-1">A little context <a class="header-anchor" href="#a-little-context">#</a></h2>
 <p>In 2021, prior to moving to Long Beach, I was first introduced to the cast of wacky sound artists that regularly filled San Pedro each year. For those unacquainted with the south coast of LA, San Pedro is a sleepy blue-collar town perched right off the massive twin ports of LA and Long Beach. I would have never ended up in that town had an up-end for a co-worker of a friend who liked to &quot;get a shit-ton of speakers and wire up an array&quot;. Now that's my kind of stuff.</p>
@@ -841,16 +881,17 @@ header {
 <p>With some continued routing woes, I wasn't able to project the colorful display of video thumbnails as I intended, so I used my laptop's display instead. Folks passing by were excited, confused, disturbed, entertained, and generally interested, since there is very little visual indication of all of the many simultaneous streams of audio that were booming off the semi-circular apartment I was squatting in for the evening.</p>
 <figure><video src="/vid/ongoing.mp4" style="aspect-ratio: 16/9;" controls>Your browser does not support the video tag.</video><figcaption>A quick clip - sadly the drones of the surrounding performances did just that :)</figcaption></figure>
 
-		<ul class="links-nextprev">
-				<li>Previous: <a href="/blog/2023-07-19-montreal/">Montreal</a>
-				</li>
-			
-		</ul>
+      <ul class="links-nextprev">
+          <li>Previous: <a href="/blog/2023-07-19-montreal/">Montreal</a>
+          </li>
+        
+      </ul>
+</article>
 			</main>
 		</div>
 		<footer></footer>
 
-		<!-- This page `/blog/2024-05-01-cacophony/` was built on 2024-09-03T18:33:46.076Z -->
+		<!-- This page `/blog/2024-05-01-cacophony/` was built on 2024-09-03T21:20:13.743Z -->
 	</body>
 </html>
 <script defer>

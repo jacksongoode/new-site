@@ -746,6 +746,43 @@ header {
 .spotify-widget img {
 	border-radius: 0.5em;
 	box-shadow: var(--shadow-elevation-medium);
+}
+
+/* Sidebar progress bar */
+.progress-bar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 0.5em;
+	height: 100vh;
+	background-color: var(--color-gray-50);
+	transform-origin: 0 0;
+	transform: scaleY(0);
+}
+
+@supports (animation-timeline: scroll()) {
+	html {
+		scrollbar-width: none; /* Firefox */
+		-ms-overflow-style: none; /* Internet Explorer 10+ */
+	}
+
+	html::-webkit-scrollbar {
+		width: 0;
+		height: 0;
+		display: none; /* Chrome, Safari, and Opera */
+	}
+
+	.progress-bar {
+		animation: grow-progress linear;
+		animation-timeline: scroll(root block);
+		animation-range: entry 0% cover 100%;
+	}
+
+	@keyframes grow-progress {
+		to {
+			transform: scaleY(1);
+		}
+	}
 }</style>
 	</head>
 	<body>
@@ -800,15 +837,18 @@ header {
 
 			<main id="skip" class="container">
 				
-<h1>43 rpm</h1>
+<div class="progress-bar"></div>
 
-<ul class="post-metadata">
-	<li>
-		<time datetime="2018-11-02">02 November 2018</time>
-	</li>
-</ul>
+<article class="post">
+  <h1>43 rpm</h1>
 
-<h3 id="title-card" tabindex="-1">Title Card <a class="header-anchor" href="#title-card">#</a></h3>
+  <ul class="post-metadata">
+    <li>
+      <time datetime="2018-11-02">02 November 2018</time>
+    </li>
+  </ul>
+
+  <h3 id="title-card" tabindex="-1">Title Card <a class="header-anchor" href="#title-card">#</a></h3>
 <blockquote>
 <p>“Indeed a lake is within me, solitary and self-contained;
 but the river of my love draws it off-down to the sea!”</p>
@@ -911,16 +951,17 @@ Clover looks down at the mess but is uninterested having fallen under some sort 
 <p>Looking down unto the dock, the shot elevates until the dock, the lake and finally the forests come into view. The perspective continues to rise and the scene fades to black.</p>
 <h3 id="end" tabindex="-1">End <a class="header-anchor" href="#end">#</a></h3>
 
-		<ul class="links-nextprev">
-				<li>Next: <a href="/blog/2019-10-01-memory-avalanches/">Memory and Modality through The Avalanches&#39; Wildflower and &quot;The Was&quot;</a>
-				</li>
-			
-		</ul>
+      <ul class="links-nextprev">
+          <li>Next: <a href="/blog/2019-10-01-memory-avalanches/">Memory and Modality through The Avalanches&#39; Wildflower and &quot;The Was&quot;</a>
+          </li>
+        
+      </ul>
+</article>
 			</main>
 		</div>
 		<footer></footer>
 
-		<!-- This page `/blog/2018-11-02-43-rpm/` was built on 2024-09-03T18:33:46.071Z -->
+		<!-- This page `/blog/2018-11-02-43-rpm/` was built on 2024-09-03T21:20:13.739Z -->
 	</body>
 </html>
 <script defer>

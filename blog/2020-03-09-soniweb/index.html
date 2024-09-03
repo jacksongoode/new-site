@@ -746,6 +746,43 @@ header {
 .spotify-widget img {
 	border-radius: 0.5em;
 	box-shadow: var(--shadow-elevation-medium);
+}
+
+/* Sidebar progress bar */
+.progress-bar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 0.5em;
+	height: 100vh;
+	background-color: var(--color-gray-50);
+	transform-origin: 0 0;
+	transform: scaleY(0);
+}
+
+@supports (animation-timeline: scroll()) {
+	html {
+		scrollbar-width: none; /* Firefox */
+		-ms-overflow-style: none; /* Internet Explorer 10+ */
+	}
+
+	html::-webkit-scrollbar {
+		width: 0;
+		height: 0;
+		display: none; /* Chrome, Safari, and Opera */
+	}
+
+	.progress-bar {
+		animation: grow-progress linear;
+		animation-timeline: scroll(root block);
+		animation-range: entry 0% cover 100%;
+	}
+
+	@keyframes grow-progress {
+		to {
+			transform: scaleY(1);
+		}
+	}
 }</style>
 	</head>
 	<body>
@@ -800,15 +837,18 @@ header {
 
 			<main id="skip" class="container">
 				
-<h1>Soniweb: An Experiment in Web Traffic Sonification and Ambisonics</h1>
+<div class="progress-bar"></div>
 
-<ul class="post-metadata">
-	<li>
-		<time datetime="2020-03-09">09 March 2020</time>
-	</li>
-</ul>
+<article class="post">
+  <h1>Soniweb: An Experiment in Web Traffic Sonification and Ambisonics</h1>
 
-<h1 id="sonification-of-the-net" tabindex="-1">Sonification of the Net <a class="header-anchor" href="#sonification-of-the-net">#</a></h1>
+  <ul class="post-metadata">
+    <li>
+      <time datetime="2020-03-09">09 March 2020</time>
+    </li>
+  </ul>
+
+  <h1 id="sonification-of-the-net" tabindex="-1">Sonification of the Net <a class="header-anchor" href="#sonification-of-the-net">#</a></h1>
 <p>For the MCT's sonification course, our group developed a system that collects and geo-locates web requests in real-time <em>and</em> <a href="https://en.wikipedia.org/wiki/Sonification">sonified</a> this incoming data. We were inspired by the paper and project <a href="https://www.researchgate.net/publication/334041357_Surfing_In_Sound_Sonification_of_Hidden_Web_Tracking">Surfing in Sound</a> which sonifies web-trackers via Ableton with an emphasis on user awareness and with potential of extending the experience into an audio-visual installation. A demo of their system can be viewed <a href="https://www.youtube.com/watch?v=ug3GfEe801k">here</a>. Another project with similar aims, <a href="https://www.researchgate.net/publication/335452963_Soundbeam_a_Platform_for_Sonifying_Web_Tracking">Soundbeam</a>, sonifies various trackers through SuperCollider while visiting a web-page as a lens into internet privacy. Our project, Soniweb, finds closer alignment with Surfing in Sound, employing a combination of Wireshark, Python, and Pure Data.</p>
 <p>Our initial plan was to filter network traffic exclusively from the web browser and then analyze the HTTP response headers for information regarding the resources that are loaded when one visits a webpage. From there, we would send that data over OSC to Pure Data, a visual audio programming language and generate sound from it. However, we found (after extensive testing with various programs) that https webpages encrypt the view of the pages' resources (the s stands for the SSL protocol) - this should have been more obvious at the beginning. This prevents a 3rd party application like <a href="https://www.wireshark.org/">Wireshark</a> from spying in on the network activity and reading the data that is transferred. While this is a wonderful standard for the sake of security, it prevented us from going in that direction as Wireshark is unable to decrypt SSL layers. Another application, <a href="https://www.telerik.com/fiddler">Fiddler</a>, an alternative to Wireshark, is able to achieve this, however, its implementation has poor integration with Python and even less on macOS. So our vision broadened to include all possible network activity that is transmitted on a computer and we went with Wireshark as a tried and true stable of the data-sniffing community.</p>
 <h2 id="implementation" tabindex="-1">Implementation <a class="header-anchor" href="#implementation">#</a></h2>
@@ -864,19 +904,20 @@ client <span class="token operator">=</span> udp_client<span class="token punctu
 <p>Rudrich, Daniel. <em>IEM Plug-in Suite. plugins.iem.at</em>, <a href="https://plugins.iem.at/">https://plugins.iem.at/</a>. Accessed 19 Apr. 2020.</p>
 <p><em>Wireshark · Go Deep</em>. <a href="https://www.wireshark.org/">https://www.wireshark.org/</a>. Accessed 19 Apr. 2020.</p>
 
-		<ul class="links-nextprev">
-				<li>Previous: <a href="/blog/2020-02-10-osc-guitar/">Strumming through space and OSC</a>
-				</li>
-			
-				<li>Next: <a href="/blog/2020-04-08-soniweb-2/">Soniweb: Epilogue</a>
-				</li>
-			
-		</ul>
+      <ul class="links-nextprev">
+          <li>Previous: <a href="/blog/2020-02-10-osc-guitar/">Strumming through space and OSC</a>
+          </li>
+        
+          <li>Next: <a href="/blog/2020-04-08-soniweb-2/">Soniweb: Epilogue</a>
+          </li>
+        
+      </ul>
+</article>
 			</main>
 		</div>
 		<footer></footer>
 
-		<!-- This page `/blog/2020-03-09-soniweb/` was built on 2024-09-03T18:33:46.072Z -->
+		<!-- This page `/blog/2020-03-09-soniweb/` was built on 2024-09-03T21:20:13.740Z -->
 	</body>
 </html>
 <script defer>

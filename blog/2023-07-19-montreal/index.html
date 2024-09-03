@@ -746,6 +746,43 @@ header {
 .spotify-widget img {
 	border-radius: 0.5em;
 	box-shadow: var(--shadow-elevation-medium);
+}
+
+/* Sidebar progress bar */
+.progress-bar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 0.5em;
+	height: 100vh;
+	background-color: var(--color-gray-50);
+	transform-origin: 0 0;
+	transform: scaleY(0);
+}
+
+@supports (animation-timeline: scroll()) {
+	html {
+		scrollbar-width: none; /* Firefox */
+		-ms-overflow-style: none; /* Internet Explorer 10+ */
+	}
+
+	html::-webkit-scrollbar {
+		width: 0;
+		height: 0;
+		display: none; /* Chrome, Safari, and Opera */
+	}
+
+	.progress-bar {
+		animation: grow-progress linear;
+		animation-timeline: scroll(root block);
+		animation-range: entry 0% cover 100%;
+	}
+
+	@keyframes grow-progress {
+		to {
+			transform: scaleY(1);
+		}
+	}
 }</style>
 	</head>
 	<body>
@@ -800,15 +837,18 @@ header {
 
 			<main id="skip" class="container">
 				
-<h1>Montreal</h1>
+<div class="progress-bar"></div>
 
-<ul class="post-metadata">
-	<li>
-		<time datetime="2023-08-01">01 August 2023</time>
-	</li>
-</ul>
+<article class="post">
+  <h1>Montreal</h1>
 
-<p>I didn't think  I would end up in Montreal. I think my only awareness of the city was a unit on Quebec within my French class in middle/highschool. Even then, the recollections I have are of maple syrup dripped over snow, poutine, bitter winters and ice sculptures.</p>
+  <ul class="post-metadata">
+    <li>
+      <time datetime="2023-08-01">01 August 2023</time>
+    </li>
+  </ul>
+
+  <p>I didn't think  I would end up in Montreal. I think my only awareness of the city was a unit on Quebec within my French class in middle/highschool. Even then, the recollections I have are of maple syrup dripped over snow, poutine, bitter winters and ice sculptures.</p>
 <p>However, it came more into focus during the last years of undergrad where thoughts towards the future, my continued education within Cognitive Science, were looming. McGill had a department and program in neuroscience which I had mentioned to my fellow cog-sci classmates thinking it would be a cool program abroad (though Canada in my mind felt far less international than anywhere else.) And I've been considering moving from Long Beach, and Montreal was always a place on my list.</p>
 <p>While I ended up not pursuing down that road, remarkably, one of those close friends I mentioned this program to did! She is now close to finishing a PhD in Neuroscience studying the effects of canabanoids during prenatal development in mice. I was able to visit her during the warmest period in Montreal (flight likely discounted by the raging wildfires) and so became quite enamoured with a beautiful été in Montreal.</p>
 <h2 id="french" tabindex="-1">French <a class="header-anchor" href="#french">#</a></h2>
@@ -832,19 +872,20 @@ header {
 <h3 id="coming-back" tabindex="-1">Coming back <a class="header-anchor" href="#coming-back">#</a></h3>
 <p>I'm excited to return to Montreal next year (for a wedding), if only it remained as beautiful and temperate in the winter!</p>
 
-		<ul class="links-nextprev">
-				<li>Previous: <a href="/blog/2023-06-03-thought/">Thinking out Loud</a>
-				</li>
-			
-				<li>Next: <a href="/blog/2024-05-01-cacophony/">Sound Pedro 2024: Cacophony</a>
-				</li>
-			
-		</ul>
+      <ul class="links-nextprev">
+          <li>Previous: <a href="/blog/2023-06-03-thought/">Thinking out Loud</a>
+          </li>
+        
+          <li>Next: <a href="/blog/2024-05-01-cacophony/">Sound Pedro 2024: Cacophony</a>
+          </li>
+        
+      </ul>
+</article>
 			</main>
 		</div>
 		<footer></footer>
 
-		<!-- This page `/blog/2023-07-19-montreal/` was built on 2024-09-03T18:33:46.076Z -->
+		<!-- This page `/blog/2023-07-19-montreal/` was built on 2024-09-03T21:20:13.742Z -->
 	</body>
 </html>
 <script defer>

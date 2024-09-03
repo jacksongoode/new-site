@@ -746,6 +746,43 @@ header {
 .spotify-widget img {
 	border-radius: 0.5em;
 	box-shadow: var(--shadow-elevation-medium);
+}
+
+/* Sidebar progress bar */
+.progress-bar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 0.5em;
+	height: 100vh;
+	background-color: var(--color-gray-50);
+	transform-origin: 0 0;
+	transform: scaleY(0);
+}
+
+@supports (animation-timeline: scroll()) {
+	html {
+		scrollbar-width: none; /* Firefox */
+		-ms-overflow-style: none; /* Internet Explorer 10+ */
+	}
+
+	html::-webkit-scrollbar {
+		width: 0;
+		height: 0;
+		display: none; /* Chrome, Safari, and Opera */
+	}
+
+	.progress-bar {
+		animation: grow-progress linear;
+		animation-timeline: scroll(root block);
+		animation-range: entry 0% cover 100%;
+	}
+
+	@keyframes grow-progress {
+		to {
+			transform: scaleY(1);
+		}
+	}
 }</style>
 	</head>
 	<body>
@@ -800,15 +837,18 @@ header {
 
 			<main id="skip" class="container">
 				
-<h1>Musings with Bela</h1>
+<div class="progress-bar"></div>
 
-<ul class="post-metadata">
-	<li>
-		<time datetime="2020-10-16">16 October 2020</time>
-	</li>
-</ul>
+<article class="post">
+  <h1>Musings with Bela</h1>
 
-<p>In an effort to explore the wild world of interactive music systems, I decided to work with a <a href="https://choosemuse.com/">portable EEG reader</a> and a <a href="https://bela.io/">Bela</a> coupled with an accelerometer and potentiometers. Little did I know how much of a challenge it would be to join both software and hardware within an interactive package.</p>
+  <ul class="post-metadata">
+    <li>
+      <time datetime="2020-10-16">16 October 2020</time>
+    </li>
+  </ul>
+
+  <p>In an effort to explore the wild world of interactive music systems, I decided to work with a <a href="https://choosemuse.com/">portable EEG reader</a> and a <a href="https://bela.io/">Bela</a> coupled with an accelerometer and potentiometers. Little did I know how much of a challenge it would be to join both software and hardware within an interactive package.</p>
 <h2 id="inspiration" tabindex="-1">Inspiration <a class="header-anchor" href="#inspiration">#</a></h2>
 <p>Coming from a undergraduate degree in cognitive science, I've always wanted to work with (read hack) an <a href="https://en.wikipedia.org/wiki/Electroencephalography">electroencephalogram</a> (EEG) for some kind of artistic performance or instrument. While I have worked with a more traditional systems that require head-caps and conductive gel, I have never had the opportunity to test out some of the many different portable systems that have come out in the last decade. After reaching out to <a href="https://arj.no">Alexander Jensenius</a>, I was able to borrow a system from a researcher at RITMO - which I'll cover later in the hardware section.</p>
 <h3 id="artistic-examples" tabindex="-1">Artistic examples <a class="header-anchor" href="#artistic-examples">#</a></h3>
@@ -901,19 +941,20 @@ header {
 <p>Straebel, Volker, and Wilm Thoben. 'Alvin Lucier's Music for Solo Performer: Experimental Music beyond Sonification'. <em>Organised Sound</em>, vol. 19, no. 1, Cambridge University Press, Apr. 2014, pp. 17--29. <em>Cambridge University Press</em>, doi:<a href="https://doi.org/10.1017/S135577181300037X">10.1017/S135577181300037X</a>.</p>
 <p>Wu, Dan, et al. 'Scale-Free Brain Quartet: Artistic Filtering of Multi-Channel Brainwave Music'. <em>PloS One</em>, vol. 8, no. 5, 2013, p. e64046. <em>PubMed</em>, doi:<a href="https://doi.org/10.1371/journal.pone.0064046">10.1371/journal.pone.0064046</a>.</p>
 
-		<ul class="links-nextprev">
-				<li>Previous: <a href="/blog/2020-09-20-classifying-urban-sounds/">Classifying Urban Sounds in a Multi-label Database</a>
-				</li>
-			
-				<li>Next: <a href="/blog/2020-10-23-film-for-music/">Music for a Series of Scenes</a>
-				</li>
-			
-		</ul>
+      <ul class="links-nextprev">
+          <li>Previous: <a href="/blog/2020-09-20-classifying-urban-sounds/">Classifying Urban Sounds in a Multi-label Database</a>
+          </li>
+        
+          <li>Next: <a href="/blog/2020-10-23-film-for-music/">Music for a Series of Scenes</a>
+          </li>
+        
+      </ul>
+</article>
 			</main>
 		</div>
 		<footer></footer>
 
-		<!-- This page `/blog/2020-10-16-musings-bela/` was built on 2024-09-03T18:33:46.073Z -->
+		<!-- This page `/blog/2020-10-16-musings-bela/` was built on 2024-09-03T21:20:13.741Z -->
 	</body>
 </html>
 <script defer>

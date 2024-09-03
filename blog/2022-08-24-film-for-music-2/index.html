@@ -746,6 +746,43 @@ header {
 .spotify-widget img {
 	border-radius: 0.5em;
 	box-shadow: var(--shadow-elevation-medium);
+}
+
+/* Sidebar progress bar */
+.progress-bar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 0.5em;
+	height: 100vh;
+	background-color: var(--color-gray-50);
+	transform-origin: 0 0;
+	transform: scaleY(0);
+}
+
+@supports (animation-timeline: scroll()) {
+	html {
+		scrollbar-width: none; /* Firefox */
+		-ms-overflow-style: none; /* Internet Explorer 10+ */
+	}
+
+	html::-webkit-scrollbar {
+		width: 0;
+		height: 0;
+		display: none; /* Chrome, Safari, and Opera */
+	}
+
+	.progress-bar {
+		animation: grow-progress linear;
+		animation-timeline: scroll(root block);
+		animation-range: entry 0% cover 100%;
+	}
+
+	@keyframes grow-progress {
+		to {
+			transform: scaleY(1);
+		}
+	}
 }</style>
 	</head>
 	<body>
@@ -800,15 +837,18 @@ header {
 
 			<main id="skip" class="container">
 				
-<h1>Music for a Series of Scenes: Part 2</h1>
+<div class="progress-bar"></div>
 
-<ul class="post-metadata">
-	<li>
-		<time datetime="2023-02-16">16 February 2023</time>
-	</li>
-</ul>
+<article class="post">
+  <h1>Music for a Series of Scenes: Part 2</h1>
 
-<p>Almost two years later, I've continued to contribute to this growing catalog of &quot;music videos&quot; and thought it might be time to jump back in with more discussion of a select few films, the music I chose for them and the nuance in-between. Unintentionally, I've continued to watch, enjoy and incorporate films without color. Maybe it's the nostalgia for a time unknown, or just that there are a lot of good movies spread over the years. Since the series has been steadily growing, I think it's about time to discuss another two with the theme of color in mind.</p>
+  <ul class="post-metadata">
+    <li>
+      <time datetime="2023-02-16">16 February 2023</time>
+    </li>
+  </ul>
+
+  <p>Almost two years later, I've continued to contribute to this growing catalog of &quot;music videos&quot; and thought it might be time to jump back in with more discussion of a select few films, the music I chose for them and the nuance in-between. Unintentionally, I've continued to watch, enjoy and incorporate films without color. Maybe it's the nostalgia for a time unknown, or just that there are a lot of good movies spread over the years. Since the series has been steadily growing, I think it's about time to discuss another two with the theme of color in mind.</p>
 <h2 id="la-jetee" tabindex="-1">La Jetée <a class="header-anchor" href="#la-jetee">#</a></h2>
 <p>Chris Marker is a real treasure. Though I have many of his films on my watchlist, the few I've seen have placed him in a category of his own. Often filled with simple scenes, transformed through narration, or, in his later works, digital manipulations, Marker poses questions unanswerable and opens boxes hidden under a lens or in plain sight. There's a mysterious fan, whose Marker related videos have been floating around YouTube that <a href="https://www.youtube.com/watch?v=ekenS1hRwoU">might be making a documentary</a>. It ought to be interesting if/when it comes out.</p>
 <p>La Jetée is just an incredible film. Some point fun at it as <a href="https://letterboxd.com/film/la-jetee/">&quot;the best powerpoint in the world&quot;</a>, of course for the project's most striking decision: the absence of motion. It's for this reason even Marker describes La Jetée as a &quot;photo novel&quot; rather than a film. La Jetée consists of a series of black and white photos of a post-apocoylptic Paris, a world shattered by bombs and the aftermath of human failure. They are presented in what is at times chronological and at others skipping wearily through time and space. The photos we see appear as frames from the memory of our protagonist, a prisoner, forced to revisit his past in order to find a key to secure the future of humanity. Without spoiling, the film is a existentialist journey though memory and a reflection on our own moorings to time.</p>
@@ -825,19 +865,20 @@ header {
 <p>Upon a machine-learning generated recommendation, I found Il Sorpasso - The Takeover in English, an Karaowkian Italian film out of the 60's. This post-war feeling of freedom and exploration much have been sweeping Europe as it had the US.</p>
 <p>To see more shorts from this ongoing series, you can find the showcase, hosted on Vimeo, <a href="https://vimeo.com/showcase/7853493">here</a>.</p>
 
-		<ul class="links-nextprev">
-				<li>Previous: <a href="/blog/2021-05-14-meet-in-space/">Toward a Telepresence of Sound: Video Conferencing in Spatial Audio</a>
-				</li>
-			
-				<li>Next: <a href="/blog/2023-06-03-thought/">Thinking out Loud</a>
-				</li>
-			
-		</ul>
+      <ul class="links-nextprev">
+          <li>Previous: <a href="/blog/2021-05-14-meet-in-space/">Toward a Telepresence of Sound: Video Conferencing in Spatial Audio</a>
+          </li>
+        
+          <li>Next: <a href="/blog/2023-06-03-thought/">Thinking out Loud</a>
+          </li>
+        
+      </ul>
+</article>
 			</main>
 		</div>
 		<footer></footer>
 
-		<!-- This page `/blog/2022-08-24-film-for-music-2/` was built on 2024-09-03T18:33:46.075Z -->
+		<!-- This page `/blog/2022-08-24-film-for-music-2/` was built on 2024-09-03T21:20:13.742Z -->
 	</body>
 </html>
 <script defer>

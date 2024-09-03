@@ -746,6 +746,43 @@ header {
 .spotify-widget img {
 	border-radius: 0.5em;
 	box-shadow: var(--shadow-elevation-medium);
+}
+
+/* Sidebar progress bar */
+.progress-bar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 0.5em;
+	height: 100vh;
+	background-color: var(--color-gray-50);
+	transform-origin: 0 0;
+	transform: scaleY(0);
+}
+
+@supports (animation-timeline: scroll()) {
+	html {
+		scrollbar-width: none; /* Firefox */
+		-ms-overflow-style: none; /* Internet Explorer 10+ */
+	}
+
+	html::-webkit-scrollbar {
+		width: 0;
+		height: 0;
+		display: none; /* Chrome, Safari, and Opera */
+	}
+
+	.progress-bar {
+		animation: grow-progress linear;
+		animation-timeline: scroll(root block);
+		animation-range: entry 0% cover 100%;
+	}
+
+	@keyframes grow-progress {
+		to {
+			transform: scaleY(1);
+		}
+	}
 }</style>
 	</head>
 	<body>
@@ -800,15 +837,18 @@ header {
 
 			<main id="skip" class="container">
 				
-<h1>Soniweb: Epilogue</h1>
+<div class="progress-bar"></div>
 
-<ul class="post-metadata">
-	<li>
-		<time datetime="2020-04-08">08 April 2020</time>
-	</li>
-</ul>
+<article class="post">
+  <h1>Soniweb: Epilogue</h1>
 
-<h1 id="a-reworking-of-soniweb" tabindex="-1">A Reworking of Soniweb <a class="header-anchor" href="#a-reworking-of-soniweb">#</a></h1>
+  <ul class="post-metadata">
+    <li>
+      <time datetime="2020-04-08">08 April 2020</time>
+    </li>
+  </ul>
+
+  <h1 id="a-reworking-of-soniweb" tabindex="-1">A Reworking of Soniweb <a class="header-anchor" href="#a-reworking-of-soniweb">#</a></h1>
 <p>The <a href="/soniweb">Soniweb</a> project was hurridly completed within the span of about a week. However, in rushing through its implementation, there were a number of unique opertunities that would have been possible with the data we were recieving. Notably, the direction of the packets (whether they were being sent or received) was not considered in the process of our sonification. This information would be quite interesting to have conveyed through sound and provide interesting knowledge about when and how often is your computer uploading information to some other server.</p>
 <p>One of the <a href="https://youtu.be/Ocq3NeudsVk">issues</a> I have with sonification is the reasoning (or lack thereof) behind how aspects of data will be sonified. I feel this is a essential point of interpretation artistically that is missed by a lot of sonification projects in the pursuit of making them sonically &quot;beautiful&quot;. Too often the decisions that are being made are not necessarily drawing out acoustic features that parallel the relationships within the data. To this end, I wanted to make three adjustments to the Soniweb project. The <em>first</em> would replace sample playback to synthesized sound at the heart of the sonification, <em>second</em> would focus on shaping the synthesized sound in an extended range of parameters like envelope and pitch based on the features of the incoming packets, and <em>third</em> would be a general optimization of the python script and Pd patch to prevent stuttering or audio glitches during normal use.</p>
 <figure><img src="/img/soniweb-2-pd.png" style="aspect-ratio: 16/9;" alt="A little restructured and a much better reverb implementation" /><figcaption>A little restructured and a much better reverb implementation</figcaption></figure>
@@ -854,19 +894,20 @@ header {
 <p>After reworking the filtering system and tinkering a bit with the quality of the reverb I added (to help with spatialization), I think I ended up with something quite nice. Here's a short video, please wear headphones to experience the full effect. The code and patches can be found <a href="https://github.com/jacksongoode/soniweb">here</a>.</p>
 <figure><video src="https://www.uio.no/english/studies/programmes/mct-master/blog/assets/video/2020_04_13_jacksong_soniweb2_demo.mp4" style="aspect-ratio: 16/9;" controls>Your browser does not support the video tag.</video><figcaption>A demo of the updated project (headphones required!)</figcaption></figure>
 
-		<ul class="links-nextprev">
-				<li>Previous: <a href="/blog/2020-03-09-soniweb/">Soniweb: An Experiment in Web Traffic Sonification and Ambisonics</a>
-				</li>
-			
-				<li>Next: <a href="/blog/2020-05-20-breathing-through-max/">Breathing through Max</a>
-				</li>
-			
-		</ul>
+      <ul class="links-nextprev">
+          <li>Previous: <a href="/blog/2020-03-09-soniweb/">Soniweb: An Experiment in Web Traffic Sonification and Ambisonics</a>
+          </li>
+        
+          <li>Next: <a href="/blog/2020-05-20-breathing-through-max/">Breathing through Max</a>
+          </li>
+        
+      </ul>
+</article>
 			</main>
 		</div>
 		<footer></footer>
 
-		<!-- This page `/blog/2020-04-08-soniweb-2/` was built on 2024-09-03T18:33:46.072Z -->
+		<!-- This page `/blog/2020-04-08-soniweb-2/` was built on 2024-09-03T21:20:13.741Z -->
 	</body>
 </html>
 <script defer>

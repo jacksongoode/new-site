@@ -746,6 +746,43 @@ header {
 .spotify-widget img {
 	border-radius: 0.5em;
 	box-shadow: var(--shadow-elevation-medium);
+}
+
+/* Sidebar progress bar */
+.progress-bar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 0.5em;
+	height: 100vh;
+	background-color: var(--color-gray-50);
+	transform-origin: 0 0;
+	transform: scaleY(0);
+}
+
+@supports (animation-timeline: scroll()) {
+	html {
+		scrollbar-width: none; /* Firefox */
+		-ms-overflow-style: none; /* Internet Explorer 10+ */
+	}
+
+	html::-webkit-scrollbar {
+		width: 0;
+		height: 0;
+		display: none; /* Chrome, Safari, and Opera */
+	}
+
+	.progress-bar {
+		animation: grow-progress linear;
+		animation-timeline: scroll(root block);
+		animation-range: entry 0% cover 100%;
+	}
+
+	@keyframes grow-progress {
+		to {
+			transform: scaleY(1);
+		}
+	}
 }</style>
 	</head>
 	<body>
@@ -800,15 +837,18 @@ header {
 
 			<main id="skip" class="container">
 				
-<h1>Classifying Urban Sounds in a Multi-label Database</h1>
+<div class="progress-bar"></div>
 
-<ul class="post-metadata">
-	<li>
-		<time datetime="2020-09-20">20 September 2020</time>
-	</li>
-</ul>
+<article class="post">
+  <h1>Classifying Urban Sounds in a Multi-label Database</h1>
 
-<h1 id="environmental-sound-classification-over-concurrent-samples" tabindex="-1">Environmental Sound Classification over Concurrent Samples <a class="header-anchor" href="#environmental-sound-classification-over-concurrent-samples">#</a></h1>
+  <ul class="post-metadata">
+    <li>
+      <time datetime="2020-09-20">20 September 2020</time>
+    </li>
+  </ul>
+
+  <h1 id="environmental-sound-classification-over-concurrent-samples" tabindex="-1">Environmental Sound Classification over Concurrent Samples <a class="header-anchor" href="#environmental-sound-classification-over-concurrent-samples">#</a></h1>
 <p>Given the short two week span to develop a machine learning model, I decided instead of beginning anew, to repurpose some pre-existing methods in approaching environmental sound classification. Environmental sound classification (ESC) is a field that benefits well from machine learning techniques, as the data examined will always be unique and noisy. Two well known databases, UrbanSound8K (US8K) [5] and ESC-50 [9] provide recordings from <a href="https://freesound.org">Freesound.org</a>, trimmed, labeled and grouped into categories for analysis. This system attempts to utilise a <a href="https://en.wikipedia.org/wiki/Convolutional_neural_network">convolutional neural network</a> (CNN) on an augmented UrbanSound8K dataset for multi-label classification.</p>
 <p><a href="https://urbansounddataset.weebly.com/urbansound8k.html">UrbanSound8K</a> contains over 8000 sound files separated by categories of sounds typically found in an urban setting. Instead of exclusive categorical labels in its original state, the dataset has been recreated with the purpose of exploring how a successful architecture might perform on multi-label samples rather than simply uni-label, multi-class sounds. Thus, this project investigates how techniques in classifying an environmental noise database might generalize to a multi-label scenario with a new database composed of overlaid sound pairs.</p>
 <figure>
@@ -919,19 +959,20 @@ combined<span class="token punctuation">.</span>append<span class="token punctua
 </li>
 </ol>
 
-		<ul class="links-nextprev">
-				<li>Previous: <a href="/blog/2020-05-20-breathing-through-max/">Breathing through Max</a>
-				</li>
-			
-				<li>Next: <a href="/blog/2020-10-16-musings-bela/">Musings with Bela</a>
-				</li>
-			
-		</ul>
+      <ul class="links-nextprev">
+          <li>Previous: <a href="/blog/2020-05-20-breathing-through-max/">Breathing through Max</a>
+          </li>
+        
+          <li>Next: <a href="/blog/2020-10-16-musings-bela/">Musings with Bela</a>
+          </li>
+        
+      </ul>
+</article>
 			</main>
 		</div>
 		<footer></footer>
 
-		<!-- This page `/blog/2020-09-20-classifying-urban-sounds/` was built on 2024-09-03T18:33:46.073Z -->
+		<!-- This page `/blog/2020-09-20-classifying-urban-sounds/` was built on 2024-09-03T21:20:13.741Z -->
 	</body>
 </html>
 <script defer>

@@ -746,6 +746,43 @@ header {
 .spotify-widget img {
 	border-radius: 0.5em;
 	box-shadow: var(--shadow-elevation-medium);
+}
+
+/* Sidebar progress bar */
+.progress-bar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 0.5em;
+	height: 100vh;
+	background-color: var(--color-gray-50);
+	transform-origin: 0 0;
+	transform: scaleY(0);
+}
+
+@supports (animation-timeline: scroll()) {
+	html {
+		scrollbar-width: none; /* Firefox */
+		-ms-overflow-style: none; /* Internet Explorer 10+ */
+	}
+
+	html::-webkit-scrollbar {
+		width: 0;
+		height: 0;
+		display: none; /* Chrome, Safari, and Opera */
+	}
+
+	.progress-bar {
+		animation: grow-progress linear;
+		animation-timeline: scroll(root block);
+		animation-range: entry 0% cover 100%;
+	}
+
+	@keyframes grow-progress {
+		to {
+			transform: scaleY(1);
+		}
+	}
 }</style>
 	</head>
 	<body>
@@ -800,15 +837,18 @@ header {
 
 			<main id="skip" class="container">
 				
-<h1>Memory and Modality through The Avalanches&#39; Wildflower and &quot;The Was&quot;</h1>
+<div class="progress-bar"></div>
 
-<ul class="post-metadata">
-	<li>
-		<time datetime="2019-10-01">01 October 2019</time>
-	</li>
-</ul>
+<article class="post">
+  <h1>Memory and Modality through The Avalanches&#39; Wildflower and &quot;The Was&quot;</h1>
 
-<figure><img src="/img/avalanches.webp" style="aspect-ratio: 16/9;" alt="The Avalanches in the early 2000's" /><figcaption>The Avalanches in the early 2000's</figcaption></figure>
+  <ul class="post-metadata">
+    <li>
+      <time datetime="2019-10-01">01 October 2019</time>
+    </li>
+  </ul>
+
+  <figure><img src="/img/avalanches.webp" style="aspect-ratio: 16/9;" alt="The Avalanches in the early 2000's" /><figcaption>The Avalanches in the early 2000's</figcaption></figure>
 <p>For many, music leaves some of the deepest impressions we have during our lifetime. One's favorite song might often trigger a flashback, with a sudden return to those past moments they shared with the sound. These returns are accompanied with a flood of detailed sensory information that spread across our senses in what might be called an <em>episodic memory</em>. As we can appreciate in these moments, our memories are wrapped in complex, multi-modal associations that are encoded within our hippocampus, thalamus, amygdala, and various areas of our cortex. Thus, the act of recalling episodic memories stimulates these neural pathways just as they were activated when we first consolidated the memory. Björn Vickhoff explains the process wonderfully in his <em>A Perspective Theory of Music Perception and Emotion</em>,</p>
 <blockquote>
 <p>&quot;Even if the information is integrated in the hippocampus and the hippocampus is associated with long-term memory this does not mean that all memories are stored in the hippocampus. Rather the information is fed back to the perception and association areas. Episodic memorizing is to reactivate the perception process. This is what makes episodic memories so vivid. The process can be activated by any contextual cue. Since we live the event anew, this is by definition imagery. I believe that imagery and episodic memory is connected&quot; (Vickhoff 2008).</p>
@@ -857,19 +897,20 @@ header {
 <p>Vickhoff, Björn. <em>A Perspective Theory of Music Perception and Emotion</em>. 2008. <em>gupea.ub.gu.se</em>, <a href="https://gupea.ub.gu.se/handle/2077/9604">https://gupea.ub.gu.se/handle/2077/9604</a>.</p>
 <p><em>Wildflower</em>. Astralwerks, 8 July 2016.</p>
 
-		<ul class="links-nextprev">
-				<li>Previous: <a href="/blog/2018-11-02-43-rpm/">43 rpm</a>
-				</li>
-			
-				<li>Next: <a href="/blog/2020-02-10-osc-guitar/">Strumming through space and OSC</a>
-				</li>
-			
-		</ul>
+      <ul class="links-nextprev">
+          <li>Previous: <a href="/blog/2018-11-02-43-rpm/">43 rpm</a>
+          </li>
+        
+          <li>Next: <a href="/blog/2020-02-10-osc-guitar/">Strumming through space and OSC</a>
+          </li>
+        
+      </ul>
+</article>
 			</main>
 		</div>
 		<footer></footer>
 
-		<!-- This page `/blog/2019-10-01-memory-avalanches/` was built on 2024-09-03T18:33:46.071Z -->
+		<!-- This page `/blog/2019-10-01-memory-avalanches/` was built on 2024-09-03T21:20:13.740Z -->
 	</body>
 </html>
 <script defer>
