@@ -146,13 +146,13 @@ body {
 	display: flex;
 	width: 100%;
 	max-width: calc(40em + 200px + 2em);
-	height: 100vh;
+	min-height: 100vh;
 }
 
 main {
 	width: 100%;
 	max-width: 40em;
-	padding: 1em 2em;
+	padding: 1em;
 	transition: margin 0.3s ease; /* Smooth transition for margin change in chat-active state */
 
 	& :first-child {
@@ -169,9 +169,9 @@ h1,
 h2,
 h3,
 .letter {
+	width: fit-content;
 	font-family: "Switzer";
 	text-wrap: balance;
-	width: fit-content;
 }
 
 /* https://www.a11yproject.com/posts/how-to-hide-content/ */
@@ -481,7 +481,7 @@ header {
 	align-items: start;
 	width: 200px;
 	height: 100vh;
-	padding: 1em 2em;
+	padding: 1em;
 
 	&:not(:has(+ .chat-active)) {
 		&:has(.nav-item:nth-child(n):hover) {
@@ -511,7 +511,7 @@ header {
 	display: flex;
 	justify-content: center;
 	width: 100%;
-	padding-right: 2.25em;
+	padding-right: 2em;
 }
 
 .nav-list {
@@ -692,6 +692,7 @@ header {
 	}
 	main {
 		max-width: initial;
+		padding: 1em 2em;
 
 		&:where(.chat-active) {
 			margin-top: 0;
@@ -705,6 +706,7 @@ header {
 		align-items: center;
 		width: initial;
 		height: initial;
+		padding: 1em 2em;
 		padding-bottom: 0;
 		gap: 1em 0.5em;
 	}
@@ -786,8 +788,8 @@ header {
 }
 
 .citation {
-	margin-bottom: 1em;
 	padding-left: 2em;
+	margin-bottom: 1em;
 	text-indent: -2em;
 }
 
@@ -974,7 +976,7 @@ Clover looks down at the mess but is uninterested having fallen under some sort 
 		</div>
 		<footer></footer>
 
-		<!-- This page `/blog/2018-11-02-43-rpm/` was built on 2024-09-04T09:02:05.902Z -->
+		<!-- This page `/blog/2018-11-02-43-rpm/` was built on 2024-09-04T09:34:38.598Z -->
 	</body>
 </html>
 <script defer>
