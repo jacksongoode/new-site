@@ -3,8 +3,8 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Toward a Telepresence of Sound: Video Conferencing in Spatial Audio</title>
-		<meta name="description" content="Teleconferencing in spatial audio with the help of Jitsi Meet and Web Audio">
+		<title>Music for a Series of Scenes</title>
+		<meta name="description" content="An introduction to a video series on re-contextualization in film and music.">
 		<meta name="generator" content="Eleventy v3.0.0">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Jackson">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Jackson">
@@ -88,18 +88,15 @@ h6 {
 		1.5px 19.3px 20.3px -3px hsl(var(--shadow-color) / 0.1);
 }
 
-:root[data-theme="dark"] {
+/* Both for system and user preference */
+:root[data-theme="dark"],
+.dark-mode {
 	color-scheme: dark;
 	--color-bg: black;
 	--color-gray-20: #cccccc;
 	--color-gray-50: #808080;
 	--color-gray-90: #1a1a1a;
 	--noise-opacity: 0.1;
-}
-.dark-mode {
-	--color-gray-20: #cccccc;
-	--color-gray-50: #808080;
-	--color-gray-90: #1a1a1a;
 }
 
 @font-face {
@@ -167,24 +164,14 @@ main {
 	}
 }
 
-/* Add soft corners to images */
-img,
-video {
-	border-radius: 0.5em;
-}
-
 /* Typography */
 h1,
 h2,
 h3,
 .letter {
 	font-family: "Switzer";
-}
-
-h1 {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.25em;
+	text-wrap: balance;
+	width: fit-content;
 }
 
 /* https://www.a11yproject.com/posts/how-to-hide-content/ */
@@ -276,6 +263,8 @@ nav {
 	list-style: none;
 	padding: 0;
 }
+
+/* Each item in a po */
 .postlist-item {
 	position: relative;
 	display: flex;
@@ -283,35 +272,60 @@ nav {
 	align-items: baseline;
 	padding-left: 1.5em; /* Add left padding to make room for the arrow */
 	margin-bottom: 1em;
-}
-.postlist-item::before {
-	content: "\2192"; /* Default to arrow */
-	position: absolute;
-	top: 0.2em;
-	left: 0;
-	margin-right: 0.5em;
-	color: var(--color-gray-20);
-	transition: all 0.5s ease-out;
-	filter: saturate(100%);
-	transform: scale(1);
-}
-.postlist-item[data-emoji]::before {
-	content: attr(data-emoji);
-}
-.postlist-item::before {
-	transition: all 0.5s ease-out;
-}
-.postlist-item:hover::before,
-.postlist-item:focus-within::before {
-	animation: pulseSat 2s linear infinite;
+
+	&::before {
+		content: "\2192"; /* Default to arrow */
+		position: absolute;
+		top: 0.2em;
+		left: 0;
+		margin-right: 0.5em;
+		color: var(--color-gray-20);
+		transition: all 0.5s ease-out;
+		filter: saturate(100%);
+		transform: scale(1);
+	}
+
+	&[data-emoji]::before {
+		content: attr(data-emoji);
+	}
+
+	&:hover::before,
+	&:focus-within::before {
+		animation: pulseSat 2s linear infinite;
+	}
+
+	&:not(:hover)::before {
+		animation: none;
+		filter: saturate(100%);
+		transform: scale(1);
+	}
+
+	.postlist-date::after {
+		content: attr(data-tooltip);
+		position: absolute;
+		overflow: hidden;
+		max-width: calc(100% - 12em);
+		padding-left: 1em;
+		color: var(--color-gray-20);
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		opacity: 0;
+		visibility: hidden;
+		transition:
+			opacity 0.3s ease,
+			visibility 0.3s ease;
+	}
+
+	&:has(.postlist-link:hover) .postlist-date::after {
+		opacity: 1;
+		visibility: visible;
+	}
+
+	&-active .postlist-link {
+		font-weight: bold;
+	}
 }
 
-.postlist-item:not(:hover)::before {
-	animation: none;
-	filter: saturate(100%);
-	transform: scale(1);
-	transition: all 0.5s ease-out;
-}
 @keyframes pulseSat {
 	0%,
 	50%,
@@ -340,34 +354,6 @@ nav {
 	text-underline-position: from-font;
 	text-underline-offset: 0;
 	text-decoration-thickness: 1px;
-}
-.postlist-item {
-	position: relative;
-}
-
-.postlist-item .postlist-date::after {
-	content: attr(data-tooltip);
-	position: absolute;
-	overflow: hidden;
-	max-width: calc(100% - 12em);
-	padding-left: 1em;
-	color: var(--color-gray-20);
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	opacity: 0;
-	visibility: hidden;
-	transition:
-		opacity 0.3s ease,
-		visibility 0.3s ease;
-}
-
-.postlist-item:has(.postlist-link:hover) .postlist-date::after {
-	opacity: 1;
-	visibility: visible;
-}
-
-.postlist-item-active .postlist-link {
-	font-weight: bold;
 }
 
 /* Tags */
@@ -419,10 +405,16 @@ h2 + .header-anchor {
 	font-size: 1.5em;
 }
 
-/* Starting custom */
+/* Figures */
 figure > * {
 	max-width: 100%;
 	margin: 0 auto;
+}
+
+/* All images & videos should be in a figure */
+figure :first-child {
+	border-radius: 0.5em;
+	box-shadow: var(--shadow-elevation-medium);
 }
 
 figcaption {
@@ -467,25 +459,17 @@ blockquote {
 		margin-top: -7.5px;
 		border-left-color: ButtonFace;
 	}
-}
 
-/* Only do nav switch on wide screens */
-@media (min-width: 840px) {
-	.nav-bubble {
-		&:where(.chat-active) {
-			left: calc(50% + 200px);
-			width: calc(640px - 200px);
-		}
-
-		&:where(.chat-active) > * {
-			display: block;
-		}
+	/* Reset position when chat is active */
+	&:where(.chat-active) {
+		transform: none;
 	}
 }
 
 /* Talk bubble movement */
 header {
-	--item-top: 12px;
+	/* We need to add 1 to the active item to account for the first item */
+	--item-top: calc(12px + var(--nav-item-active, 1) * var(--nav-item-height));
 	--item-rot: 0deg;
 	--nav-item-height: 32px;
 
@@ -522,9 +506,10 @@ header {
 }
 
 .side-nav {
+	display: flex;
 	justify-content: center;
 	width: 100%;
-	margin-right: 2.25em;
+	padding-right: 2.25em;
 }
 
 .nav-list {
@@ -537,10 +522,6 @@ header {
 	text-align: right;
 	list-style: none;
 	padding-inline-start: 0;
-}
-
-.side-nav {
-	display: flex;
 }
 
 .theme-toggle {
@@ -670,6 +651,22 @@ header {
 	display: inline-block;
 }
 
+/* Only do nav switch on wide screens */
+@media (min-width: 840px) {
+	.nav-bubble {
+		&:where(.chat-active) {
+			/* left: calc(50% + 200px); */
+			left: calc(200px + 1em);
+			/* width: calc(640px - 200px); */
+			width: calc(640px - 4em - 2.25em);
+		}
+
+		&:where(.chat-active) > * {
+			display: block;
+		}
+	}
+}
+
 /* For mobile view */
 @media (max-width: 839px) {
 	/* Switch side nav off */
@@ -717,6 +714,7 @@ header {
 	.nav-bubble {
 		position: relative;
 		left: initial;
+		transform: none; /* Reset the transform */
 	}
 }
 
@@ -767,9 +765,9 @@ header {
 	}
 
 	html::-webkit-scrollbar {
+		display: none; /* Chrome, Safari, and Opera */
 		width: 0;
 		height: 0;
-		display: none; /* Chrome, Safari, and Opera */
 	}
 
 	.progress-bar {
@@ -783,9 +781,19 @@ header {
 			transform: scaleY(1);
 		}
 	}
+}
+
+.citation {
+	margin-bottom: 1em;
+	padding-left: 2em;
+	text-indent: -2em;
+}
+
+.citation p {
+	margin: 0;
 }</style>
 	</head>
-	<body>
+	<body style="--nav-item-active: 1;">
 		<div class="noise-container"></div>
 		<a href="#skip" class="visually-hidden">Skip to main content</a>
 		<div class="layout-wrapper">
@@ -800,9 +808,9 @@ header {
             
                 <a href="/" style="text-decoration: none;">Home</a> •
             
-                <a href="/blog/" style="text-decoration: none;">Blog</a> •
-            
                 <a href="/projects/" style="text-decoration: none;">Projects</a> •
+            
+                <a href="/blog/" style="text-decoration: none;">Blog</a> •
             
                 <a href="/about/" style="text-decoration: none;">About Me</a>
             
@@ -820,10 +828,10 @@ header {
 									<a href="/">Home</a>
 								</li>
 								<li class="nav-item">
-									<a href="/blog/">Blog</a>
+									<a href="/projects/">Projects</a>
 								</li>
 								<li class="nav-item">
-									<a href="/projects/">Projects</a>
+									<a href="/blog/">Blog</a>
 								</li>
 								<li class="nav-item">
 									<a href="/about/">About Me</a>
@@ -840,84 +848,50 @@ header {
 <div class="progress-bar"></div>
 
 <article class="post">
-  <h1>Toward a Telepresence of Sound: Video Conferencing in Spatial Audio</h1>
+  <h1>Music for a Series of Scenes</h1>
 
   <ul class="post-metadata">
     <li>
-      <time datetime="2021-05-18">18 May 2021</time>
+      <time datetime="2020-10-23">23 October 2020</time>
     </li>
+      <li>
+        <a href="/tags/projects/" class="post-tag">projects</a>
+      </li>
   </ul>
 
-  <h1 id="meet-in-space" tabindex="-1">Meet in Space <a class="header-anchor" href="#meet-in-space">#</a></h1>
-<h2 id="video-conferencing-in-spatial-audio" tabindex="-1">Video Conferencing in Spatial Audio <a class="header-anchor" href="#video-conferencing-in-spatial-audio">#</a></h2>
-<h3 id="abstract" tabindex="-1">Abstract <a class="header-anchor" href="#abstract">#</a></h3>
-<p>Digital communications technologies have developed at an increasingly rapid pace, with the COVID-19 pandemic accelerating its recent adoption. This shift over the last few decades has seen a mass migration online, where utilities like video conferencing software have become essential to entire industries and institutions. Yet, there are clear limitations with this new digital work space - most of which exist from the nuance of natural communication. My master's thesis for the Music, Communications and Technology program at the University of Oslo and Norwegian University of Science and Technology proposes the integration of binaural spatialized audio within a web-based video conferencing platform for small-group, distributed conversations. The proposed system builds upon findings on the benefits of spatial audio in video conferencing platforms and is guided by the tenets of telepresence. The developed implementation is based on Jitsi Meet, a robust open-source conferencing system. It localizes participant’s voices through sound spatialization methods provided by the Web Audio API, a modern library in JavaScript for complex audio manipulation on the web.</p>
-<p>This project treads new ground in exploring how localized audio can be conceptualized within an accessible telecommunications platform, proposing a novel integration of HRTF-based binaural spatialization within a standard video conferencing layout. A novel system design and experimental questions used in a technical evaluation and user study are informed from a review of audio and video conference systems found in the literature and commercial market. The system evaluation suggests its viability from a compatibility and performance perspective. Perceptual metrics of cognitive load, social presence, and intelligibility are further investigated by a user study where four remote subjects were asked to engage in a short group discussion on a live deployment of the system. Results find support for improvements across all defined metrics as well as increased opinion scores regarding the preference of conferencing with a spatial audio system.</p>
-<h2 id="teleconferencing-is-here-to-stay" tabindex="-1">Teleconferencing is Here to Stay <a class="header-anchor" href="#teleconferencing-is-here-to-stay">#</a></h2>
-<p>But is often a tiring affair...</p>
-<ul>
-<li>&quot;Zoom&quot; fatigue</li>
-<li>Reduced dimensionality</li>
-<li>Poor and inconsistent quality</li>
-</ul>
-<p>Teleconferencing has become apart of many of our daily rituals, either a result of the COVID epidemic or the rapid digitization of communication. However, most of us have experienced some symptom of fatigue as a result of our extended use of the system. Latency, network reliability, visual and audio fidelity can all contribute to a fatiguing experience, but software can also play a major role.</p>
-<h2 id="issues-in-teleconferencing" tabindex="-1">Issues in Teleconferencing <a class="header-anchor" href="#issues-in-teleconferencing">#</a></h2>
-<p>My take:</p>
-<ul>
-<li>Don't reinvent the wheel - instead focus on one critical component</li>
-<li>How can the treatment of audio bring us to the goal of telepresence, and closer to realistic conversations</li>
-</ul>
-<p>There is a striking lack of realism in our video meetings, especially in how our voices are conveyed through digital exchange. This project is guided by the principles of telepresence, or the goal of conveying our sensory interactions in high fidelity, as we would in a face-to-face interaction. Every acoustic interaction we experience is spatial so aren't our digital interactions?</p>
-<h2 id="replicating-face-to-face-interactions" tabindex="-1">Replicating Face-to-face Interactions <a class="header-anchor" href="#replicating-face-to-face-interactions">#</a></h2>
-<ul>
-<li>Spatial model, spatial audio
-<ul>
-<li>Visual-aural coherency</li>
-<li>Binaural audio</li>
-</ul>
-</li>
-<li>Benefits from the literature
-<ul>
-<li>Lateralizing audio can improve intelligibility</li>
-<li>Disentangle double-talk</li>
-<li>And more: reduce cognitive load, improve comprehension, and is generally more favorable</li>
-</ul>
-</li>
-</ul>
-<p>There are many issues that ought to be addressed in the field from a software and user experience perspective. Given that audio appears the most critical medium in task oriented communication, I chose to work on integrating spatial audio within a teleconferencing system. Spatial audio within telecommunication has a number of cool benefits and has not yet been integrated within a standard video conferencing platform.</p>
-<h2 id="jitsi-meet-and-web-audio" tabindex="-1">Jitsi Meet and Web Audio <a class="header-anchor" href="#jitsi-meet-and-web-audio">#</a></h2>
-<p>Jitsi Meet is one of the most popular FOSS video conferencing applications that requires no sign up or installation. It works cross browser and has a great support community.</p>
-<p>To achieve spatial audio, the only current possibility for high-fidelity reproduction of sound is through binaural production of sound via headphones. Fortunately, WebAudio, a standardized method supported on all browsers, is able to faciliate full HRTF based binaural audio.</p>
-<h2 id="implementation" tabindex="-1">Implementation <a class="header-anchor" href="#implementation">#</a></h2>
-<ul>
-<li>Capturing participants' audio streams (WebRTC)</li>
-<li>Head-related transfer functions via PannerNode</li>
-<li>Dynamic processing of participants</li>
-</ul>
-<p>With this, I integrated dynamic, toggle-able, spatial audio for each participant audio stream in a meeting. The voices of the participants appear coherent with the video streams as participants appear and disappear.</p>
+  <p>Film has always been a big part of my life, as entertainment, education, and artistic inspiration. Towards the end of high school my taste in all things artistic broadened past the &quot;indie&quot; titles often found on the shelves of Urban Outfitters (forgive me) directly into the obscure. While diving into the archives of cult cinema, midnight movies and the like was entertaining on its own for the shock and awe, it was like the thrill of driving for the first time but unaware of the vistas you're passing by. Unfortunately, it took me a lot of movies to get a taste for the landscape of cinema and even now I have plenty of room to grow.</p>
+<p>As I have continued to explore the wakes of history through my 13.3in portal I've always felt some interest in the continuities between film and music. Often soundtracks highlight the emotional emphasis of a scene or tend to cast a feelings across moments or to even color the mood of the film as a whole. Less often does a film employ music that has existed prior to the film itself. There could be lots of reasons for why a director might want to avoid this: copyright/licencing, its potentially abrupt intrusion, or, what I suspect is largely the case, the meaning that a song could carry with it into the film. The appearance of a song from the past (especially if it is particularly well-known) can dramatically color the viewing experience of that scene and the movie as a whole. In cases where a song fits beautifully into a scene, you can tell the director had either imagined this song as its backdrop before getting behind the camera or was just incredibly intuitive/lucky.</p>
+<h2 id="a-potential-project" tabindex="-1">A potential project <a class="header-anchor" href="#a-potential-project">#</a></h2>
+<p>This dilemma has led me to imagine the possibilities of re-contextualizing films under new soundtracks, perhaps ones made even after the film. This pieces would have the benefit of extending upon not just the legacy of the song, as a director would if they included it in their film, but also the film itself. This imagined production would appropriate the history of the film as well the song that was chosen to fit the scene. I imagined that these shorts would be akin to painting with a new pallette - brief glimpses of a familiar world (sonic and visually) that was re-imagined through new positionings in sound, image, and history. These short clips would also serve to highlight potentially uncommon works in ways that might elevate them, inject a rush of novelty, or critically expose angles of the works that could not be focused on in a standard viewing.</p>
+<p>I hope to continue making these shorts both for satisfying ideas I've had in the log and for getting some experience with video editing. In this first blog, I'll talk about two of the shorts I've done and the stories that accompany my choices.</p>
+<h2 id="funeral-parade-of-roses" tabindex="-1"><em>Funeral Parade of Roses</em> <a class="header-anchor" href="#funeral-parade-of-roses">#</a></h2>
 <figure>
-    <lite-vimeo videoid="548286337" style="background-image: url('https://i.vimeocdn.com/video/810965406.webp?mw=1920&mh=1080&q=70'); aspect-ratio: 16/9;">
-        <div class="ltv-playbtn"></div>
-    </lite-vimeo>
-    <figcaption><a href="https://vimeo.com/548286337">Demo of Meet in Space</a></figcaption>
-</figure>
-<h2 id="validating-with-a-user-study" tabindex="-1">Validating with a User Study <a class="header-anchor" href="#validating-with-a-user-study">#</a></h2>
-<p>After a technical evaluation of the system suggested its ability to scale at least to 5 concurrent participants, I ran a user study consisting of students from MCT as well as other's who were experienced with conferencing on a daily basis. The experiment consisted of a brief conversation among 4 users, with and without spatial audio. The results, while preliminary, were promising and appear to support previous findings in the literature.</p>
-<p>There was support for four hypothesis of perceived metrics:</p>
-<ul>
-<li>Decreased cognitive effort</li>
-<li>Increased social presence</li>
-<li>Increased vocal intelligibility</li>
-<li>Increase in opinion score</li>
-</ul>
-<h2 id="and-the-future" tabindex="-1">And the future? <a class="header-anchor" href="#and-the-future">#</a></h2>
-<p>Spatial audio is being adopted at a rapid pace, but has still yet to be introduced in small group interactions like the ones presented here. Hopefully, this thesis can provide a valid proof of concept for the benefits of spatial audio in video conferencing platforms.</p>
+				<lite-vimeo videoid="457926908" style="aspect-ratio: 1.37/1;">
+					<div class="ltv-playbtn"></div>
+				</lite-vimeo>
+				<figcaption>Funeral Parade of Roses</figcaption>
+			</figure>
+<p>One of my favorite films that I've seen over the last few years, and beyond that, is the first feature length film by art-house director Toshio Matsumoto. The film was firmly situated in the <a href="https://en.wikipedia.org/wiki/Japanese_New_Wave">Japanese New Wave</a> led by the Art Theatre Guild production company. To say that <em>Funeral Parade of Roses</em> is unlike most films is an understatement. Without giving too much away, Roses follows the life of Peter, a young transvestite (or more likely transgender, in a modern context) through the underground gay scene of 1960's Tokyo.</p>
+<p>Even more unusual is that many scenes from the film interview and discuss the lives of the actors, their thoughts and opinions of the film they're working in, and even include shots of the film set. But these scenes are not the only that break from the standard plot, there are countless sequences that flirt with mischief, eroticism, and terror in a bold visual style all their own. There's also a dash of Greek mythology and drug use - 1969 seemed to be a wild year everywhere.</p>
+<p>For Roses, I ended up landing on a an artist I had been introduced to by the director Apichatpong Weerasethakul in the erie, final scene of his last film <em>Cemetary of Splendour</em>. DJ Soulscape is a Korean producer whose 2003 album <em>Lovers:</em> is a collection of samples ranging from downbeat electronic to hip-hop - navigating between the legacies of Nujabes and Air. The first track off Lovers:, &quot;People&quot; begins with a piano bang, reminiscent of &quot;A Day in the Life&quot;, and builds over new samples in each measure. It's a wonderfully cinematic track and really grooves when the bass line kicks in.</p>
+<h2 id="suspiria" tabindex="-1"><em>Suspiria</em> <a class="header-anchor" href="#suspiria">#</a></h2>
+<figure>
+				<lite-vimeo videoid="471716567" style="aspect-ratio: 2.35/1;">
+					<div class="ltv-playbtn"></div>
+				</lite-vimeo>
+				<figcaption>Suspiria</figcaption>
+			</figure>
+<p><em>Suspiria</em> was a film that I had wanted to see for a while. An Italian film with an American lead actress and casting from both Italy and Germany, it was quite an ambitious project and one where many of the actors simply spoke in their native language to be overdubbed. But besides the logistics, <em>Suspiria</em> is known as a staple of the euro-horror genre.</p>
+<p>Compared to <em>Roses</em>, the music in this case actually informed the choice of the film. The song chosen comes from Claudine Longet, a French-American popular for covering American and Brazilian standards in the 60's and 70's as well as for being married to Andy Williams for a decade in that period. However, her career was cut short by a murder trial of her new boyfriend in Aspen, 1976. This was a widely publicized trial, mired by slipups from the persecution and the police and ended with a light sentence of a month in jail, a small fine, and with breaks on the weekend to see her kids. Even more incredible was that Longet made off with her defense attorney post-trail. They still live in Aspen.</p>
+<p>Given the hefty settlements made to the victims family later, the validity of the trail is heavily disputed. The legacy of Claudine Longet that creeps under her lighthearted vocal performances made a perfect mix for a horror film like <em>Suspiria</em>. &quot;Here, There and Everywhere&quot; is a track written by The Beatles' Paul McCartney - one of his favorites and covered widely. Longet's take (or likely Tommy LiPuma's, as producer) is quite strange, with syncopated drums and pizzicato violins, quiet guitar and a single, haunting lead vocal.</p>
+<h2 id="for-more" tabindex="-1">For more <a class="header-anchor" href="#for-more">#</a></h2>
+<p>To see more shorts from this ongoing series, you can find the showcase, hosted on Vimeo, <a href="https://vimeo.com/showcase/7853493">here</a>.</p>
 
       <ul class="links-nextprev">
-          <li>Previous: <a href="/blog/2020-10-23-film-for-music/">Music for a Series of Scenes</a>
+          <li>Previous: <a href="/projects/2020-10-16-musings-bela/">Musings with Bela</a>
           </li>
         
-          <li>Next: <a href="/blog/2022-08-24-film-for-music-2/">Music for a Series of Scenes: Part 2</a>
+          <li>Next: <a href="/projects/2021-05-14-meet-in-space/">Toward a Telepresence of Sound: Video Conferencing in Spatial Audio</a>
           </li>
         
       </ul>
@@ -926,7 +900,7 @@ header {
 		</div>
 		<footer></footer>
 
-		<!-- This page `/blog/2021-05-14-meet-in-space/` was built on 2024-09-03T21:20:13.742Z -->
+		<!-- This page `/projects/2020-10-23-film-for-music/` was built on 2024-09-04T08:02:05.429Z -->
 	</body>
 </html>
 <script defer>

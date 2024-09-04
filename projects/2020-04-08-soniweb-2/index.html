@@ -3,8 +3,8 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Sound Pedro 2024: Cacophony</title>
-		<meta name="description" content="A sonic installation exploring live networked media for Sound Pedro 2024">
+		<title>Soniweb: Epilogue</title>
+		<meta name="description" content="An update to the internet packet sonification project with a focus on making the sonified objects flexible and responsive">
 		<meta name="generator" content="Eleventy v3.0.0">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Jackson">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Jackson">
@@ -88,18 +88,15 @@ h6 {
 		1.5px 19.3px 20.3px -3px hsl(var(--shadow-color) / 0.1);
 }
 
-:root[data-theme="dark"] {
+/* Both for system and user preference */
+:root[data-theme="dark"],
+.dark-mode {
 	color-scheme: dark;
 	--color-bg: black;
 	--color-gray-20: #cccccc;
 	--color-gray-50: #808080;
 	--color-gray-90: #1a1a1a;
 	--noise-opacity: 0.1;
-}
-.dark-mode {
-	--color-gray-20: #cccccc;
-	--color-gray-50: #808080;
-	--color-gray-90: #1a1a1a;
 }
 
 @font-face {
@@ -167,24 +164,14 @@ main {
 	}
 }
 
-/* Add soft corners to images */
-img,
-video {
-	border-radius: 0.5em;
-}
-
 /* Typography */
 h1,
 h2,
 h3,
 .letter {
 	font-family: "Switzer";
-}
-
-h1 {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.25em;
+	text-wrap: balance;
+	width: fit-content;
 }
 
 /* https://www.a11yproject.com/posts/how-to-hide-content/ */
@@ -276,6 +263,8 @@ nav {
 	list-style: none;
 	padding: 0;
 }
+
+/* Each item in a po */
 .postlist-item {
 	position: relative;
 	display: flex;
@@ -283,35 +272,60 @@ nav {
 	align-items: baseline;
 	padding-left: 1.5em; /* Add left padding to make room for the arrow */
 	margin-bottom: 1em;
-}
-.postlist-item::before {
-	content: "\2192"; /* Default to arrow */
-	position: absolute;
-	top: 0.2em;
-	left: 0;
-	margin-right: 0.5em;
-	color: var(--color-gray-20);
-	transition: all 0.5s ease-out;
-	filter: saturate(100%);
-	transform: scale(1);
-}
-.postlist-item[data-emoji]::before {
-	content: attr(data-emoji);
-}
-.postlist-item::before {
-	transition: all 0.5s ease-out;
-}
-.postlist-item:hover::before,
-.postlist-item:focus-within::before {
-	animation: pulseSat 2s linear infinite;
+
+	&::before {
+		content: "\2192"; /* Default to arrow */
+		position: absolute;
+		top: 0.2em;
+		left: 0;
+		margin-right: 0.5em;
+		color: var(--color-gray-20);
+		transition: all 0.5s ease-out;
+		filter: saturate(100%);
+		transform: scale(1);
+	}
+
+	&[data-emoji]::before {
+		content: attr(data-emoji);
+	}
+
+	&:hover::before,
+	&:focus-within::before {
+		animation: pulseSat 2s linear infinite;
+	}
+
+	&:not(:hover)::before {
+		animation: none;
+		filter: saturate(100%);
+		transform: scale(1);
+	}
+
+	.postlist-date::after {
+		content: attr(data-tooltip);
+		position: absolute;
+		overflow: hidden;
+		max-width: calc(100% - 12em);
+		padding-left: 1em;
+		color: var(--color-gray-20);
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		opacity: 0;
+		visibility: hidden;
+		transition:
+			opacity 0.3s ease,
+			visibility 0.3s ease;
+	}
+
+	&:has(.postlist-link:hover) .postlist-date::after {
+		opacity: 1;
+		visibility: visible;
+	}
+
+	&-active .postlist-link {
+		font-weight: bold;
+	}
 }
 
-.postlist-item:not(:hover)::before {
-	animation: none;
-	filter: saturate(100%);
-	transform: scale(1);
-	transition: all 0.5s ease-out;
-}
 @keyframes pulseSat {
 	0%,
 	50%,
@@ -340,34 +354,6 @@ nav {
 	text-underline-position: from-font;
 	text-underline-offset: 0;
 	text-decoration-thickness: 1px;
-}
-.postlist-item {
-	position: relative;
-}
-
-.postlist-item .postlist-date::after {
-	content: attr(data-tooltip);
-	position: absolute;
-	overflow: hidden;
-	max-width: calc(100% - 12em);
-	padding-left: 1em;
-	color: var(--color-gray-20);
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	opacity: 0;
-	visibility: hidden;
-	transition:
-		opacity 0.3s ease,
-		visibility 0.3s ease;
-}
-
-.postlist-item:has(.postlist-link:hover) .postlist-date::after {
-	opacity: 1;
-	visibility: visible;
-}
-
-.postlist-item-active .postlist-link {
-	font-weight: bold;
 }
 
 /* Tags */
@@ -419,10 +405,16 @@ h2 + .header-anchor {
 	font-size: 1.5em;
 }
 
-/* Starting custom */
+/* Figures */
 figure > * {
 	max-width: 100%;
 	margin: 0 auto;
+}
+
+/* All images & videos should be in a figure */
+figure :first-child {
+	border-radius: 0.5em;
+	box-shadow: var(--shadow-elevation-medium);
 }
 
 figcaption {
@@ -467,25 +459,17 @@ blockquote {
 		margin-top: -7.5px;
 		border-left-color: ButtonFace;
 	}
-}
 
-/* Only do nav switch on wide screens */
-@media (min-width: 840px) {
-	.nav-bubble {
-		&:where(.chat-active) {
-			left: calc(50% + 200px);
-			width: calc(640px - 200px);
-		}
-
-		&:where(.chat-active) > * {
-			display: block;
-		}
+	/* Reset position when chat is active */
+	&:where(.chat-active) {
+		transform: none;
 	}
 }
 
 /* Talk bubble movement */
 header {
-	--item-top: 12px;
+	/* We need to add 1 to the active item to account for the first item */
+	--item-top: calc(12px + var(--nav-item-active, 1) * var(--nav-item-height));
 	--item-rot: 0deg;
 	--nav-item-height: 32px;
 
@@ -522,9 +506,10 @@ header {
 }
 
 .side-nav {
+	display: flex;
 	justify-content: center;
 	width: 100%;
-	margin-right: 2.25em;
+	padding-right: 2.25em;
 }
 
 .nav-list {
@@ -537,10 +522,6 @@ header {
 	text-align: right;
 	list-style: none;
 	padding-inline-start: 0;
-}
-
-.side-nav {
-	display: flex;
 }
 
 .theme-toggle {
@@ -670,6 +651,22 @@ header {
 	display: inline-block;
 }
 
+/* Only do nav switch on wide screens */
+@media (min-width: 840px) {
+	.nav-bubble {
+		&:where(.chat-active) {
+			/* left: calc(50% + 200px); */
+			left: calc(200px + 1em);
+			/* width: calc(640px - 200px); */
+			width: calc(640px - 4em - 2.25em);
+		}
+
+		&:where(.chat-active) > * {
+			display: block;
+		}
+	}
+}
+
 /* For mobile view */
 @media (max-width: 839px) {
 	/* Switch side nav off */
@@ -717,6 +714,7 @@ header {
 	.nav-bubble {
 		position: relative;
 		left: initial;
+		transform: none; /* Reset the transform */
 	}
 }
 
@@ -767,9 +765,9 @@ header {
 	}
 
 	html::-webkit-scrollbar {
+		display: none; /* Chrome, Safari, and Opera */
 		width: 0;
 		height: 0;
-		display: none; /* Chrome, Safari, and Opera */
 	}
 
 	.progress-bar {
@@ -783,9 +781,19 @@ header {
 			transform: scaleY(1);
 		}
 	}
+}
+
+.citation {
+	margin-bottom: 1em;
+	padding-left: 2em;
+	text-indent: -2em;
+}
+
+.citation p {
+	margin: 0;
 }</style>
 	</head>
-	<body>
+	<body style="--nav-item-active: 1;">
 		<div class="noise-container"></div>
 		<a href="#skip" class="visually-hidden">Skip to main content</a>
 		<div class="layout-wrapper">
@@ -798,25 +806,14 @@ header {
         
             
             
+                <a href="/" style="text-decoration: none;">Home</a> •
             
-                
-                    
-                
+                <a href="/projects/" style="text-decoration: none;">Projects</a> •
             
-                
-                    
-                
+                <a href="/blog/" style="text-decoration: none;">Blog</a> •
             
-                
-                    
-                
+                <a href="/about/" style="text-decoration: none;">About Me</a>
             
-                
-                    
-                
-            
-            
-            <span>Sound can be cool and distressing - there's also <a href="/">home</a>, <a href="/blog/">blog</a>, <a href="/projects/">projects</a> or <a href="/about/">about me</a>?</span>
         
     </div>
     <form method="post" id="theme-form" class="theme-toggle">
@@ -831,10 +828,10 @@ header {
 									<a href="/">Home</a>
 								</li>
 								<li class="nav-item">
-									<a href="/blog/">Blog</a>
+									<a href="/projects/">Projects</a>
 								</li>
 								<li class="nav-item">
-									<a href="/projects/">Projects</a>
+									<a href="/blog/">Blog</a>
 								</li>
 								<li class="nav-item">
 									<a href="/about/">About Me</a>
@@ -851,38 +848,68 @@ header {
 <div class="progress-bar"></div>
 
 <article class="post">
-  <h1>Sound Pedro 2024: Cacophony</h1>
+  <h1>Soniweb: Epilogue</h1>
 
   <ul class="post-metadata">
     <li>
-      <time datetime="2024-05-01">01 May 2024</time>
+      <time datetime="2020-04-08">08 April 2020</time>
     </li>
+      <li>
+        <a href="/tags/projects/" class="post-tag">projects</a>
+      </li>
   </ul>
 
-  <h1 id="sound-pedro-2024" tabindex="-1">Sound Pedro 2024 <a class="header-anchor" href="#sound-pedro-2024">#</a></h1>
-<p>This year I presented a sonic installation at Sound Pedro alongside a cohort of other artists presenting wacky and experimental audio works. Initially, I thought it would just make sense to write up a technical overview of my piece but the whole experience and very existence of Sound Pedro made me think it would be interesting to tell a story alongside the technical details.</p>
-<h2 id="a-little-context" tabindex="-1">A little context <a class="header-anchor" href="#a-little-context">#</a></h2>
-<p>In 2021, prior to moving to Long Beach, I was first introduced to the cast of wacky sound artists that regularly filled San Pedro each year. For those unacquainted with the south coast of LA, San Pedro is a sleepy blue-collar town perched right off the massive twin ports of LA and Long Beach. I would have never ended up in that town had an up-end for a co-worker of a friend who liked to &quot;get a shit-ton of speakers and wire up an array&quot;. Now that's my kind of stuff.</p>
-<figure><video src="/vid/tape.mp4" style="aspect-ratio: 16/9;" controls>Your browser does not support the video tag.</video><figcaption>Playing the sound of tape, unspooled between chairs and concrete</figcaption></figure>
-<p>That's my time at Oslo at school for an esoteric degree in music technology. I had always wanted to put up my own sound insulation. The idea of occupying some permanent sonic space that people might pass through and observe thought was genuinely so cool. When I saw dozens and dozens of weirdos scattered around the Angels Gate Cultural Center I was beaming.</p>
-<p>My installation was actually a much older project spurred at an &quot;a-ha&quot; kind of observation during a sonification class at the University of Oslo. Part of one of our projects involved capturing and repurposing <a href="https://en.wikipedia.org/wiki/Found_object_%28music%29">&quot;found sounds&quot;</a> from YouTube (yes, I know that there are many more appropriate places). This led me to become quite familiar with the Swiss Army Knife of Media, FFmpeg. In some rabbit hole, I found it had the little-known option to pull a partial clip from a video at any time marker. My mind raced. Could you pull exclusively audio? What was the size of a 30-second clip? 300 kilobytes. Could I download clips 10 at once - was there throttling? For whatever reason, Google appears to be quite lenient with YouTube's access.</p>
-<p>Cacophony was a small project that took a random list of URLs of YouTube links and would fade in and out clips of audio from these videos. What made the sounds being heard all the more interesting was that they were scraped. They were scraped and direct relationship to YouTube's recommendation system. I wrote a simple crawler to start the home page and click random links, collect YouTube URLs, and then repeat. Hearing this traversal becomes a lot more interesting with context in mind.</p>
-<p>All the code is open-source - <a href="https://github.com/jacksongoode/cacophony/">check it out here</a>. I plan to make a more technical write up with some details on the entire system. In the meantime, you can read the very ostentatious description I submitted.</p>
-<blockquote>
-<p>Cacophony is an immersive sound installation that attempts to capture the inundation of modern media hosting platforms through their traversal. Sites like YouTube, TikTok, Instagram, among others, provide users with virtually boundless and aggressively curated content. Though thought of as visual platforms, sound holds arguably equal weight in the luring of users to their hosted content. Through the programmatic collection and extraction of media, sounds once bound by the frame of moving images are played out of place and time. This siphoning of audio from these clips occurs in real time and is hemmed by restrictions both from the network and media host. Simultaneously, thumbnails from the videos are retrieved, projected and refracted across the local surroundings, further emphasizing the blurred boundaries of sound. “Cacophony” serves disjointed, aural moments from the navigation of these platforms to reflect on how they vie for our attention with often overwhelming consequences.</p>
-</blockquote>
-<p>For the installation, I wanted to go as big as I could under my strict budget of $60. After some extensive Facebook marketplace sleuthing, I found a five-channel home speaker setup with an amplifier. I spent a few more hours than I should, reprograming the script and getting everything to work in a five-channel array (all programmed in Python - yes, you heard that's right. An a-sync real-time multi-channel installation in Python - clearly the best language for this use-case).</p>
-<figure><video src="/vid/pad.mp4" style="aspect-ratio: 16/9;" controls>Your browser does not support the video tag.</video><figcaption>My spot</figcaption></figure>
-<p>The hours preparing before Sound Pedro were just as frantic as it was the first time arriving on that defunct naval base. I spent the past night dusting off speakers, cutting wire, frantically coding and adding catches for robustness and so the speakers wouldn't accidentally explode. Yet, there was very little at home to give an impression of the concrete cave I would be in.</p>
-<p>I was happy when my friends quietly appeared in the stream of visitors.</p>
-<figure><img src="/vid/surprise.jpg" style="aspect-ratio: 16/9;" alt="Me, surprised" /><figcaption>Me, surprised</figcaption></figure>
-<h2 id="after-the-noise" tabindex="-1">After the noise <a class="header-anchor" href="#after-the-noise">#</a></h2>
-<p>Like with a lot of art projects, you spend far more time invested, perfecting, tuning, scrutinizing than anyone will ever see. When I came down to setting up the space, I decided to bring my whole living room up and into whatever space I would be given. Lamps, lights, chairs, my table. Mine turned out to be one of the coziest concrete bungalows there.</p>
-<p>With some continued routing woes, I wasn't able to project the colorful display of video thumbnails as I intended, so I used my laptop's display instead. Folks passing by were excited, confused, disturbed, entertained, and generally interested, since there is very little visual indication of all of the many simultaneous streams of audio that were booming off the semi-circular apartment I was squatting in for the evening.</p>
-<figure><video src="/vid/ongoing.mp4" style="aspect-ratio: 16/9;" controls>Your browser does not support the video tag.</video><figcaption>A quick clip - sadly the drones of the surrounding performances did just that :)</figcaption></figure>
+  <h1 id="a-reworking-of-soniweb" tabindex="-1">A Reworking of Soniweb <a class="header-anchor" href="#a-reworking-of-soniweb">#</a></h1>
+<p>The <a href="/soniweb">Soniweb</a> project was hurridly completed within the span of about a week. However, in rushing through its implementation, there were a number of unique opertunities that would have been possible with the data we were recieving. Notably, the direction of the packets (whether they were being sent or received) was not considered in the process of our sonification. This information would be quite interesting to have conveyed through sound and provide interesting knowledge about when and how often is your computer uploading information to some other server.</p>
+<p>One of the <a href="https://youtu.be/Ocq3NeudsVk">issues</a> I have with sonification is the reasoning (or lack thereof) behind how aspects of data will be sonified. I feel this is a essential point of interpretation artistically that is missed by a lot of sonification projects in the pursuit of making them sonically &quot;beautiful&quot;. Too often the decisions that are being made are not necessarily drawing out acoustic features that parallel the relationships within the data. To this end, I wanted to make three adjustments to the Soniweb project. The <em>first</em> would replace sample playback to synthesized sound at the heart of the sonification, <em>second</em> would focus on shaping the synthesized sound in an extended range of parameters like envelope and pitch based on the features of the incoming packets, and <em>third</em> would be a general optimization of the python script and Pd patch to prevent stuttering or audio glitches during normal use.</p>
+<figure><img src="/img/soniweb-2-pd.png" style="aspect-ratio: 16/9;" alt="A little restructured and a much better reverb implementation" /><figcaption>A little restructured and a much better reverb implementation</figcaption></figure>
+<h2 id="from-samples-to-fm-synthesis" tabindex="-1">From samples to FM synthesis <a class="header-anchor" href="#from-samples-to-fm-synthesis">#</a></h2>
+<p>Our first version of Soniweb used pre-fab samples for each of the different protocols (UDP, DNS, TCP, etc.), meaning there was a considerable amount of processing in simply reading these samples into memory to play in parallel. In the previous version, there was noticeable pops and stutters as a result of web browser usage (page loads), Wireshark's backend listening to packets, and Pd producing an ambisonic environment. So, one major reason in replacing samples with a short generated FM synth would be the benefit it might have on CPU usage and memory within Pure Data.</p>
+<h2 id="sonification-of-direction" tabindex="-1">Sonification of direction <a class="header-anchor" href="#sonification-of-direction">#</a></h2>
+<p>It's not totally obvious how one goes about representing motions like approach or retreat. However, one nice point of reference is the <a href="https://en.wikipedia.org/wiki/Doppler_effect">Doppler effect</a>, the reason firetrucks seem to have a higher pitch when driving towards the listener and a lower pitch once they have passed. This might be the best feature representative of acoustic motion along with increasing/decreasing volume.
+Í</p>
+<figure text-align="center">
+    <audio src="https://upload.wikimedia.org/wikipedia/commons/9/90/Speeding-car-horn_doppler_effect_sample.ogg" controls preload="none" class="m-0a display-block"></audio>
+    <figcaption>Audio from Wikipedia</figcaption>
+</figure>
+<p>With this information I planned to give the sense of a sound arriving and departing by creating envelopes that had a short attack/long decay (departing) and long attack/short decay (arriving), each coupled with the proper pitch transformations one would observe with the doppler effect (departing - pitch falling, arriving - pitch rising). However, due to the massive number of packets that are received at once, anything longer than half a second for a single sound would quickly become overwhelming. Thus, a lot of tinkering with the timing and duration of each of these transformations was needed in order to make their different both <strong>intelligible</strong> and <strong>musical</strong>.</p>
+<figure><img src="/img/soniweb-2-boop.png" style="aspect-ratio: 16/9;" alt="The new patch for one of the voices" /><figcaption>The new patch for one of the voices</figcaption></figure>
+<h2 id="filtering" tabindex="-1">Filtering <a class="header-anchor" href="#filtering">#</a></h2>
+<p>Because there would be potentially dozen of packets coming within a single second, I decided to restrict this stream by 1) limiting the packet size and the frequency that packets could be registered in the python script and 2) shortening the max duration of the sound each packet will make to 150ms in Pd. These changes came after a number of other tests to see if limiting the packets by duplicate IP's (no packet can be sent from the same IP in succession) and by duplicate packet size. Both of these alternatives seemed like strange modifications to the data stream and were workarounds for my desired outcome - fewer packets at once.</p>
+<p>So, after checking the very scarce documentation of pyshark, I found there was a way to grab the time that a packet was received and restricted the interval between packets manually (5ms). I also made sure that sequential packets of the same size (such as when loading an image) have a subsequently quieter sound.</p>
+<pre class="language-python" tabindex="0"><code class="language-python"><span class="highlight-line"><span class="token comment"># Set up capture and filter by host IP and packet size</span></span>
+<span class="highlight-line">capture <span class="token operator">=</span> pyshark<span class="token punctuation">.</span>LiveCapture<span class="token punctuation">(</span></span>
+<span class="highlight-line">    interface<span class="token operator">=</span><span class="token string">"en0"</span><span class="token punctuation">,</span></span>
+<span class="highlight-line">    only_summaries<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span></span>
+<span class="highlight-line">    bpf_filter<span class="token operator">=</span><span class="token string">"ip and host "</span><span class="token operator">+</span>host_ip<span class="token operator">+</span><span class="token string">" and length > "</span><span class="token operator">+</span>pkt_len<span class="token punctuation">)</span></span>
+<span class="highlight-line"></span>
+<span class="highlight-line"><span class="token keyword">for</span> packet <span class="token keyword">in</span> capture<span class="token punctuation">:</span></span>
+<span class="highlight-line">        <span class="token comment"># Restrict flow of packets</span></span>
+<span class="highlight-line">        pkt_time <span class="token operator">=</span> <span class="token builtin">float</span><span class="token punctuation">(</span>packet<span class="token punctuation">.</span>time<span class="token punctuation">)</span></span>
+<span class="highlight-line">        delta <span class="token operator">=</span> pkt_time <span class="token operator">-</span> prior_time</span>
+<span class="highlight-line">        <span class="token keyword">if</span> delta <span class="token operator">></span> <span class="token number">.05</span><span class="token punctuation">:</span></span>
+<span class="highlight-line">            prior_time <span class="token operator">=</span> pkt_time</span>
+<span class="highlight-line"></span>
+<span class="highlight-line">            <span class="token comment"># To OSC</span></span>
+<span class="highlight-line">            <span class="token keyword">try</span><span class="token punctuation">:</span></span>
+<span class="highlight-line">                <span class="token comment"># For reappearing packets of same size - reduce gain</span></span>
+<span class="highlight-line">                <span class="token keyword">if</span> prior_len <span class="token operator">==</span> packet<span class="token punctuation">.</span>length<span class="token punctuation">:</span></span>
+<span class="highlight-line">                    client<span class="token punctuation">.</span>send_message<span class="token punctuation">(</span><span class="token string">"/packet_len"</span><span class="token punctuation">,</span> <span class="token builtin">int</span><span class="token punctuation">(</span>packet<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">10</span><span class="token punctuation">)</span></span>
+<span class="highlight-line">                <span class="token keyword">else</span><span class="token punctuation">:</span></span>
+<span class="highlight-line">                    client<span class="token punctuation">.</span>send_message<span class="token punctuation">(</span><span class="token string">"/packet_len"</span><span class="token punctuation">,</span> <span class="token builtin">int</span><span class="token punctuation">(</span>packet<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">)</span></span>
+<span class="highlight-line">                prior_len <span class="token operator">=</span> packet<span class="token punctuation">.</span>length</span></code></pre>
+<figcaption>Filters so my ears (and computer) remain intact</figcaption>
+<p>There was also a helpful flag within pyshark I had overlooked. The &quot;only_summaries&quot; flag when setting up the LiveCapture significantly reduces the information each packet carries when it enters python. Including it likely made the entire script more efficient, as the information I needed from each packet still existed within just the summaries.</p>
+<h2 id="results" tabindex="-1">Results <a class="header-anchor" href="#results">#</a></h2>
+<p>Interestingly, the replacement of sound samples with synthesized sound did not initially reduce the CPU usage of the script on the computer I was testing with (a 2013 Macbook Pro). This may simply be a result of how intensive the setup for testing this program but also that I had made quite extensive changes to the structure of the program as well. Both the script, Pure Data, and a web browser (or web intensive application) are needed to run to &quot;feed&quot; Pure Data packets of data. With all of these applications running, Pure Data does struggle a bit and some pops and stutters when webpages are loading, though I have noticed that this behavior with audio interruptions is also common to other applications like Zoom when there is intense web traffic happening at once.</p>
+<p>After reworking the filtering system and tinkering a bit with the quality of the reverb I added (to help with spatialization), I think I ended up with something quite nice. Here's a short video, please wear headphones to experience the full effect. The code and patches can be found <a href="https://github.com/jacksongoode/soniweb">here</a>.</p>
+<figure><video src="https://www.uio.no/english/studies/programmes/mct-master/blog/assets/video/2020_04_13_jacksong_soniweb2_demo.mp4" style="aspect-ratio: 16/9;" controls>Your browser does not support the video tag.</video><figcaption>A demo of the updated project (headphones required!)</figcaption></figure>
 
       <ul class="links-nextprev">
-          <li>Previous: <a href="/blog/2023-07-19-montreal/">Montreal</a>
+          <li>Previous: <a href="/projects/2020-03-09-soniweb/">Soniweb: An Experiment in Web Traffic Sonification and Ambisonics</a>
+          </li>
+        
+          <li>Next: <a href="/projects/2020-05-20-breathing-through-max/">Breathing through Max</a>
           </li>
         
       </ul>
@@ -891,7 +918,7 @@ header {
 		</div>
 		<footer></footer>
 
-		<!-- This page `/blog/2024-05-01-cacophony/` was built on 2024-09-03T21:20:13.743Z -->
+		<!-- This page `/projects/2020-04-08-soniweb-2/` was built on 2024-09-04T08:02:05.428Z -->
 	</body>
 </html>
 <script defer>

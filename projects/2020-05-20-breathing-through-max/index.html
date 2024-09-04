@@ -3,8 +3,8 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Music for a Series of Scenes</title>
-		<meta name="description" content="An introduction to a video series on re-contextualization in film and music.">
+		<title>Breathing through Max</title>
+		<meta name="description" content="I developed a system to follow and sonify the pace of breath, with an emphasis on the tenants of biofeedback, to serve as a responsive system for stress relief">
 		<meta name="generator" content="Eleventy v3.0.0">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Jackson">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Jackson">
@@ -88,18 +88,15 @@ h6 {
 		1.5px 19.3px 20.3px -3px hsl(var(--shadow-color) / 0.1);
 }
 
-:root[data-theme="dark"] {
+/* Both for system and user preference */
+:root[data-theme="dark"],
+.dark-mode {
 	color-scheme: dark;
 	--color-bg: black;
 	--color-gray-20: #cccccc;
 	--color-gray-50: #808080;
 	--color-gray-90: #1a1a1a;
 	--noise-opacity: 0.1;
-}
-.dark-mode {
-	--color-gray-20: #cccccc;
-	--color-gray-50: #808080;
-	--color-gray-90: #1a1a1a;
 }
 
 @font-face {
@@ -167,24 +164,14 @@ main {
 	}
 }
 
-/* Add soft corners to images */
-img,
-video {
-	border-radius: 0.5em;
-}
-
 /* Typography */
 h1,
 h2,
 h3,
 .letter {
 	font-family: "Switzer";
-}
-
-h1 {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.25em;
+	text-wrap: balance;
+	width: fit-content;
 }
 
 /* https://www.a11yproject.com/posts/how-to-hide-content/ */
@@ -276,6 +263,8 @@ nav {
 	list-style: none;
 	padding: 0;
 }
+
+/* Each item in a po */
 .postlist-item {
 	position: relative;
 	display: flex;
@@ -283,35 +272,60 @@ nav {
 	align-items: baseline;
 	padding-left: 1.5em; /* Add left padding to make room for the arrow */
 	margin-bottom: 1em;
-}
-.postlist-item::before {
-	content: "\2192"; /* Default to arrow */
-	position: absolute;
-	top: 0.2em;
-	left: 0;
-	margin-right: 0.5em;
-	color: var(--color-gray-20);
-	transition: all 0.5s ease-out;
-	filter: saturate(100%);
-	transform: scale(1);
-}
-.postlist-item[data-emoji]::before {
-	content: attr(data-emoji);
-}
-.postlist-item::before {
-	transition: all 0.5s ease-out;
-}
-.postlist-item:hover::before,
-.postlist-item:focus-within::before {
-	animation: pulseSat 2s linear infinite;
+
+	&::before {
+		content: "\2192"; /* Default to arrow */
+		position: absolute;
+		top: 0.2em;
+		left: 0;
+		margin-right: 0.5em;
+		color: var(--color-gray-20);
+		transition: all 0.5s ease-out;
+		filter: saturate(100%);
+		transform: scale(1);
+	}
+
+	&[data-emoji]::before {
+		content: attr(data-emoji);
+	}
+
+	&:hover::before,
+	&:focus-within::before {
+		animation: pulseSat 2s linear infinite;
+	}
+
+	&:not(:hover)::before {
+		animation: none;
+		filter: saturate(100%);
+		transform: scale(1);
+	}
+
+	.postlist-date::after {
+		content: attr(data-tooltip);
+		position: absolute;
+		overflow: hidden;
+		max-width: calc(100% - 12em);
+		padding-left: 1em;
+		color: var(--color-gray-20);
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		opacity: 0;
+		visibility: hidden;
+		transition:
+			opacity 0.3s ease,
+			visibility 0.3s ease;
+	}
+
+	&:has(.postlist-link:hover) .postlist-date::after {
+		opacity: 1;
+		visibility: visible;
+	}
+
+	&-active .postlist-link {
+		font-weight: bold;
+	}
 }
 
-.postlist-item:not(:hover)::before {
-	animation: none;
-	filter: saturate(100%);
-	transform: scale(1);
-	transition: all 0.5s ease-out;
-}
 @keyframes pulseSat {
 	0%,
 	50%,
@@ -340,34 +354,6 @@ nav {
 	text-underline-position: from-font;
 	text-underline-offset: 0;
 	text-decoration-thickness: 1px;
-}
-.postlist-item {
-	position: relative;
-}
-
-.postlist-item .postlist-date::after {
-	content: attr(data-tooltip);
-	position: absolute;
-	overflow: hidden;
-	max-width: calc(100% - 12em);
-	padding-left: 1em;
-	color: var(--color-gray-20);
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	opacity: 0;
-	visibility: hidden;
-	transition:
-		opacity 0.3s ease,
-		visibility 0.3s ease;
-}
-
-.postlist-item:has(.postlist-link:hover) .postlist-date::after {
-	opacity: 1;
-	visibility: visible;
-}
-
-.postlist-item-active .postlist-link {
-	font-weight: bold;
 }
 
 /* Tags */
@@ -419,10 +405,16 @@ h2 + .header-anchor {
 	font-size: 1.5em;
 }
 
-/* Starting custom */
+/* Figures */
 figure > * {
 	max-width: 100%;
 	margin: 0 auto;
+}
+
+/* All images & videos should be in a figure */
+figure :first-child {
+	border-radius: 0.5em;
+	box-shadow: var(--shadow-elevation-medium);
 }
 
 figcaption {
@@ -467,25 +459,17 @@ blockquote {
 		margin-top: -7.5px;
 		border-left-color: ButtonFace;
 	}
-}
 
-/* Only do nav switch on wide screens */
-@media (min-width: 840px) {
-	.nav-bubble {
-		&:where(.chat-active) {
-			left: calc(50% + 200px);
-			width: calc(640px - 200px);
-		}
-
-		&:where(.chat-active) > * {
-			display: block;
-		}
+	/* Reset position when chat is active */
+	&:where(.chat-active) {
+		transform: none;
 	}
 }
 
 /* Talk bubble movement */
 header {
-	--item-top: 12px;
+	/* We need to add 1 to the active item to account for the first item */
+	--item-top: calc(12px + var(--nav-item-active, 1) * var(--nav-item-height));
 	--item-rot: 0deg;
 	--nav-item-height: 32px;
 
@@ -522,9 +506,10 @@ header {
 }
 
 .side-nav {
+	display: flex;
 	justify-content: center;
 	width: 100%;
-	margin-right: 2.25em;
+	padding-right: 2.25em;
 }
 
 .nav-list {
@@ -537,10 +522,6 @@ header {
 	text-align: right;
 	list-style: none;
 	padding-inline-start: 0;
-}
-
-.side-nav {
-	display: flex;
 }
 
 .theme-toggle {
@@ -670,6 +651,22 @@ header {
 	display: inline-block;
 }
 
+/* Only do nav switch on wide screens */
+@media (min-width: 840px) {
+	.nav-bubble {
+		&:where(.chat-active) {
+			/* left: calc(50% + 200px); */
+			left: calc(200px + 1em);
+			/* width: calc(640px - 200px); */
+			width: calc(640px - 4em - 2.25em);
+		}
+
+		&:where(.chat-active) > * {
+			display: block;
+		}
+	}
+}
+
 /* For mobile view */
 @media (max-width: 839px) {
 	/* Switch side nav off */
@@ -717,6 +714,7 @@ header {
 	.nav-bubble {
 		position: relative;
 		left: initial;
+		transform: none; /* Reset the transform */
 	}
 }
 
@@ -767,9 +765,9 @@ header {
 	}
 
 	html::-webkit-scrollbar {
+		display: none; /* Chrome, Safari, and Opera */
 		width: 0;
 		height: 0;
-		display: none; /* Chrome, Safari, and Opera */
 	}
 
 	.progress-bar {
@@ -783,9 +781,19 @@ header {
 			transform: scaleY(1);
 		}
 	}
+}
+
+.citation {
+	margin-bottom: 1em;
+	padding-left: 2em;
+	text-indent: -2em;
+}
+
+.citation p {
+	margin: 0;
 }</style>
 	</head>
-	<body>
+	<body style="--nav-item-active: 1;">
 		<div class="noise-container"></div>
 		<a href="#skip" class="visually-hidden">Skip to main content</a>
 		<div class="layout-wrapper">
@@ -800,9 +808,9 @@ header {
             
                 <a href="/" style="text-decoration: none;">Home</a> •
             
-                <a href="/blog/" style="text-decoration: none;">Blog</a> •
-            
                 <a href="/projects/" style="text-decoration: none;">Projects</a> •
+            
+                <a href="/blog/" style="text-decoration: none;">Blog</a> •
             
                 <a href="/about/" style="text-decoration: none;">About Me</a>
             
@@ -820,10 +828,10 @@ header {
 									<a href="/">Home</a>
 								</li>
 								<li class="nav-item">
-									<a href="/blog/">Blog</a>
+									<a href="/projects/">Projects</a>
 								</li>
 								<li class="nav-item">
-									<a href="/projects/">Projects</a>
+									<a href="/blog/">Blog</a>
 								</li>
 								<li class="nav-item">
 									<a href="/about/">About Me</a>
@@ -840,47 +848,61 @@ header {
 <div class="progress-bar"></div>
 
 <article class="post">
-  <h1>Music for a Series of Scenes</h1>
+  <h1>Breathing through Max</h1>
 
   <ul class="post-metadata">
     <li>
-      <time datetime="2020-10-23">23 October 2020</time>
+      <time datetime="2020-05-18">18 May 2020</time>
     </li>
+      <li>
+        <a href="/tags/projects/" class="post-tag">projects</a>
+      </li>
   </ul>
 
-  <p>Film has always been a big part of my life, as entertainment, education, and artistic inspiration. Towards the end of high school my taste in all things artistic broadened past the &quot;indie&quot; titles often found on the shelves of Urban Outfitters (forgive me) directly into the obscure. While diving into the archives of cult cinema, midnight movies and the like was entertaining on its own for the shock and awe, it was like the thrill of driving for the first time but unaware of the vistas you're passing by. Unfortunately, it took me a lot of movies to get a taste for the landscape of cinema and even now I have plenty of room to grow.</p>
-<p>As I have continued to explore the wakes of history through my 13.3in portal I've always felt some interest in the continuities between film and music. Often soundtracks highlight the emotional emphasis of a scene or tend to cast a feelings across moments or to even color the mood of the film as a whole. Less often does a film employ music that has existed prior to the film itself. There could be lots of reasons for why a director might want to avoid this: copyright/licencing, its potentially abrupt intrusion, or, what I suspect is largely the case, the meaning that a song could carry with it into the film. The appearance of a song from the past (especially if it is particularly well-known) can dramatically color the viewing experience of that scene and the movie as a whole. In cases where a song fits beautifully into a scene, you can tell the director had either imagined this song as its backdrop before getting behind the camera or was just incredibly intuitive/lucky.</p>
-<h2 id="a-potential-project" tabindex="-1">A potential project <a class="header-anchor" href="#a-potential-project">#</a></h2>
-<p>This dilemma has led me to imagine the possibilities of re-contextualizing films under new soundtracks, perhaps ones made even after the film. This pieces would have the benefit of extending upon not just the legacy of the song, as a director would if they included it in their film, but also the film itself. This imagined production would appropriate the history of the film as well the song that was chosen to fit the scene. I imagined that these shorts would be akin to painting with a new pallette - brief glimpses of a familiar world (sonic and visually) that was re-imagined through new positionings in sound, image, and history. These short clips would also serve to highlight potentially uncommon works in ways that might elevate them, inject a rush of novelty, or critically expose angles of the works that could not be focused on in a standard viewing.</p>
-<p>I hope to continue making these shorts both for satisfying ideas I've had in the log and for getting some experience with video editing. In this first blog, I'll talk about two of the shorts I've done and the stories that accompany my choices.</p>
-<h2 id="funeral-parade-of-roses" tabindex="-1"><em>Funeral Parade of Roses</em> <a class="header-anchor" href="#funeral-parade-of-roses">#</a></h2>
+  <h2 id="rationale" tabindex="-1">Rationale <a class="header-anchor" href="#rationale">#</a></h2>
+<p>Analyzing motion from smartphone sensors or laptop cameras is a both a challenging scenario and exciting opportunity. This project transforms the live acceleration data recorded from an iPhone resting on the torso of a person laying down into a dynamic sonic atmosphere that may enhance the monitoring one’s breath through auditory cues. One potential use of this system would be as a meditation or relaxation assistant. The sound environment aims to be soothing and ought to coax one into a deeper and more rhythmic breathing cycle. There is ample empirical data to suggest that paced respiration can reduce anxiety and other measures of perceived stress. Following common themes of this literature, <a href="https://en.wikipedia.org/wiki/Biofeedback">biofeedback</a> is a topic of importance in recognizing the effects of this system on a user.</p>
+<p>The inhales and exhales are identified as peaks and troughs within the accelerometer data and as a result, an average breathing rate can be obtained that serves as a marker of how consistently rhythmic the individual’s breathing rate is. This indicator is used to grow and shrink the sonic environment as one’s breathing and body begin to settle. On the surface, the information gained from the chest’s rise and fall appear to be an easy to manipulate stream. However, most of the time spent on the project involved developing a reliable and flexible model for processing a very noisy stream of data due to the micro-movements that were being recorded. Various parameters of the system were then modulated by other much more noisy sensor data as well.</p>
+<h2 id="methodology" tabindex="-1">Methodology <a class="header-anchor" href="#methodology">#</a></h2>
+<p>The first task before embarking on this project was finding a suitable app that would be a reliable recorder and streaming platform for micro-motion data. Sadly, there are not many apps that provide a data logging functionality on iOS and even fewer that provide a way to record data from the sensors and only one that appears to meet the requirements I had for such an app,</p>
+<ol>
+<li>Log data at a high frequency (&gt; 50hz)</li>
+<li>Record multiple sensors at once</li>
+<li>Export this data in CSV format and</li>
+<li>Send this data over a networked connection</li>
+</ol>
+<p>Most of these apps transmit their sensor data over a UDP connection using the OSC protocol. This type of communication is well supported by many DAWs and platforms like Max and Pure Data. However, the app that was used, SensorLog unfortunately, did not send data with the OSC protocol. Instead, it sends the data over UDP as it would when writing a CSV file that was not compatible with Max’s [udpreceive] object.</p>
+<p>To work around this, I wrote a python script that acted as a node to receive, format the stream into proper OSC messages, and finally, send the data locally to a specified port within Max. The script operated by receiving a row of data, splitting the list of data points into an array, and then sending each index of the array as a pair with a specified OSC message. I used the messages “/x”, “/y”, and “/z” as shorthand for the x, y, z, acceleration data. Once this was passed into Max, the data was able to be handled the same way as any other OSC message.</p>
+<figure><img src="/img/breathing-code.png" style="aspect-ratio: 16/9;" alt="Sample of the code used to transport the messages into Max" /><figcaption>Sample of the code used to transport the messages into Max</figcaption></figure>
+<p>After some initial testing of various sensors and positions during recording, I found that the acceleration value for the y-axis was the most reliable source of information for tracking respiratory motion. Because of the placement of the phone, none of the other sensors render any useful information. The only other sensor that appeared to follow the same information was the gyroscope, but the sensor upon inspection looked like a transformation of the acceleration data. In the first trial recording set of breathing, I was able to find that this sensor’s y-axis extracted recognizable oscillations of the rise and fall of my stomach. However, because the movements were quite small, the noise of the sensor clouded what was, in reality, a smooth envelope of motion.</p>
+<p>Reading the CSV data into Max was achieved by loading each line of the CSV as a text file from which I could use a [metro] object to iterate through the [coll] dictionary that stored the sensor data (<a href="https://cycling74.com/forums/importing-from-excel-csv-questions/">I stole this bit of Max data</a>). From Max, I could visualize the data stream easily using a [multislider] window. I then set out to smooth this data through a variety of techniques. I found that a reliable method of smoothing the noisy data was to create a buffer of the last x number of samples (with [zl.stream]) and then output the mean ([mean]) of that sliding window. The larger the number of samples, the smoother the data, yet this stunts some of the local dynamics within the stream and creates latency. After exploring further I found a 3rd party object [dot.denoise.sliding] that includes better logic for excluding outliers within streams.</p>
+<figure><img src="/img/breathing-noisey.png" style="aspect-ratio: 20px;" alt="Before and after de-noising the stream" /><figcaption>Before and after de-noising the stream</figcaption></figure>
+<p>This returns to an observation I noticed when looking at sensor data. I noticed that one of the gyroscope sensors also was repeating in a rhythmic pattern, but much faster and pronounced than breathing should be. I realized that these were pronounced fulgurations of my heartbeat and that these impulses were actually affecting the accelerometer sensor data I was analyzing from the y-axis.</p>
+<figure><img src="/img/breathing-gyro.png" style="aspect-ratio: 600px;" alt="Notice the fast paced impulses from the gyroscope sensor" /><figcaption>Notice the fast paced impulses from the gyroscope sensor</figcaption></figure>
+<p>Once the oscillations were smoothed, the next step was identifying local minimums and maximums of each breath. Again, the dot library had a nifty object to find local max/mins by checking for changes in sign (+/-) from a previous data point to the next. This would have worked nicely if the data rose and fell with continuity. But due to the noise, there were a number of places near the peak or trough of the oscillations where even a smoothed data point might change the sign of the differences between the current and previous point.</p>
+<p>I tried number of techniques to suppress the improper max/mins that would appear such as forcing a minimum delay to check for a max after finding a min or max, as well as attempting to doubly embed local max/min detection. The most successful and flexible method by far was setting a minimum distance between the breaths that were taken. This is a reliable method as a single breath could vary in speed and the expansion of the torso would be the same.</p>
+<p>I further enhanced this solution by making the distance dynamically shift by an average of the distance between the last five maxes and mins.</p>
+<figure><img src="/img/breathing-distance.png" style="aspect-ratio: 540px;" alt="Gating the frequent max/mins" /><figcaption>Gating the frequent max/mins</figcaption></figure>
+<p>Finally, the last piece of data that is inferred from identifying the local max/mins of each breath is the average time between each inhale and exhale. This is calculated as a metric of respiratory rate consistency which is the difference between the last period between a max/min and the average of these last 10 periods. This value is then scaled and used to attenuate a sound clip of wind chimes that enter when the consistency value is low. Thus, the wind chimes should emerge as a result of a restful cycle of breath and provide positive feedback to the user. In addition to the wind chime samples, there is a three-oscillator drone instrument was driven by the noisy data from the x and z-axis accelerometer streams. This drone adds a subtle resonance to the bells and provides some ambient feedback of the motion of the breath. This is achieved by scaling the smoothed acceleration data from the y-axis and modulating the amplitude.</p>
+<h2 id="results-and-conclusions" tabindex="-1">Results and Conclusions <a class="header-anchor" href="#results-and-conclusions">#</a></h2>
+<p>After debugging the system for quite some time, I may not be able to provide the best perspective on how useful it is for its intended purpose. Even still, the system may allow a user to pay attention to their biorhythms and less to other distracting thoughts that might interrupt a session. Most of the time spent building the system was in an effort to fine-tune the analysis of these data streams in real-time so many of the acoustic elements were secondary to this objective. The streams were processed flexibly and reliably for the dynamic stream and I’m quite happy with the way the data is handled throughout the system – even in extreme cases such as erratic motion where the amplitude of all sounds is reduced to silence. From this perspective, I find the system quite usable but I am not entirely pleased with the sound of the instruments and sonic environments.</p>
+<p>There are still some unanswered questions I have about more technical aspects of the system. The first being the latency contributed form formatting UDP messages in a Python node and then passing it on to Max. I was fine with this compromise considering the app’s considerable logging speed (100Hz) which enabled much of the noise to be averaged. Another question is one of compatibility: If I were to use another sensor app that was able to directly send OSC data, perhaps at a lower logging rate, would this dramatically affect the system’s ability to identify peaks and troughs? For future work, the system’s reception logic should allow general purpose OSC enabled apps to connect to the system in addition to SensorLog for better compatibility.</p>
+<p>You can find the code <a href="https://github.com/jacksongoode/breathingthroughmax">here</a> along with a setup.</p>
 <figure>
-				<lite-vimeo videoid="457926908" style="aspect-ratio: 1.37/1;">
-					<div class="ltv-playbtn"></div>
-				</lite-vimeo>
-				<figcaption>Funeral Parade of Roses</figcaption>
-			</figure>
-<p>One of my favorite films that I've seen over the last few years, and beyond that, is the first feature length film by art-house director Toshio Matsumoto. The film was firmly situated in the <a href="https://en.wikipedia.org/wiki/Japanese_New_Wave">Japanese New Wave</a> led by the Art Theatre Guild production company. To say that <em>Funeral Parade of Roses</em> is unlike most films is an understatement. Without giving too much away, Roses follows the life of Peter, a young transvestite (or more likely transgender, in a modern context) through the underground gay scene of 1960's Tokyo.</p>
-<p>Even more unusual is that many scenes from the film interview and discuss the lives of the actors, their thoughts and opinions of the film they're working in, and even include shots of the film set. But these scenes are not the only that break from the standard plot, there are countless sequences that flirt with mischief, eroticism, and terror in a bold visual style all their own. There's also a dash of Greek mythology and drug use - 1969 seemed to be a wild year everywhere.</p>
-<p>For Roses, I ended up landing on a an artist I had been introduced to by the director Apichatpong Weerasethakul in the erie, final scene of his last film <em>Cemetary of Splendour</em>. DJ Soulscape is a Korean producer whose 2003 album <em>Lovers:</em> is a collection of samples ranging from downbeat electronic to hip-hop - navigating between the legacies of Nujabes and Air. The first track off Lovers:, &quot;People&quot; begins with a piano bang, reminiscent of &quot;A Day in the Life&quot;, and builds over new samples in each measure. It's a wonderfully cinematic track and really grooves when the bass line kicks in.</p>
-<h2 id="suspiria" tabindex="-1"><em>Suspiria</em> <a class="header-anchor" href="#suspiria">#</a></h2>
-<figure>
-				<lite-vimeo videoid="471716567" style="aspect-ratio: 2.35/1;">
-					<div class="ltv-playbtn"></div>
-				</lite-vimeo>
-				<figcaption>Suspiria</figcaption>
-			</figure>
-<p><em>Suspiria</em> was a film that I had wanted to see for a while. An Italian film with an American lead actress and casting from both Italy and Germany, it was quite an ambitious project and one where many of the actors simply spoke in their native language to be overdubbed. But besides the logistics, <em>Suspiria</em> is known as a staple of the euro-horror genre.</p>
-<p>Compared to <em>Roses</em>, the music in this case actually informed the choice of the film. The song chosen comes from Claudine Longet, a French-American popular for covering American and Brazilian standards in the 60's and 70's as well as for being married to Andy Williams for a decade in that period. However, her career was cut short by a murder trial of her new boyfriend in Aspen, 1976. This was a widely publicized trial, mired by slipups from the persecution and the police and ended with a light sentence of a month in jail, a small fine, and with breaks on the weekend to see her kids. Even more incredible was that Longet made off with her defense attorney post-trail. They still live in Aspen.</p>
-<p>Given the hefty settlements made to the victims family later, the validity of the trail is heavily disputed. The legacy of Claudine Longet that creeps under her lighthearted vocal performances made a perfect mix for a horror film like <em>Suspiria</em>. &quot;Here, There and Everywhere&quot; is a track written by The Beatles' Paul McCartney - one of his favorites and covered widely. Longet's take (or likely Tommy LiPuma's, as producer) is quite strange, with syncopated drums and pizzicato violins, quiet guitar and a single, haunting lead vocal.</p>
-<h2 id="for-more" tabindex="-1">For more <a class="header-anchor" href="#for-more">#</a></h2>
-<p>To see more shorts from this ongoing series, you can find the showcase, hosted on Vimeo, <a href="https://vimeo.com/showcase/7853493">here</a>.</p>
+    <div class="iframe-wrapper pb-169">
+        <iframe src="https://drive.google.com/file/d/1G64dQ5iub0O7MClNNkbH5ktVX5hHf0e8/preview" frameborder="0"  allowfullscreen alt="A demo of the system"></iframe>
+    </div>
+    <figcaption>A demo of the system using pre-recorded data</figcaption>
+</figure>
+<h2 id="works-cited" tabindex="-1">Works Cited <a class="header-anchor" href="#works-cited">#</a></h2>
+<p class="citation">Upham, Finn. (2016). <em>Breathing in Music: Measuring and Marking Time</em>. Retrieved from <a href="https://finnupham.com/2016/10/17/breathing-in-music-making-time-in-music-2016/">https://finnupham.com/2016/10/17/breathing-in-music-making-time-in-music-2016/</a></p>
+<p class="citation">Siwiak, Diana, et al.. (2009). <em>Catch Your Breath - Musical Biofeedback for Breathing Regulation</em>. Retrieved from <a href="http://www.aes.org/e-lib/online/browse.cfm?elib=15065">http://www.aes.org/e-lib/online/browse.cfm?elib=15065</a></p>
+<p class="citation">Sutarto, Auditya Purwandini, et al.. (2012). <em>Resonant Breathing Biofeedback Training for Stress Reduction Among Manufacturing Operators</em>. Retrieved from <a href="https://doi.org/10.1080/10803548.2012.11076959">https://doi.org/10.1080/10803548.2012.11076959</a></p>
 
       <ul class="links-nextprev">
-          <li>Previous: <a href="/blog/2020-10-16-musings-bela/">Musings with Bela</a>
+          <li>Previous: <a href="/projects/2020-04-08-soniweb-2/">Soniweb: Epilogue</a>
           </li>
         
-          <li>Next: <a href="/blog/2021-05-14-meet-in-space/">Toward a Telepresence of Sound: Video Conferencing in Spatial Audio</a>
+          <li>Next: <a href="/projects/2020-09-20-classifying-urban-sounds/">Classifying Urban Sounds in a Multi-label Database</a>
           </li>
         
       </ul>
@@ -889,7 +911,7 @@ header {
 		</div>
 		<footer></footer>
 
-		<!-- This page `/blog/2020-10-23-film-for-music/` was built on 2024-09-03T21:20:13.741Z -->
+		<!-- This page `/projects/2020-05-20-breathing-through-max/` was built on 2024-09-04T08:02:05.429Z -->
 	</body>
 </html>
 <script defer>

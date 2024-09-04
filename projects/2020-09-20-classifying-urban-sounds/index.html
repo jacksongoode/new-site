@@ -88,18 +88,15 @@ h6 {
 		1.5px 19.3px 20.3px -3px hsl(var(--shadow-color) / 0.1);
 }
 
-:root[data-theme="dark"] {
+/* Both for system and user preference */
+:root[data-theme="dark"],
+.dark-mode {
 	color-scheme: dark;
 	--color-bg: black;
 	--color-gray-20: #cccccc;
 	--color-gray-50: #808080;
 	--color-gray-90: #1a1a1a;
 	--noise-opacity: 0.1;
-}
-.dark-mode {
-	--color-gray-20: #cccccc;
-	--color-gray-50: #808080;
-	--color-gray-90: #1a1a1a;
 }
 
 @font-face {
@@ -167,24 +164,14 @@ main {
 	}
 }
 
-/* Add soft corners to images */
-img,
-video {
-	border-radius: 0.5em;
-}
-
 /* Typography */
 h1,
 h2,
 h3,
 .letter {
 	font-family: "Switzer";
-}
-
-h1 {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.25em;
+	text-wrap: balance;
+	width: fit-content;
 }
 
 /* https://www.a11yproject.com/posts/how-to-hide-content/ */
@@ -276,6 +263,8 @@ nav {
 	list-style: none;
 	padding: 0;
 }
+
+/* Each item in a po */
 .postlist-item {
 	position: relative;
 	display: flex;
@@ -283,35 +272,60 @@ nav {
 	align-items: baseline;
 	padding-left: 1.5em; /* Add left padding to make room for the arrow */
 	margin-bottom: 1em;
-}
-.postlist-item::before {
-	content: "\2192"; /* Default to arrow */
-	position: absolute;
-	top: 0.2em;
-	left: 0;
-	margin-right: 0.5em;
-	color: var(--color-gray-20);
-	transition: all 0.5s ease-out;
-	filter: saturate(100%);
-	transform: scale(1);
-}
-.postlist-item[data-emoji]::before {
-	content: attr(data-emoji);
-}
-.postlist-item::before {
-	transition: all 0.5s ease-out;
-}
-.postlist-item:hover::before,
-.postlist-item:focus-within::before {
-	animation: pulseSat 2s linear infinite;
+
+	&::before {
+		content: "\2192"; /* Default to arrow */
+		position: absolute;
+		top: 0.2em;
+		left: 0;
+		margin-right: 0.5em;
+		color: var(--color-gray-20);
+		transition: all 0.5s ease-out;
+		filter: saturate(100%);
+		transform: scale(1);
+	}
+
+	&[data-emoji]::before {
+		content: attr(data-emoji);
+	}
+
+	&:hover::before,
+	&:focus-within::before {
+		animation: pulseSat 2s linear infinite;
+	}
+
+	&:not(:hover)::before {
+		animation: none;
+		filter: saturate(100%);
+		transform: scale(1);
+	}
+
+	.postlist-date::after {
+		content: attr(data-tooltip);
+		position: absolute;
+		overflow: hidden;
+		max-width: calc(100% - 12em);
+		padding-left: 1em;
+		color: var(--color-gray-20);
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		opacity: 0;
+		visibility: hidden;
+		transition:
+			opacity 0.3s ease,
+			visibility 0.3s ease;
+	}
+
+	&:has(.postlist-link:hover) .postlist-date::after {
+		opacity: 1;
+		visibility: visible;
+	}
+
+	&-active .postlist-link {
+		font-weight: bold;
+	}
 }
 
-.postlist-item:not(:hover)::before {
-	animation: none;
-	filter: saturate(100%);
-	transform: scale(1);
-	transition: all 0.5s ease-out;
-}
 @keyframes pulseSat {
 	0%,
 	50%,
@@ -340,34 +354,6 @@ nav {
 	text-underline-position: from-font;
 	text-underline-offset: 0;
 	text-decoration-thickness: 1px;
-}
-.postlist-item {
-	position: relative;
-}
-
-.postlist-item .postlist-date::after {
-	content: attr(data-tooltip);
-	position: absolute;
-	overflow: hidden;
-	max-width: calc(100% - 12em);
-	padding-left: 1em;
-	color: var(--color-gray-20);
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	opacity: 0;
-	visibility: hidden;
-	transition:
-		opacity 0.3s ease,
-		visibility 0.3s ease;
-}
-
-.postlist-item:has(.postlist-link:hover) .postlist-date::after {
-	opacity: 1;
-	visibility: visible;
-}
-
-.postlist-item-active .postlist-link {
-	font-weight: bold;
 }
 
 /* Tags */
@@ -419,10 +405,16 @@ h2 + .header-anchor {
 	font-size: 1.5em;
 }
 
-/* Starting custom */
+/* Figures */
 figure > * {
 	max-width: 100%;
 	margin: 0 auto;
+}
+
+/* All images & videos should be in a figure */
+figure :first-child {
+	border-radius: 0.5em;
+	box-shadow: var(--shadow-elevation-medium);
 }
 
 figcaption {
@@ -467,25 +459,17 @@ blockquote {
 		margin-top: -7.5px;
 		border-left-color: ButtonFace;
 	}
-}
 
-/* Only do nav switch on wide screens */
-@media (min-width: 840px) {
-	.nav-bubble {
-		&:where(.chat-active) {
-			left: calc(50% + 200px);
-			width: calc(640px - 200px);
-		}
-
-		&:where(.chat-active) > * {
-			display: block;
-		}
+	/* Reset position when chat is active */
+	&:where(.chat-active) {
+		transform: none;
 	}
 }
 
 /* Talk bubble movement */
 header {
-	--item-top: 12px;
+	/* We need to add 1 to the active item to account for the first item */
+	--item-top: calc(12px + var(--nav-item-active, 1) * var(--nav-item-height));
 	--item-rot: 0deg;
 	--nav-item-height: 32px;
 
@@ -522,9 +506,10 @@ header {
 }
 
 .side-nav {
+	display: flex;
 	justify-content: center;
 	width: 100%;
-	margin-right: 2.25em;
+	padding-right: 2.25em;
 }
 
 .nav-list {
@@ -537,10 +522,6 @@ header {
 	text-align: right;
 	list-style: none;
 	padding-inline-start: 0;
-}
-
-.side-nav {
-	display: flex;
 }
 
 .theme-toggle {
@@ -670,6 +651,22 @@ header {
 	display: inline-block;
 }
 
+/* Only do nav switch on wide screens */
+@media (min-width: 840px) {
+	.nav-bubble {
+		&:where(.chat-active) {
+			/* left: calc(50% + 200px); */
+			left: calc(200px + 1em);
+			/* width: calc(640px - 200px); */
+			width: calc(640px - 4em - 2.25em);
+		}
+
+		&:where(.chat-active) > * {
+			display: block;
+		}
+	}
+}
+
 /* For mobile view */
 @media (max-width: 839px) {
 	/* Switch side nav off */
@@ -717,6 +714,7 @@ header {
 	.nav-bubble {
 		position: relative;
 		left: initial;
+		transform: none; /* Reset the transform */
 	}
 }
 
@@ -767,9 +765,9 @@ header {
 	}
 
 	html::-webkit-scrollbar {
+		display: none; /* Chrome, Safari, and Opera */
 		width: 0;
 		height: 0;
-		display: none; /* Chrome, Safari, and Opera */
 	}
 
 	.progress-bar {
@@ -783,9 +781,19 @@ header {
 			transform: scaleY(1);
 		}
 	}
+}
+
+.citation {
+	margin-bottom: 1em;
+	padding-left: 2em;
+	text-indent: -2em;
+}
+
+.citation p {
+	margin: 0;
 }</style>
 	</head>
-	<body>
+	<body style="--nav-item-active: 1;">
 		<div class="noise-container"></div>
 		<a href="#skip" class="visually-hidden">Skip to main content</a>
 		<div class="layout-wrapper">
@@ -800,9 +808,9 @@ header {
             
                 <a href="/" style="text-decoration: none;">Home</a> •
             
-                <a href="/blog/" style="text-decoration: none;">Blog</a> •
-            
                 <a href="/projects/" style="text-decoration: none;">Projects</a> •
+            
+                <a href="/blog/" style="text-decoration: none;">Blog</a> •
             
                 <a href="/about/" style="text-decoration: none;">About Me</a>
             
@@ -820,10 +828,10 @@ header {
 									<a href="/">Home</a>
 								</li>
 								<li class="nav-item">
-									<a href="/blog/">Blog</a>
+									<a href="/projects/">Projects</a>
 								</li>
 								<li class="nav-item">
-									<a href="/projects/">Projects</a>
+									<a href="/blog/">Blog</a>
 								</li>
 								<li class="nav-item">
 									<a href="/about/">About Me</a>
@@ -846,6 +854,9 @@ header {
     <li>
       <time datetime="2020-09-20">20 September 2020</time>
     </li>
+      <li>
+        <a href="/tags/projects/" class="post-tag">projects</a>
+      </li>
   </ul>
 
   <h1 id="environmental-sound-classification-over-concurrent-samples" tabindex="-1">Environmental Sound Classification over Concurrent Samples <a class="header-anchor" href="#environmental-sound-classification-over-concurrent-samples">#</a></h1>
@@ -929,41 +940,21 @@ combined<span class="token punctuation">.</span>append<span class="token punctua
 <p>Another issue tied to the source database was its sheer size. The total time required to load around 9000 .wav files makes it prohibitively expensive when tuning parameters, or in this case, adapting the processing of files for a new problem space. K-fold validation would have been helpful in estimating the average accuracy of the model and providing greater confidence in our reflections of the model but there was not enough time to do so.</p>
 <p>Code and instructions for setting up this project can be found <a href="https://github.com/jacksongoode/enc-multi-label">here</a>.</p>
 <h2 id="references" tabindex="-1">References <a class="header-anchor" href="#references">#</a></h2>
-<ol>
-<li>
-<p>Abdoli, S., Cardinal, P., &amp; Koerich, A. L. (2019). End-to-End Environmental Sound Classification using a 1D Convolutional Neural Network. ArXiv:1904.08990 [Cs, Stat]. <a href="http://arxiv.org/abs/1904.08990">http://arxiv.org/abs/1904.08990</a></p>
-</li>
-<li>
-<p>Mushtaq, Z., &amp; Su, S.-F. (2020). Environmental sound classification using a regularized deep convolutional neural network with data augmentation. Applied Acoustics, 167, 107389. <a href="https://doi.org/10.1016/j.apacoust.2020.107389">https://doi.org/10.1016/j.apacoust.2020.107389</a></p>
-</li>
-<li>
-<p>Piczak, K. J. (2020). Karolpiczak/ESC-50 [Python]. <a href="https://github.com/karolpiczak/ESC-50">https://github.com/karolpiczak/ESC-50</a> (Original work published 2015)</p>
-</li>
-<li>
-<p>Piczak, K. J. (2015a). Environmental sound classification with convolutional neural networks. 2015 IEEE 25th International Workshop on Machine Learning for Signal Processing (MLSP), 1–6. <a href="https://doi.org/10.1109/MLSP.2015.7324337">https://doi.org/10.1109/MLSP.2015.7324337</a></p>
-</li>
-<li>
-<p>Piczak, K. J. (2015b). ESC: Dataset for Environmental Sound Classification. Proceedings of the 23rd ACM International Conference on Multimedia, 1015–1018. <a href="https://doi.org/10.1145/2733373.2806390">https://doi.org/10.1145/2733373.2806390</a></p>
-</li>
-<li>
-<p>Saeed, A. (n.d.). Urban Sound Classification, Part 2. Retrieved 18 September 2020, from <a href="http://aqibsaeed.github.io/2016-09-24-urban-sound-classification-part-2/">http://aqibsaeed.github.io/2016-09-24-urban-sound-classification-part-2/</a></p>
-</li>
-<li>
-<p>Aaqib. (2020). Aqibsaeed/Urban-Sound-Classification [Jupyter Notebook]. <a href="https://github.com/aqibsaeed/Urban-Sound-Classification">https://github.com/aqibsaeed/Urban-Sound-Classification</a> (Original work published 2016)</p>
-</li>
-<li>
-<p>Su, Y., Zhang, K., Wang, J., &amp; Madani, K. (2019). Environment Sound Classification Using a Two-Stream CNN Based on Decision-Level Fusion. Sensors, 19(7), 1733. <a href="https://doi.org/10.3390/s19071733">https://doi.org/10.3390/s19071733</a></p>
-</li>
-<li>
-<p>UrbanSound8K. (n.d.). Urban Sound Datasets. Retrieved 23 August 2020, from <a href="https://urbansounddataset.weebly.com/urbansound8k.html">https://urbansounddataset.weebly.com/urbansound8k.html</a></p>
-</li>
-</ol>
+<p class="citation">Abdoli, S., Cardinal, P., & Koerich, A. L.. (2019). <em>End-to-End Environmental Sound Classification using a 1D Convolutional Neural Network</em>. Retrieved from <a href="http://arxiv.org/abs/1904.08990">http://arxiv.org/abs/1904.08990</a></p>
+<p class="citation">Mushtaq, Z., & Su, S.-F.. (2020). <em>Environmental sound classification using a regularized deep convolutional neural network with data augmentation</em>. Retrieved from <a href="https://doi.org/10.1016/j.apacoust.2020.107389">https://doi.org/10.1016/j.apacoust.2020.107389</a></p>
+<p class="citation">Piczak, K. J.. (2020). <em>Karolpiczak/ESC-50</em>. Retrieved from <a href="https://github.com/karolpiczak/ESC-50">https://github.com/karolpiczak/ESC-50</a></p>
+<p class="citation">Piczak, K. J.. (2015). <em>Environmental sound classification with convolutional neural networks</em>. Retrieved from <a href="https://doi.org/10.1109/MLSP.2015.7324337">https://doi.org/10.1109/MLSP.2015.7324337</a></p>
+<p class="citation">Piczak, K. J.. (2015). <em>ESC: Dataset for Environmental Sound Classification</em>. Retrieved from <a href="https://doi.org/10.1145/2733373.2806390">https://doi.org/10.1145/2733373.2806390</a></p>
+<p class="citation">Saeed, A.. (2020). <em>Urban Sound Classification, Part 2</em>. Retrieved from <a href="http://aqibsaeed.github.io/2016-09-24-urban-sound-classification-part-2/">http://aqibsaeed.github.io/2016-09-24-urban-sound-classification-part-2/</a></p>
+<p class="citation">Aaqib. (2020). <em>Aqibsaeed/Urban-Sound-Classification</em>. Retrieved from <a href="https://github.com/aqibsaeed/Urban-Sound-Classification">https://github.com/aqibsaeed/Urban-Sound-Classification</a></p>
+<p class="citation">Su, Y., Zhang, K., Wang, J., & Madani, K.. (2019). <em>Environment Sound Classification Using a Two-Stream CNN Based on Decision-Level Fusion</em>. Retrieved from <a href="https://doi.org/10.3390/s19071733">https://doi.org/10.3390/s19071733</a></p>
+<p class="citation">UrbanSound8K. (2020). <em>Urban Sound Datasets</em>. Retrieved from <a href="https://urbansounddataset.weebly.com/urbansound8k.html">https://urbansounddataset.weebly.com/urbansound8k.html</a></p>
 
       <ul class="links-nextprev">
-          <li>Previous: <a href="/blog/2020-05-20-breathing-through-max/">Breathing through Max</a>
+          <li>Previous: <a href="/projects/2020-05-20-breathing-through-max/">Breathing through Max</a>
           </li>
         
-          <li>Next: <a href="/blog/2020-10-16-musings-bela/">Musings with Bela</a>
+          <li>Next: <a href="/projects/2020-10-16-musings-bela/">Musings with Bela</a>
           </li>
         
       </ul>
@@ -972,7 +963,7 @@ combined<span class="token punctuation">.</span>append<span class="token punctua
 		</div>
 		<footer></footer>
 
-		<!-- This page `/blog/2020-09-20-classifying-urban-sounds/` was built on 2024-09-03T21:20:13.741Z -->
+		<!-- This page `/projects/2020-09-20-classifying-urban-sounds/` was built on 2024-09-04T08:02:05.429Z -->
 	</body>
 </html>
 <script defer>

@@ -3,13 +3,16 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Jackson</title>
-		<meta name="description" content="Hello, I&#39;m Jackson.">
+		<title>Toward a Telepresence of Sound: Video Conferencing in Spatial Audio</title>
+		<meta name="description" content="Teleconferencing in spatial audio with the help of Jitsi Meet and Web Audio">
 		<meta name="generator" content="Eleventy v3.0.0">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Jackson">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Jackson">
 
 		
+		
+		<link rel="stylesheet" href="/css/prism.css"/>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.2/src/lite-yt-embed.css">
 		
 		<style>/*
   Josh's Custom CSS Reset
@@ -842,20 +845,98 @@ header {
 
 			<main id="skip" class="container">
 				
-<h1>Tags</h1>
+<div class="progress-bar"></div>
 
+<article class="post">
+  <h1>Toward a Telepresence of Sound: Video Conferencing in Spatial Audio</h1>
+
+  <ul class="post-metadata">
+    <li>
+      <time datetime="2021-05-18">18 May 2021</time>
+    </li>
+      <li>
+        <a href="/tags/projects/" class="post-tag">projects</a>
+      </li>
+  </ul>
+
+  <h1 id="meet-in-space-video-conferencing-in-spatial-audio" tabindex="-1">Meet in Space: Video Conferencing in Spatial Audio <a class="header-anchor" href="#meet-in-space-video-conferencing-in-spatial-audio">#</a></h1>
+<h2 id="abstract" tabindex="-1">Abstract <a class="header-anchor" href="#abstract">#</a></h2>
+<p>Digital communications technologies have developed at an increasingly rapid pace, with the COVID-19 pandemic accelerating its recent adoption. This shift over the last few decades has seen a mass migration online, where utilities like video conferencing software have become essential to entire industries and institutions. Yet, there are clear limitations with this new digital work space - most of which exist from the nuance of natural communication. My master's thesis for the Music, Communications and Technology program at the University of Oslo and Norwegian University of Science and Technology proposes the integration of binaural spatialized audio within a web-based video conferencing platform for small-group, distributed conversations. The proposed system builds upon findings on the benefits of spatial audio in video conferencing platforms and is guided by the tenets of telepresence. The developed implementation is based on Jitsi Meet, a robust open-source conferencing system. It localizes participant’s voices through sound spatialization methods provided by the Web Audio API, a modern library in JavaScript for complex audio manipulation on the web.</p>
+<p>This project treads new ground in exploring how localized audio can be conceptualized within an accessible telecommunications platform, proposing a novel integration of HRTF-based binaural spatialization within a standard video conferencing layout. A novel system design and experimental questions used in a technical evaluation and user study are informed from a review of audio and video conference systems found in the literature and commercial market. The system evaluation suggests its viability from a compatibility and performance perspective. Perceptual metrics of cognitive load, social presence, and intelligibility are further investigated by a user study where four remote subjects were asked to engage in a short group discussion on a live deployment of the system. Results find support for improvements across all defined metrics as well as increased opinion scores regarding the preference of conferencing with a spatial audio system.</p>
+<h2 id="teleconferencing-is-here-to-stay" tabindex="-1">Teleconferencing is Here to Stay <a class="header-anchor" href="#teleconferencing-is-here-to-stay">#</a></h2>
+<p>But is often a tiring affair...</p>
 <ul>
-
-	
-	<li><a href="/tags/projects/" class="post-tag">projects</a></li>
-
+<li>&quot;Zoom&quot; fatigue</li>
+<li>Reduced dimensionality</li>
+<li>Poor and inconsistent quality</li>
 </ul>
+<p>Teleconferencing has become apart of many of our daily rituals, either a result of the COVID epidemic or the rapid digitization of communication. However, most of us have experienced some symptom of fatigue as a result of our extended use of the system. Latency, network reliability, visual and audio fidelity can all contribute to a fatiguing experience, but software can also play a major role.</p>
+<h2 id="issues-in-teleconferencing" tabindex="-1">Issues in Teleconferencing <a class="header-anchor" href="#issues-in-teleconferencing">#</a></h2>
+<p>My take:</p>
+<ul>
+<li>Don't reinvent the wheel - instead focus on one critical component</li>
+<li>How can the treatment of audio bring us to the goal of telepresence, and closer to realistic conversations</li>
+</ul>
+<p>There is a striking lack of realism in our video meetings, especially in how our voices are conveyed through digital exchange. This project is guided by the principles of telepresence, or the goal of conveying our sensory interactions in high fidelity, as we would in a face-to-face interaction. Every acoustic interaction we experience is spatial so aren't our digital interactions?</p>
+<h2 id="replicating-face-to-face-interactions" tabindex="-1">Replicating Face-to-face Interactions <a class="header-anchor" href="#replicating-face-to-face-interactions">#</a></h2>
+<ul>
+<li>Spatial model, spatial audio
+<ul>
+<li>Visual-aural coherency</li>
+<li>Binaural audio</li>
+</ul>
+</li>
+<li>Benefits from the literature
+<ul>
+<li>Lateralizing audio can improve intelligibility</li>
+<li>Disentangle double-talk</li>
+<li>And more: reduce cognitive load, improve comprehension, and is generally more favorable</li>
+</ul>
+</li>
+</ul>
+<p>There are many issues that ought to be addressed in the field from a software and user experience perspective. Given that audio appears the most critical medium in task oriented communication, I chose to work on integrating spatial audio within a teleconferencing system. Spatial audio within telecommunication has a number of cool benefits and has not yet been integrated within a standard video conferencing platform.</p>
+<h2 id="jitsi-meet-and-web-audio" tabindex="-1">Jitsi Meet and Web Audio <a class="header-anchor" href="#jitsi-meet-and-web-audio">#</a></h2>
+<p>Jitsi Meet is one of the most popular FOSS video conferencing applications that requires no sign up or installation. It works cross browser and has a great support community.</p>
+<p>To achieve spatial audio, the only current possibility for high-fidelity reproduction of sound is through binaural production of sound via headphones. Fortunately, WebAudio, a standardized method supported on all browsers, is able to faciliate full HRTF based binaural audio.</p>
+<h2 id="implementation" tabindex="-1">Implementation <a class="header-anchor" href="#implementation">#</a></h2>
+<ul>
+<li>Capturing participants' audio streams (WebRTC)</li>
+<li>Head-related transfer functions via PannerNode</li>
+<li>Dynamic processing of participants</li>
+</ul>
+<p>With this, I integrated dynamic, toggle-able, spatial audio for each participant audio stream in a meeting. The voices of the participants appear coherent with the video streams as participants appear and disappear.</p>
+<figure>
+				<lite-vimeo videoid="548286337" style="aspect-ratio: 16/9;">
+					<div class="ltv-playbtn"></div>
+				</lite-vimeo>
+				<figcaption>Demo of Meet in Space</figcaption>
+			</figure>
+<h2 id="validating-with-a-user-study" tabindex="-1">Validating with a User Study <a class="header-anchor" href="#validating-with-a-user-study">#</a></h2>
+<p>After a technical evaluation of the system suggested its ability to scale at least to 5 concurrent participants, I ran a user study consisting of students from MCT as well as other's who were experienced with conferencing on a daily basis. The experiment consisted of a brief conversation among 4 users, with and without spatial audio. The results, while preliminary, were promising and appear to support previous findings in the literature.</p>
+<p>There was support for four hypotheses of perceived metrics:</p>
+<ul>
+<li>Decreased cognitive effort</li>
+<li>Increased social presence</li>
+<li>Increased vocal intelligibility</li>
+<li>Increase in opinion score</li>
+</ul>
+<h2 id="and-the-future" tabindex="-1">And the future? <a class="header-anchor" href="#and-the-future">#</a></h2>
+<p>Spatial audio is being adopted at a rapid pace, but has still yet to be introduced in small group interactions like the ones presented here. Hopefully, this thesis can provide a valid proof of concept for the benefits of spatial audio in video conferencing platforms.</p>
 
+      <ul class="links-nextprev">
+          <li>Previous: <a href="/projects/2020-10-23-film-for-music/">Music for a Series of Scenes</a>
+          </li>
+        
+          <li>Next: <a href="/projects/2022-08-24-film-for-music-2/">Music for a Series of Scenes: Part 2</a>
+          </li>
+        
+      </ul>
+</article>
 			</main>
 		</div>
 		<footer></footer>
 
-		<!-- This page `/tags/` was built on 2024-09-04T08:02:05.426Z -->
+		<!-- This page `/projects/2021-05-14-meet-in-space/` was built on 2024-09-04T08:02:05.429Z -->
 	</body>
 </html>
 <script defer>
@@ -1012,3 +1093,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
+
+<script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.3/src/lite-yt-embed.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/lite-vimeo-embed/+esm" defer></script>
