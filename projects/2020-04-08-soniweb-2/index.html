@@ -879,27 +879,27 @@ header {
 <h2 id="filtering" tabindex="-1">Filtering <a class="header-anchor" href="#filtering">#</a></h2>
 <p>Because there would be potentially dozen of packets coming within a single second, I decided to restrict this stream by 1) limiting the packet size and the frequency that packets could be registered in the python script and 2) shortening the max duration of the sound each packet will make to 150ms in Pd. These changes came after a number of other tests to see if limiting the packets by duplicate IP's (no packet can be sent from the same IP in succession) and by duplicate packet size. Both of these alternatives seemed like strange modifications to the data stream and were workarounds for my desired outcome - fewer packets at once.</p>
 <p>So, after checking the very scarce documentation of pyshark, I found there was a way to grab the time that a packet was received and restricted the interval between packets manually (5ms). I also made sure that sequential packets of the same size (such as when loading an image) have a subsequently quieter sound.</p>
-<pre class="language-python" tabindex="0"><code class="language-python"><span class="highlight-line"><span class="token comment"># Set up capture and filter by host IP and packet size</span></span>
-<span class="highlight-line">capture <span class="token operator">=</span> pyshark<span class="token punctuation">.</span>LiveCapture<span class="token punctuation">(</span></span>
-<span class="highlight-line">    interface<span class="token operator">=</span><span class="token string">"en0"</span><span class="token punctuation">,</span></span>
-<span class="highlight-line">    only_summaries<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span></span>
-<span class="highlight-line">    bpf_filter<span class="token operator">=</span><span class="token string">"ip and host "</span><span class="token operator">+</span>host_ip<span class="token operator">+</span><span class="token string">" and length > "</span><span class="token operator">+</span>pkt_len<span class="token punctuation">)</span></span>
-<span class="highlight-line"></span>
-<span class="highlight-line"><span class="token keyword">for</span> packet <span class="token keyword">in</span> capture<span class="token punctuation">:</span></span>
-<span class="highlight-line">        <span class="token comment"># Restrict flow of packets</span></span>
-<span class="highlight-line">        pkt_time <span class="token operator">=</span> <span class="token builtin">float</span><span class="token punctuation">(</span>packet<span class="token punctuation">.</span>time<span class="token punctuation">)</span></span>
-<span class="highlight-line">        delta <span class="token operator">=</span> pkt_time <span class="token operator">-</span> prior_time</span>
-<span class="highlight-line">        <span class="token keyword">if</span> delta <span class="token operator">></span> <span class="token number">.05</span><span class="token punctuation">:</span></span>
-<span class="highlight-line">            prior_time <span class="token operator">=</span> pkt_time</span>
-<span class="highlight-line"></span>
-<span class="highlight-line">            <span class="token comment"># To OSC</span></span>
-<span class="highlight-line">            <span class="token keyword">try</span><span class="token punctuation">:</span></span>
-<span class="highlight-line">                <span class="token comment"># For reappearing packets of same size - reduce gain</span></span>
-<span class="highlight-line">                <span class="token keyword">if</span> prior_len <span class="token operator">==</span> packet<span class="token punctuation">.</span>length<span class="token punctuation">:</span></span>
-<span class="highlight-line">                    client<span class="token punctuation">.</span>send_message<span class="token punctuation">(</span><span class="token string">"/packet_len"</span><span class="token punctuation">,</span> <span class="token builtin">int</span><span class="token punctuation">(</span>packet<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">10</span><span class="token punctuation">)</span></span>
-<span class="highlight-line">                <span class="token keyword">else</span><span class="token punctuation">:</span></span>
-<span class="highlight-line">                    client<span class="token punctuation">.</span>send_message<span class="token punctuation">(</span><span class="token string">"/packet_len"</span><span class="token punctuation">,</span> <span class="token builtin">int</span><span class="token punctuation">(</span>packet<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">)</span></span>
-<span class="highlight-line">                prior_len <span class="token operator">=</span> packet<span class="token punctuation">.</span>length</span></code></pre>
+<pre class="language-python" tabindex="0"><code class="language-python"><span class="token comment"># Set up capture and filter by host IP and packet size</span>
+capture <span class="token operator">=</span> pyshark<span class="token punctuation">.</span>LiveCapture<span class="token punctuation">(</span>
+    interface<span class="token operator">=</span><span class="token string">"en0"</span><span class="token punctuation">,</span>
+    only_summaries<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span>
+    bpf_filter<span class="token operator">=</span><span class="token string">"ip and host "</span><span class="token operator">+</span>host_ip<span class="token operator">+</span><span class="token string">" and length > "</span><span class="token operator">+</span>pkt_len<span class="token punctuation">)</span>
+
+<span class="token keyword">for</span> packet <span class="token keyword">in</span> capture<span class="token punctuation">:</span>
+        <span class="token comment"># Restrict flow of packets</span>
+        pkt_time <span class="token operator">=</span> <span class="token builtin">float</span><span class="token punctuation">(</span>packet<span class="token punctuation">.</span>time<span class="token punctuation">)</span>
+        delta <span class="token operator">=</span> pkt_time <span class="token operator">-</span> prior_time
+        <span class="token keyword">if</span> delta <span class="token operator">></span> <span class="token number">.05</span><span class="token punctuation">:</span>
+            prior_time <span class="token operator">=</span> pkt_time
+
+            <span class="token comment"># To OSC</span>
+            <span class="token keyword">try</span><span class="token punctuation">:</span>
+                <span class="token comment"># For reappearing packets of same size - reduce gain</span>
+                <span class="token keyword">if</span> prior_len <span class="token operator">==</span> packet<span class="token punctuation">.</span>length<span class="token punctuation">:</span>
+                    client<span class="token punctuation">.</span>send_message<span class="token punctuation">(</span><span class="token string">"/packet_len"</span><span class="token punctuation">,</span> <span class="token builtin">int</span><span class="token punctuation">(</span>packet<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">10</span><span class="token punctuation">)</span>
+                <span class="token keyword">else</span><span class="token punctuation">:</span>
+                    client<span class="token punctuation">.</span>send_message<span class="token punctuation">(</span><span class="token string">"/packet_len"</span><span class="token punctuation">,</span> <span class="token builtin">int</span><span class="token punctuation">(</span>packet<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                prior_len <span class="token operator">=</span> packet<span class="token punctuation">.</span>length</code></pre>
 <figcaption>Filters so my ears (and computer) remain intact</figcaption>
 <p>There was also a helpful flag within pyshark I had overlooked. The &quot;only_summaries&quot; flag when setting up the LiveCapture significantly reduces the information each packet carries when it enters python. Including it likely made the entire script more efficient, as the information I needed from each packet still existed within just the summaries.</p>
 <h2 id="results" tabindex="-1">Results <a class="header-anchor" href="#results">#</a></h2>
@@ -920,7 +920,7 @@ header {
 		</div>
 		<footer></footer>
 
-		<!-- This page `/projects/2020-04-08-soniweb-2/` was built on 2024-09-04T08:17:08.347Z -->
+		<!-- This page `/projects/2020-04-08-soniweb-2/` was built on 2024-09-04T08:49:16.476Z -->
 	</body>
 </html>
 <script defer>
