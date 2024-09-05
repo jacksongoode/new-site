@@ -204,6 +204,10 @@ table th {
 	padding-right: 1em;
 }
 
+pre {
+	border-radius: 0.25em;
+	box-shadow: var(--shadow-elevation-low);
+}
 pre,
 code {
 	font-family: var(--font-family-monospace);
@@ -416,7 +420,7 @@ figure > * {
 /* All images & videos should be in a figure */
 figure :first-child {
 	border-radius: 0.25em;
-	box-shadow: var(--shadow-elevation-medium);
+	box-shadow: var(--shadow-elevation-low);
 }
 
 figcaption {
@@ -745,7 +749,7 @@ header {
 /* Spotify widget */
 .spotify-widget img {
 	border-radius: 0.25em;
-	box-shadow: var(--shadow-elevation-medium);
+	box-shadow: var(--shadow-elevation-low);
 }
 
 /* Sidebar progress bar */
@@ -896,7 +900,7 @@ combined<span class="token punctuation">.</span>append<span class="token punctua
 <h2 id="model-tuning-for-new-dataset" tabindex="-1">Model tuning for new dataset <a class="header-anchor" href="#model-tuning-for-new-dataset">#</a></h2>
 <p>Parameters that were previously provided by Saeed needed to be adjusted considering the new multi-label problem space. The first major change needed to happen at the label encoding level as labels were no longer a number from 0-9, an array of n values from 0-9. To resolve this, the labels were transformed into one-hot binary encoding. This allowed multiple simultaneous classes to be represented in an array of the same length.</p>
 <p>Another major change concerned the end of the network, where predictions and evaluations are made on the training data. The final dense layer was set to the softmax activation function which was <a href="https://glassboxmedicine.com/2019/05/26/classification-sigmoid-vs-softmax/">inappropriate for a non-exclusive multi-label scenario</a>. The softmax function outputs probabilities for classes that sum to one, making it impossible for multiple classes to reach a binary activation. In this case, sigmoid offers probability distributions that are unconstrained, enabling multiple classes to reach binary classification.</p>
-<figure><img src="/img/https://miro.medium.com/max/1268/1*-fADiyqSH9AHPPO7VB4XaQ.png" style="aspect-ratio: 16/9;" alt="Applications of softmax vs. sigmoid - [Credit to Ashis Parajuli](https://medium.com/aidevnepal/for-sigmoid-funcion-f7a5da78fec2)" /><figcaption>Applications of softmax vs. sigmoid - [Credit to Ashis Parajuli](https://medium.com/aidevnepal/for-sigmoid-funcion-f7a5da78fec2)</figcaption></figure>
+<figure><img src="/img/https://miro.medium.com/max/1268/1*-fADiyqSH9AHPPO7VB4XaQ.png" style="aspect-ratio: 16/9;" alt="Applications of softmax vs. sigmoid - Credit to Ashis Parajuli" /><figcaption>Applications of softmax vs. sigmoid - Credit to Ashis Parajuli</figcaption></figure>
 <p>In parallel, the loss function needed to be changed from categorical cross entropy to binary cross-entropy for this binary data.</p>
 <h2 id="evaluation-of-performance" tabindex="-1">Evaluation of performance <a class="header-anchor" href="#evaluation-of-performance">#</a></h2>
 <p>During training, the accuracy score increased to around 44% after 15 epochs while the loss continuously decreased. However, the last 10 epochs showed only a 4% increase in accuracy, suggesting the model was approaching convergence of the weight values and perhaps over-fitting (I had also attempted with longer training sessions with similar outcomes).</p>
@@ -936,7 +940,7 @@ combined<span class="token punctuation">.</span>append<span class="token punctua
 		</div>
 		<footer></footer>
 
-		<!-- This page `/projects/2020-09-20-classifying-urban-sounds/` was built on 2024-09-05T08:33:54.669Z -->
+		<!-- This page `/projects/2020-09-20-classifying-urban-sounds/` was built on 2024-09-05T08:43:27.428Z -->
 	</body>
 </html>
 <script defer>
