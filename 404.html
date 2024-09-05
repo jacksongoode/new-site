@@ -455,11 +455,9 @@ blockquote {
 	&:after {
 		content: "";
 		position: absolute;
-		top: 50%;
 		right: -7.5px;
 		border: 7.5px solid transparent;
 		border-right: 0;
-		margin-top: -7.5px;
 		border-left-color: ButtonFace;
 	}
 
@@ -483,6 +481,7 @@ header {
 	width: 200px;
 	height: 100vh;
 	padding: 1em;
+	z-index: 1; /* Ensure the header is above other elements */
 
 	&:not(:has(+ .chat-active)) {
 		&:has(.nav-item:nth-child(n):hover) {
@@ -531,6 +530,7 @@ header {
 	position: relative;
 	right: -2em;
 	margin-left: auto;
+	align-self: flex-start;
 }
 
 .nav-bubble,
@@ -640,6 +640,7 @@ header {
 	background: none;
 	color: gray;
 	cursor: pointer;
+	align-self: flex-start;
 }
 
 /* Add shadow to nav bubble */
@@ -786,6 +787,7 @@ header {
 	}
 }
 
+/* Citation */
 .citation {
 	padding-left: 2em;
 	margin-bottom: 1em;
@@ -793,6 +795,44 @@ header {
 }
 
 .citation p {
+	margin: 0;
+}
+
+/* Search results */
+#search-results {
+	overflow-y: auto;
+	max-height: 50vh;
+}
+#search-results:has(.search-result) {
+	border-top: 1px solid var(--color-gray-90);
+}
+
+.search-result {
+	--border-width: 0px;
+	display: block;
+	padding: 0.5em 1em;
+	border-bottom: 1px solid var(--color-gray-90);
+	text-decoration: none;
+	color: inherit;
+	background: linear-gradient(var(--color-gray-50), var(--color-gray-50))
+		left/var(--border-width) 100% no-repeat;
+	transition: 0.3s ease;
+	transition-property: background-size, background-color;
+}
+
+.search-result:hover {
+	--border-width: 3px;
+	background-color: var(--color-gray-90);
+}
+
+.search-result a {
+	color: var(--color-gray-20);
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.search-result p {
+	color: var(--color-gray-50);
 	margin: 0;
 }</style>
 	</head>
@@ -857,7 +897,7 @@ This will work for both GitHub pages and Netlify:
 		</div>
 		<footer></footer>
 
-		<!-- This page `/404.html` was built on 2024-09-05T08:43:27.426Z -->
+		<!-- This page `/404.html` was built on 2024-09-05T20:30:12.262Z -->
 	</body>
 </html>
 <script defer>
@@ -893,12 +933,7 @@ This will work for both GitHub pages and Netlify:
     // });
 })();
 
-		const isDevelopment =
-	window.location.hostname === "localhost" ||
-	window.location.hostname === "127.0.0.1";
-const baseUrl = isDevelopment ? "http://localhost:8090" : "";
-
-// Generate a random user ID if not already stored
+		// Generate a random user ID if not already stored
 function getUserId() {
 	let userId = localStorage.getItem("userId");
 	if (!userId) {
@@ -909,6 +944,11 @@ function getUserId() {
 }
 
 function sendMessageToWorker(message) {
+	const isDevelopment =
+		window.location.hostname === "localhost" ||
+		window.location.hostname === "127.0.0.1";
+	const baseUrl = isDevelopment ? "http://localhost:8090" : "";
+
 	const isDarkMode =
 		document.documentElement.getAttribute("data-theme") === "dark";
 	const animalParam = isDarkMode ? "frog" : "chicken";
@@ -962,22 +1002,70 @@ document.addEventListener("DOMContentLoaded", function () {
 	function activateChatInterface() {
 		navPhrase.innerHTML = `
 			<form id="chat-form">
-				<input type="text" id="user-input" placeholder="Type your message...">
+				<input type="text" id="user-input" placeholder="Type your message or search...">
 				<button type="submit" style="display:none;">Send</button>
 			</form>
+			<div id="search-results"></div>
 		`;
-		document.getElementById("user-input").focus();
+		const userInput = document.getElementById("user-input");
+		userInput.focus();
+
+		const searchResults = document.getElementById("search-results");
+		let pagefind;
+
+		userInput.addEventListener("input", async function () {
+			if (!pagefind) {
+				pagefind = await import("/pagefind/pagefind.js");
+				await pagefind.options({
+					element: "#search-results",
+					excerptLength: 15,
+					highlightParam: "highlight",
+				});
+				await pagefind.init();
+			}
+
+			const query = userInput.value.trim();
+			if (query.length > 2) {
+				const search = await pagefind.search(query);
+				const results = await Promise.all(search.results.map((r) => r.data()));
+
+				if (results.length > 0) {
+					searchResults.innerHTML = results
+						.map(
+							(result) => `
+							<a href="${result.url}" class="search-result">
+								<div class="search-result-title">${result.meta.title || "Untitled"}</div>
+								<p>${result.excerpt}</p>
+							</a>
+						`,
+						)
+						.join("");
+					talkBubble.classList.add("chat-active");
+				} else {
+					searchResults.innerHTML = "";
+				}
+			} else {
+				searchResults.innerHTML = "";
+			}
+		});
 
 		document
 			.getElementById("chat-form")
 			.addEventListener("submit", function (e) {
 				e.preventDefault();
-				const userInput = document.getElementById("user-input");
 				if (userInput.value.trim() !== "") {
 					sendMessageToWorker(userInput.value.trim());
 					userInput.value = "";
+					searchResults.innerHTML = "";
 				}
 			});
+
+		// Add event listener for escape key to reset chat interface
+		userInput.addEventListener("keydown", function (e) {
+			if (e.key === "Escape") {
+				resetChatInterface();
+			}
+		});
 	}
 
 	function handleChatTrigger() {
