@@ -24,7 +24,7 @@
 	box-sizing: border-box;
 }
 * {
-	line-height: calc(1em + 0.5rem);
+	line-height: calc(1em + 0.725rem);
 	margin: 0;
 }
 body {
@@ -415,7 +415,7 @@ figure > * {
 }
 /* All images & videos should be in a figure */
 figure :first-child {
-	border-radius: 0.5em;
+	border-radius: 0.25em;
 	box-shadow: var(--shadow-elevation-medium);
 }
 
@@ -473,7 +473,7 @@ header {
 	/* We need to add 1 to the active item to account for the first item */
 	--item-top: calc(12px + var(--nav-item-active, 1) * var(--nav-item-height));
 	--item-rot: 0deg;
-	--nav-item-height: 32px;
+	--nav-item-height: 36px;
 
 	position: sticky;
 	top: 0;
@@ -744,7 +744,7 @@ header {
 
 /* Spotify widget */
 .spotify-widget img {
-	border-radius: 0.5em;
+	border-radius: 0.25em;
 	box-shadow: var(--shadow-elevation-medium);
 }
 
@@ -807,15 +807,7 @@ header {
     <div id="navPhrase" class="nav-phrase">
         
             
-            
-                <a href="/" style="text-decoration: none;">Home</a> •
-            
-                <a href="/projects/" style="text-decoration: none;">Projects</a> •
-            
-                <a href="/blog/" style="text-decoration: none;">Blog</a> •
-            
-                <a href="/about/" style="text-decoration: none;">About Me</a>
-            
+            <a href="/" style="text-decoration: none;">Home</a>&emsp;<a href="/projects/" style="text-decoration: none;">Projects</a>&emsp;<a href="/blog/" style="text-decoration: none;">Blog</a>&emsp;<a href="/about/" style="text-decoration: none;">About Me</a>
         
     </div>
     <form method="post" id="theme-form" class="theme-toggle">
@@ -850,7 +842,7 @@ header {
 <div class="progress-bar"></div>
 
 <article class="post">
-  <h1>Musings with Bela</h1>
+  <h1>Musings with Bela&ensp;🧠</h1>
 
   <ul class="post-metadata">
     <li>
@@ -896,7 +888,7 @@ header {
 <li>Role of Sound</li>
 </ul>
 <p>These principles were helpful as a means of comparing my proposed instrument against others but also for a class of features to focus on as I developed it. For Musings with Bela, this is how we might visualize its capacity as an instrument:</p>
-<figure><img src="musings-dim_space.png" style="aspect-ratio: 560px;" alt="Musings with Bela's dimension space" /><figcaption>Musings with Bela's dimension space</figcaption></figure>
+<figure><img src="/img/musings-dim_space.png" style="aspect-ratio: 560px;" alt="Musings with Bela's dimension space" /><figcaption>Musings with Bela's dimension space</figcaption></figure>
 <p>The second paper, A Framework for the Evaluation of Digital Musical Instruments by O'Modhrain takes ups a similar issue with the absence of well defined lenses through which we can consider, criticize and explain a musical instrument (O'Modhrain, 2011). O'Modhrain suggest that taking the perspective of not only a musician or designer when building an IMS, but also that of an audience member or even a manufacturer. These novel perspectives force an author to consider their instrument from angles that are not typically confronted until after the instrument has been built. In both articles, it is clear that building a musical interface is a project whose treatment must be considered with others in mind.</p>
 <h2 id="hardware" tabindex="-1">Hardware <a class="header-anchor" href="#hardware">#</a></h2>
 <p>The device actually made use of the breadboard it was wired to as a frame to hold and rotate the device. The Bela was placed in between the accelerometer and two knobs, allowing for it to easily sit in one's hands. The idea was to keep the design uncomplicated as the EEG might require the performer to have their eyes closed.</p>
@@ -914,17 +906,17 @@ header {
 <p>Nevertheless, the device's specs were quite impressive with 4 electrodes recording at 256Hz and an all-day battery life (no joke). Unfortunately, the fact that the device streamed through Bluetooth meant that my laptop would necessarily be involved (I wouldn't <em>dare</em> attempt it on the Bela (Okay, maybe if I had another week!)).</p>
 <h2 id="software" tabindex="-1">Software <a class="header-anchor" href="#software">#</a></h2>
 <h2 id="interpolating-between-tables-with-an-accelerometer" tabindex="-1">Interpolating between tables with an accelerometer <a class="header-anchor" href="#interpolating-between-tables-with-an-accelerometer">#</a></h2>
-<figure><img src="musings-tables.webp" style="aspect-ratio: 420px;" alt="Sliding between different tables" /><figcaption>Sliding between different tables</figcaption></figure>
+<figure><img src="/img/musings-tables.webp" style="aspect-ratio: 420px;" alt="Sliding between different tables" /><figcaption>Sliding between different tables</figcaption></figure>
 <p>At the core of my system was a method for interpolating between short audio grains. Audio files were read into an array of 1024 samples and these arrays were then interpolated using the external <a href="">iemmatrix</a>. More typical methods of reading through arrays would be to step through each index and read the sample, apply whatever operation you wanted and then store it. In my case, however, I wanted to tie the accelerometer to degree each sound file is interpolated into one another (via arrays) which makes it challenge to read through these arrays sequentially when the sample rate of change needs to be very fast. iemmatrix instead, allows for operations to take place on the array as a whole (like <a href="https://www.geeksforgeeks.org/vectorization-in-python/">numpy vectorization</a>) meaning this is a much more efficient method of morphing between these arrays.</p>
-<figure><img src="musings-intrp.png" style="aspect-ratio: 560px;" alt="A shot of the main matrix operation sub-patch" /><figcaption>A shot of the main matrix operation sub-patch</figcaption></figure>
+<figure><img src="/img/musings-intrp.png" style="aspect-ratio: 560px;" alt="A shot of the main matrix operation sub-patch" /><figcaption>A shot of the main matrix operation sub-patch</figcaption></figure>
 <p>What's cool about this is that working with sound files as tables allows you to do some non-linear transformations like interpolating between a sound and it's reverse sequence.</p>
-<figure><img src="musings-reverse.webp" style="aspect-ratio: 420px;" alt="Morphing between a sound bite and its flipped image" /><figcaption>Morphing between a sound bite and its flipped image</figcaption></figure>
+<figure><img src="/img/musings-reverse.webp" style="aspect-ratio: 420px;" alt="Morphing between a sound bite and its flipped image" /><figcaption>Morphing between a sound bite and its flipped image</figcaption></figure>
 <p>Upon reflection, another alternative would be to get two readings, do the matrix operations, and slide between them with a [line] object. As I was looking into this, this is an external (list-abs) that allows for linear interpolation between lists. However, this might be a slightly more costly object to use - perhaps a combination of both techniques would have worked best.</p>
 <p>The two physical knobs control an oscillator to read the resultant table (a morphed sound grain) into the DAC. These knobs are also read at audio-rate but the operations they control are far less complicated. In Musings with Bela, these knobs serve as tuners for the synth that can explored (sonically) by rotating the device.</p>
 <h2 id="reading-arrays-and-remaining-calm" tabindex="-1">Reading arrays and remaining calm <a class="header-anchor" href="#reading-arrays-and-remaining-calm">#</a></h2>
 <p>Finally, the last piece to my glorious IMS puzzle, the Muse! As I mentioned, this device was tricky, thorny, and a general struggle to work with, especially considering I had to set the Bela up as a WiFi hot-spot to pass the samples from the Muse, to my PC and then off to the Bela.</p>
 <p>Another major piece of working with the Muse was actually testing to see the behavior of the electrode readings: if they were consistent, their fluctuations, and whether or not I would be able to reliably reduce the noise and relative intensity. I made a sub-patch to test for this reason, allowing me to record and playback samples from the Muse even without its connection.</p>
-<figure><img src="musings-eeg.webp" style="aspect-ratio: 16/9;" alt="Data from the Muse" /><figcaption>Data from the Muse</figcaption></figure>
+<figure><img src="/img/musings-eeg.webp" style="aspect-ratio: 16/9;" alt="Data from the Muse" /><figcaption>Data from the Muse</figcaption></figure>
 </figure>
 <p>Musings with Bela takes this EEG stream and modulate the amplitude of the read table so that, in theory, a wandering, active mind would lead to a disrupted synth. The configuration was technical to say the least and, in retrospect, something I wish I had tackled earlier in the building process so I could use the EEG signals in a more complex mapping.</p>
 <h2 id="reflections" tabindex="-1">Reflections <a class="header-anchor" href="#reflections">#</a></h2>
@@ -967,7 +959,7 @@ header {
 		</div>
 		<footer></footer>
 
-		<!-- This page `/projects/2020-10-16-musings-bela/` was built on 2024-09-05T08:12:29.346Z -->
+		<!-- This page `/projects/2020-10-16-musings-bela/` was built on 2024-09-05T08:33:54.669Z -->
 	</body>
 </html>
 <script defer>
