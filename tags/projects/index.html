@@ -6,6 +6,9 @@
 		<title>Tagged “projects”</title>
 		<meta name="description" content="Hello, I&#39;m Jackson.">
 		<meta name="generator" content="Eleventy v3.0.0">
+
+		<link rel="preload" as="font" href="/font/Switzer-Variable.woff2" crossorigin>
+		<link rel="preload" as="font" href="/font/Rag-Regular.woff2" crossorigin>
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Jackson">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Jackson">
 
@@ -101,7 +104,7 @@ h6 {
 	font-family: "Switzer";
 	src: url("/font/Switzer-Variable.woff2") format("woff2");
 	font-weight: 500;
-	font-display: optional;
+	font-display: swap;
 	/* font-variation-settings: "wght" 400; */
 }
 @font-face {
@@ -113,7 +116,7 @@ h6 {
 		url("/font/Rag-Italic.woff2") format("woff2"),
 		url("/font/Rag-Bold.woff2") format("woff2"),
 		url("/font/Rag-BoldItalic.woff2") format("woff2");
-	font-display: optional;
+	font-display: swap;
 }
 
 /* Global stylesheet */
@@ -446,7 +449,7 @@ blockquote {
 	border: 1px solid var(--color-gray-90);
 	margin: 0;
 	background: ButtonFace;
-	transition: all 0.3s ease;
+	transition: transform 0.3s ease;
 	transform: translateY(calc(var(--item-top) - 12px));
 	border-radius: 0.25em;
 
@@ -481,7 +484,6 @@ blockquote {
 header {
 	/* We need to add 1 to the active item to account for the first item */
 	--item-top: calc(12px + var(--nav-item-active, 1) * var(--nav-item-height));
-	--item-rot: 0deg;
 	--nav-item-height: 36px;
 
 	position: sticky;
@@ -497,7 +499,6 @@ header {
 		&:has(.nav-item:nth-child(n):hover) {
 			--n: var(--n);
 			--item-top: calc(12px + (var(--n) - 1) * var(--nav-item-height));
-			--item-rot: calc((var(--n) % 2 * 2 - 1) * 15deg);
 		}
 		&:has(.nav-item:nth-child(1):hover) {
 			--n: 1;
@@ -541,20 +542,11 @@ header {
 	right: -2.25em;
 	align-self: flex-start;
 	margin-left: auto;
-}
-
-.nav-bubble,
-.theme-toggle {
-	transition: all 0.3s ease;
-}
-
-.theme-toggle {
-	transform: rotate(var(--item-rot));
+	transition: transform 0.3s ease;
 }
 
 #chat-toggle {
 	cursor: pointer;
-	transition: all 0.3s ease;
 }
 
 /* Dark mode toggle styles */
@@ -981,7 +973,7 @@ header {
 		</div>
 		<footer></footer>
 
-		<!-- This page `/tags/projects/` was built on 2024-09-05T22:29:09.245Z -->
+		<!-- This page `/tags/projects/` was built on 2024-09-06T23:36:35.106Z -->
 	</body>
 </html>
 <script defer>
