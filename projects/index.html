@@ -7,8 +7,8 @@
 		<meta name="description" content="Hello, I&#39;m Jackson.">
 		<meta name="generator" content="Eleventy v3.0.0">
 
-		<link rel="preload" as="font" href="/font/Switzer-Variable.woff2" crossorigin>
-		<link rel="preload" as="font" href="/font/Rag-Regular.woff2" crossorigin>
+		<link rel="preload" as="font" href="/font/Switzer-Variable-S.woff2" crossorigin>
+		<link rel="preload" as="font" href="/font/Rag-Regular-S.woff2" crossorigin>
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Jackson">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Jackson">
 
@@ -102,9 +102,10 @@ h6 {
 
 @font-face {
 	font-family: "Switzer";
-	src: url("/font/Switzer-Variable.woff2") format("woff2");
+	src: url("/font/Switzer-Variable-S.woff2") format("woff2");
 	font-weight: 500;
 	font-display: swap;
+	unicode-range: U+0020-007F;
 	/* font-variation-settings: "wght" 400; */
 }
 @font-face {
@@ -112,11 +113,12 @@ h6 {
 	font-style: normal italic;
 	font-weight: 400;
 	src:
-		url("/font/Rag-Regular.woff2") format("woff2"),
+		url("/font/Rag-Regular-S.woff2") format("woff2"),
 		url("/font/Rag-Italic.woff2") format("woff2"),
 		url("/font/Rag-Bold.woff2") format("woff2"),
 		url("/font/Rag-BoldItalic.woff2") format("woff2");
 	font-display: swap;
+	unicode-range: U+0020-007F;
 }
 
 /* Global stylesheet */
@@ -159,9 +161,9 @@ main {
 		margin-top: 0;
 	}
 
-	/* Add a smargin for when chat bubble is absolute */
+	/* Add a margin for when chat bubble is absolute */
 	&:where(.chat-active) {
-		margin-top: 2em;
+		margin-top: 3em;
 	}
 }
 
@@ -700,6 +702,13 @@ header {
 
 	main {
 		max-width: initial;
+
+		/* Add a margin for when chat bubble is absolute */
+		/* Right now we have header relative with 1em top margin */
+		/* TODO: There's definitely some better way to handle this */
+		&:where(.chat-active) {
+			margin-top: 2em;
+		}
 	}
 
 	header {
@@ -990,7 +999,7 @@ header {
 		</div>
 		<footer></footer>
 
-		<!-- This page `/projects/` was built on 2024-09-06T23:44:28.213Z -->
+		<!-- This page `/projects/` was built on 2024-09-07T01:07:25.183Z -->
 	</body>
 </html>
 <script defer>
