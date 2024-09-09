@@ -7,17 +7,12 @@
 		<meta name="description" content="A tale of accelerometers, knobs, an EEG and the attempt to tame sound with my mind.">
 		<meta name="generator" content="Eleventy v3.0.0">
 
-		<link rel="preload" as="font" href="/font/Switzer-Variable-S.woff2" crossorigin>
-		<link rel="preload" as="font" href="/font/Rag-Regular-S.woff2" crossorigin>
+		<link rel="preload" as="font" href="/font/Switzer-Variable.subset.woff2" crossorigin>
+		<link rel="preload" as="font" href="/font/Rag-Regular.subset.woff2" crossorigin>
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Jackson">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Jackson">
-
-		
-		
-		<link rel="stylesheet" href="/css/prism.css"/>
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.2/src/lite-yt-embed.css">
-		
-		<style>/*
+		<style>
+			/*
   Josh's Custom CSS Reset
   https://www.joshwcomeau.com/css/custom-css-reset/
 */
@@ -105,10 +100,9 @@ h6 {
 
 @font-face {
 	font-family: "Switzer";
-	src: url("/font/Switzer-Variable-S.woff2") format("woff2");
+	src: url("/font/Switzer-Variable.subset.woff2") format("woff2");
 	font-weight: 500;
 	font-display: swap;
-	unicode-range: U+0020-007F;
 	/* font-variation-settings: "wght" 400; */
 }
 @font-face {
@@ -116,12 +110,11 @@ h6 {
 	font-style: normal italic;
 	font-weight: 400;
 	src:
-		url("/font/Rag-Regular-S.woff2") format("woff2"),
-		url("/font/Rag-Italic.woff2") format("woff2"),
-		url("/font/Rag-Bold.woff2") format("woff2"),
-		url("/font/Rag-BoldItalic.woff2") format("woff2");
+		url("/font/Rag-Regular.subset.woff2") format("woff2"),
+		url("/font/Rag-Italic.subset.woff2") format("woff2"),
+		url("/font/Rag-Bold.subset.woff2") format("woff2"),
+		url("/font/Rag-BoldItalic.subset.woff2") format("woff2");
 	font-display: swap;
-	unicode-range: U+0020-007F;
 }
 
 /* Global stylesheet */
@@ -847,7 +840,35 @@ header {
 .search-result p {
 	margin: 0;
 	color: var(--color-gray-50);
-}</style>
+}
+
+/* Post gradient title */
+.gradient-underline {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 10vh;
+	z-index: -1;
+	pointer-events: none;
+}
+
+.gradient-underline::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+
+		
+		
+			/* PrismJS 1.29.0
+https://prismjs.com/download.html#themes=prism-tomorrow&languages=markup+css+clike+javascript+bash+python */
+code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]{background:#2d2d2d}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#999}.token.punctuation{color:#ccc}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}
+		</style>
 	</head>
 	<body style="--nav-item-active: 1;">
 		<div class="noise-container"></div>
@@ -896,7 +917,10 @@ header {
 <div class="progress-bar"></div>
 
 <article class="post">
-  <h1>Musings with Bela&ensp;🧠</h1>
+  
+  <h1 id="post-title" data-emoji="🧠">
+    Musings with Bela&ensp;🧠
+  </h1>
 
   <ul class="post-metadata">
     <li>
@@ -942,7 +966,7 @@ header {
 <li>Role of Sound</li>
 </ul>
 <p>These principles were helpful as a means of comparing my proposed instrument against others but also for a class of features to focus on as I developed it. For Musings with Bela, this is how we might visualize its capacity as an instrument:</p>
-<figure><img src="/img/musings-dim_space.png" style="aspect-ratio: 560px;" alt="Musings with Bela's dimension space" /><figcaption>Musings with Bela's dimension space</figcaption></figure>
+<figure><img src="/img/musings-dim_space.png" alt="Musings with Bela's dimension space" /><figcaption>Musings with Bela's dimension space</figcaption></figure>
 <p>The second paper, A Framework for the Evaluation of Digital Musical Instruments by O'Modhrain takes ups a similar issue with the absence of well defined lenses through which we can consider, criticize and explain a musical instrument (O'Modhrain, 2011). O'Modhrain suggest that taking the perspective of not only a musician or designer when building an IMS, but also that of an audience member or even a manufacturer. These novel perspectives force an author to consider their instrument from angles that are not typically confronted until after the instrument has been built. In both articles, it is clear that building a musical interface is a project whose treatment must be considered with others in mind.</p>
 <h2 id="hardware" tabindex="-1">Hardware <a class="header-anchor" href="#hardware">#</a></h2>
 <p>The device actually made use of the breadboard it was wired to as a frame to hold and rotate the device. The Bela was placed in between the accelerometer and two knobs, allowing for it to easily sit in one's hands. The idea was to keep the design uncomplicated as the EEG might require the performer to have their eyes closed.</p>
@@ -960,17 +984,17 @@ header {
 <p>Nevertheless, the device's specs were quite impressive with 4 electrodes recording at 256Hz and an all-day battery life (no joke). Unfortunately, the fact that the device streamed through Bluetooth meant that my laptop would necessarily be involved (I wouldn't <em>dare</em> attempt it on the Bela (Okay, maybe if I had another week!)).</p>
 <h2 id="software" tabindex="-1">Software <a class="header-anchor" href="#software">#</a></h2>
 <h2 id="interpolating-between-tables-with-an-accelerometer" tabindex="-1">Interpolating between tables with an accelerometer <a class="header-anchor" href="#interpolating-between-tables-with-an-accelerometer">#</a></h2>
-<figure><img src="/img/musings-tables.webp" style="aspect-ratio: 420px;" alt="Sliding between different tables" /><figcaption>Sliding between different tables</figcaption></figure>
+<figure><img src="/img/musings-tables.webp" alt="Sliding between different tables" /><figcaption>Sliding between different tables</figcaption></figure>
 <p>At the core of my system was a method for interpolating between short audio grains. Audio files were read into an array of 1024 samples and these arrays were then interpolated using the external <a href="">iemmatrix</a>. More typical methods of reading through arrays would be to step through each index and read the sample, apply whatever operation you wanted and then store it. In my case, however, I wanted to tie the accelerometer to degree each sound file is interpolated into one another (via arrays) which makes it challenge to read through these arrays sequentially when the sample rate of change needs to be very fast. iemmatrix instead, allows for operations to take place on the array as a whole (like <a href="https://www.geeksforgeeks.org/vectorization-in-python/">numpy vectorization</a>) meaning this is a much more efficient method of morphing between these arrays.</p>
-<figure><img src="/img/musings-intrp.png" style="aspect-ratio: 560px;" alt="A shot of the main matrix operation sub-patch" /><figcaption>A shot of the main matrix operation sub-patch</figcaption></figure>
+<figure><img src="/img/musings-intrp.png" alt="A shot of the main matrix operation sub-patch" /><figcaption>A shot of the main matrix operation sub-patch</figcaption></figure>
 <p>What's cool about this is that working with sound files as tables allows you to do some non-linear transformations like interpolating between a sound and it's reverse sequence.</p>
-<figure><img src="/img/musings-reverse.webp" style="aspect-ratio: 420px;" alt="Morphing between a sound bite and its flipped image" /><figcaption>Morphing between a sound bite and its flipped image</figcaption></figure>
+<figure><img src="/img/musings-reverse.webp" alt="Morphing between a sound bite and its flipped image" /><figcaption>Morphing between a sound bite and its flipped image</figcaption></figure>
 <p>Upon reflection, another alternative would be to get two readings, do the matrix operations, and slide between them with a [line] object. As I was looking into this, this is an external (list-abs) that allows for linear interpolation between lists. However, this might be a slightly more costly object to use - perhaps a combination of both techniques would have worked best.</p>
 <p>The two physical knobs control an oscillator to read the resultant table (a morphed sound grain) into the DAC. These knobs are also read at audio-rate but the operations they control are far less complicated. In Musings with Bela, these knobs serve as tuners for the synth that can explored (sonically) by rotating the device.</p>
 <h2 id="reading-arrays-and-remaining-calm" tabindex="-1">Reading arrays and remaining calm <a class="header-anchor" href="#reading-arrays-and-remaining-calm">#</a></h2>
 <p>Finally, the last piece to my glorious IMS puzzle, the Muse! As I mentioned, this device was tricky, thorny, and a general struggle to work with, especially considering I had to set the Bela up as a WiFi hot-spot to pass the samples from the Muse, to my PC and then off to the Bela.</p>
 <p>Another major piece of working with the Muse was actually testing to see the behavior of the electrode readings: if they were consistent, their fluctuations, and whether or not I would be able to reliably reduce the noise and relative intensity. I made a sub-patch to test for this reason, allowing me to record and playback samples from the Muse even without its connection.</p>
-<figure><img src="/img/musings-eeg.webp" style="aspect-ratio: 16/9;" alt="Data from the Muse" /><figcaption>Data from the Muse</figcaption></figure>
+<figure><img src="/img/musings-eeg.webp" alt="Data from the Muse" /><figcaption>Data from the Muse</figcaption></figure>
 </figure>
 <p>Musings with Bela takes this EEG stream and modulate the amplitude of the read table so that, in theory, a wandering, active mind would lead to a disrupted synth. The configuration was technical to say the least and, in retrospect, something I wish I had tackled earlier in the building process so I could use the EEG signals in a more complex mapping.</p>
 <h2 id="reflections" tabindex="-1">Reflections <a class="header-anchor" href="#reflections">#</a></h2>
@@ -1009,11 +1033,13 @@ header {
         
       </ul>
 </article>
+
+<script src="/js/emoji-color.js"></script>
 			</main>
 		</div>
 		<footer></footer>
 
-		<!-- This page `/projects/2020-10-16-musings-bela/` was built on 2024-09-07T01:07:25.186Z -->
+		<!-- This page `/projects/2020-10-16-musings-bela/` was built on 2024-09-09T04:01:22.314Z -->
 	</body>
 </html>
 <script defer>
@@ -1219,5 +1245,5 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
-<script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.3/src/lite-yt-embed.js"></script>
-<script type="module" src="https://cdn.jsdelivr.net/npm/lite-vimeo-embed/+esm" defer></script>
+	<script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.3/src/lite-yt-embed.js"></script>
+	<script type="module" src="https://cdn.jsdelivr.net/npm/lite-vimeo-embed/+esm" defer></script>

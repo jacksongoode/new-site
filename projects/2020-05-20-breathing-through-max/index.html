@@ -7,17 +7,12 @@
 		<meta name="description" content="I developed a system to follow and sonify the pace of breath, with an emphasis on the tenants of biofeedback, to serve as a responsive system for stress relief">
 		<meta name="generator" content="Eleventy v3.0.0">
 
-		<link rel="preload" as="font" href="/font/Switzer-Variable-S.woff2" crossorigin>
-		<link rel="preload" as="font" href="/font/Rag-Regular-S.woff2" crossorigin>
+		<link rel="preload" as="font" href="/font/Switzer-Variable.subset.woff2" crossorigin>
+		<link rel="preload" as="font" href="/font/Rag-Regular.subset.woff2" crossorigin>
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Jackson">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Jackson">
-
-		
-		
-		<link rel="stylesheet" href="/css/prism.css"/>
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.2/src/lite-yt-embed.css">
-		
-		<style>/*
+		<style>
+			/*
   Josh's Custom CSS Reset
   https://www.joshwcomeau.com/css/custom-css-reset/
 */
@@ -105,10 +100,9 @@ h6 {
 
 @font-face {
 	font-family: "Switzer";
-	src: url("/font/Switzer-Variable-S.woff2") format("woff2");
+	src: url("/font/Switzer-Variable.subset.woff2") format("woff2");
 	font-weight: 500;
 	font-display: swap;
-	unicode-range: U+0020-007F;
 	/* font-variation-settings: "wght" 400; */
 }
 @font-face {
@@ -116,12 +110,11 @@ h6 {
 	font-style: normal italic;
 	font-weight: 400;
 	src:
-		url("/font/Rag-Regular-S.woff2") format("woff2"),
-		url("/font/Rag-Italic.woff2") format("woff2"),
-		url("/font/Rag-Bold.woff2") format("woff2"),
-		url("/font/Rag-BoldItalic.woff2") format("woff2");
+		url("/font/Rag-Regular.subset.woff2") format("woff2"),
+		url("/font/Rag-Italic.subset.woff2") format("woff2"),
+		url("/font/Rag-Bold.subset.woff2") format("woff2"),
+		url("/font/Rag-BoldItalic.subset.woff2") format("woff2");
 	font-display: swap;
-	unicode-range: U+0020-007F;
 }
 
 /* Global stylesheet */
@@ -847,7 +840,35 @@ header {
 .search-result p {
 	margin: 0;
 	color: var(--color-gray-50);
-}</style>
+}
+
+/* Post gradient title */
+.gradient-underline {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 10vh;
+	z-index: -1;
+	pointer-events: none;
+}
+
+.gradient-underline::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+
+		
+		
+			/* PrismJS 1.29.0
+https://prismjs.com/download.html#themes=prism-tomorrow&languages=markup+css+clike+javascript+bash+python */
+code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]{background:#2d2d2d}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#999}.token.punctuation{color:#ccc}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}
+		</style>
 	</head>
 	<body style="--nav-item-active: 1;">
 		<div class="noise-container"></div>
@@ -896,7 +917,10 @@ header {
 <div class="progress-bar"></div>
 
 <article class="post">
-  <h1>Breathing through Max&ensp;🧘</h1>
+  
+  <h1 id="post-title" data-emoji="🧘">
+    Breathing through Max&ensp;🧘
+  </h1>
 
   <ul class="post-metadata">
     <li>
@@ -920,16 +944,16 @@ header {
 </ol>
 <p>Most of these apps transmit their sensor data over a UDP connection using the OSC protocol. This type of communication is well supported by many DAWs and platforms like Max and Pure Data. However, the app that was used, SensorLog unfortunately, did not send data with the OSC protocol. Instead, it sends the data over UDP as it would when writing a CSV file that was not compatible with Max’s [udpreceive] object.</p>
 <p>To work around this, I wrote a python script that acted as a node to receive, format the stream into proper OSC messages, and finally, send the data locally to a specified port within Max. The script operated by receiving a row of data, splitting the list of data points into an array, and then sending each index of the array as a pair with a specified OSC message. I used the messages “/x”, “/y”, and “/z” as shorthand for the x, y, z, acceleration data. Once this was passed into Max, the data was able to be handled the same way as any other OSC message.</p>
-<figure><img src="/img/breathing-code.png" style="aspect-ratio: 16/9;" alt="Sample of the code used to transport the messages into Max" /><figcaption>Sample of the code used to transport the messages into Max</figcaption></figure>
+<figure><img src="/img/breathing-code.png" alt="Sample of the code used to transport the messages into Max" /><figcaption>Sample of the code used to transport the messages into Max</figcaption></figure>
 <p>After some initial testing of various sensors and positions during recording, I found that the acceleration value for the y-axis was the most reliable source of information for tracking respiratory motion. Because of the placement of the phone, none of the other sensors render any useful information. The only other sensor that appeared to follow the same information was the gyroscope, but the sensor upon inspection looked like a transformation of the acceleration data. In the first trial recording set of breathing, I was able to find that this sensor’s y-axis extracted recognizable oscillations of the rise and fall of my stomach. However, because the movements were quite small, the noise of the sensor clouded what was, in reality, a smooth envelope of motion.</p>
 <p>Reading the CSV data into Max was achieved by loading each line of the CSV as a text file from which I could use a [metro] object to iterate through the [coll] dictionary that stored the sensor data (<a href="https://cycling74.com/forums/importing-from-excel-csv-questions/">I stole this bit of Max data</a>). From Max, I could visualize the data stream easily using a [multislider] window. I then set out to smooth this data through a variety of techniques. I found that a reliable method of smoothing the noisy data was to create a buffer of the last x number of samples (with [zl.stream]) and then output the mean ([mean]) of that sliding window. The larger the number of samples, the smoother the data, yet this stunts some of the local dynamics within the stream and creates latency. After exploring further I found a 3rd party object [dot.denoise.sliding] that includes better logic for excluding outliers within streams.</p>
-<figure><img src="/img/breathing-noisey.png" style="aspect-ratio: 20px;" alt="Before and after de-noising the stream" /><figcaption>Before and after de-noising the stream</figcaption></figure>
+<figure><img src="/img/breathing-noisey.png" alt="Before and after de-noising the stream" /><figcaption>Before and after de-noising the stream</figcaption></figure>
 <p>This returns to an observation I noticed when looking at sensor data. I noticed that one of the gyroscope sensors also was repeating in a rhythmic pattern, but much faster and pronounced than breathing should be. I realized that these were pronounced fulgurations of my heartbeat and that these impulses were actually affecting the accelerometer sensor data I was analyzing from the y-axis.</p>
-<figure><img src="/img/breathing-gyro.png" style="aspect-ratio: 600px;" alt="Notice the fast paced impulses from the gyroscope sensor" /><figcaption>Notice the fast paced impulses from the gyroscope sensor</figcaption></figure>
+<figure><img src="/img/breathing-gyro.png" alt="Notice the fast paced impulses from the gyroscope sensor" /><figcaption>Notice the fast paced impulses from the gyroscope sensor</figcaption></figure>
 <p>Once the oscillations were smoothed, the next step was identifying local minimums and maximums of each breath. Again, the dot library had a nifty object to find local max/mins by checking for changes in sign (+/-) from a previous data point to the next. This would have worked nicely if the data rose and fell with continuity. But due to the noise, there were a number of places near the peak or trough of the oscillations where even a smoothed data point might change the sign of the differences between the current and previous point.</p>
 <p>I tried number of techniques to suppress the improper max/mins that would appear such as forcing a minimum delay to check for a max after finding a min or max, as well as attempting to doubly embed local max/min detection. The most successful and flexible method by far was setting a minimum distance between the breaths that were taken. This is a reliable method as a single breath could vary in speed and the expansion of the torso would be the same.</p>
 <p>I further enhanced this solution by making the distance dynamically shift by an average of the distance between the last five maxes and mins.</p>
-<figure><img src="/img/breathing-distance.png" style="aspect-ratio: 540px;" alt="Gating the frequent max/mins" /><figcaption>Gating the frequent max/mins</figcaption></figure>
+<figure><img src="/img/breathing-distance.png" alt="Gating the frequent max/mins" /><figcaption>Gating the frequent max/mins</figcaption></figure>
 <p>Finally, the last piece of data that is inferred from identifying the local max/mins of each breath is the average time between each inhale and exhale. This is calculated as a metric of respiratory rate consistency which is the difference between the last period between a max/min and the average of these last 10 periods. This value is then scaled and used to attenuate a sound clip of wind chimes that enter when the consistency value is low. Thus, the wind chimes should emerge as a result of a restful cycle of breath and provide positive feedback to the user. In addition to the wind chime samples, there is a three-oscillator drone instrument was driven by the noisy data from the x and z-axis accelerometer streams. This drone adds a subtle resonance to the bells and provides some ambient feedback of the motion of the breath. This is achieved by scaling the smoothed acceleration data from the y-axis and modulating the amplitude.</p>
 <h2 id="results-and-conclusions" tabindex="-1">Results and Conclusions <a class="header-anchor" href="#results-and-conclusions">#</a></h2>
 <p>After debugging the system for quite some time, I may not be able to provide the best perspective on how useful it is for its intended purpose. Even still, the system may allow a user to pay attention to their biorhythms and less to other distracting thoughts that might interrupt a session. Most of the time spent building the system was in an effort to fine-tune the analysis of these data streams in real-time so many of the acoustic elements were secondary to this objective. The streams were processed flexibly and reliably for the dynamic stream and I’m quite happy with the way the data is handled throughout the system – even in extreme cases such as erratic motion where the amplitude of all sounds is reduced to silence. From this perspective, I find the system quite usable but I am not entirely pleased with the sound of the instruments and sonic environments.</p>
@@ -955,11 +979,13 @@ header {
         
       </ul>
 </article>
+
+<script src="/js/emoji-color.js"></script>
 			</main>
 		</div>
 		<footer></footer>
 
-		<!-- This page `/projects/2020-05-20-breathing-through-max/` was built on 2024-09-07T01:07:25.186Z -->
+		<!-- This page `/projects/2020-05-20-breathing-through-max/` was built on 2024-09-09T04:01:22.314Z -->
 	</body>
 </html>
 <script defer>
@@ -1165,5 +1191,5 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
-<script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.3/src/lite-yt-embed.js"></script>
-<script type="module" src="https://cdn.jsdelivr.net/npm/lite-vimeo-embed/+esm" defer></script>
+	<script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.3/src/lite-yt-embed.js"></script>
+	<script type="module" src="https://cdn.jsdelivr.net/npm/lite-vimeo-embed/+esm" defer></script>

@@ -7,14 +7,12 @@
 		<meta name="description" content="Hello, I&#39;m Jackson.">
 		<meta name="generator" content="Eleventy v3.0.0">
 
-		<link rel="preload" as="font" href="/font/Switzer-Variable-S.woff2" crossorigin>
-		<link rel="preload" as="font" href="/font/Rag-Regular-S.woff2" crossorigin>
+		<link rel="preload" as="font" href="/font/Switzer-Variable.subset.woff2" crossorigin>
+		<link rel="preload" as="font" href="/font/Rag-Regular.subset.woff2" crossorigin>
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Jackson">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Jackson">
-
-		
-		
-		<style>/*
+		<style>
+			/*
   Josh's Custom CSS Reset
   https://www.joshwcomeau.com/css/custom-css-reset/
 */
@@ -102,10 +100,9 @@ h6 {
 
 @font-face {
 	font-family: "Switzer";
-	src: url("/font/Switzer-Variable-S.woff2") format("woff2");
+	src: url("/font/Switzer-Variable.subset.woff2") format("woff2");
 	font-weight: 500;
 	font-display: swap;
-	unicode-range: U+0020-007F;
 	/* font-variation-settings: "wght" 400; */
 }
 @font-face {
@@ -113,12 +110,11 @@ h6 {
 	font-style: normal italic;
 	font-weight: 400;
 	src:
-		url("/font/Rag-Regular-S.woff2") format("woff2"),
-		url("/font/Rag-Italic.woff2") format("woff2"),
-		url("/font/Rag-Bold.woff2") format("woff2"),
-		url("/font/Rag-BoldItalic.woff2") format("woff2");
+		url("/font/Rag-Regular.subset.woff2") format("woff2"),
+		url("/font/Rag-Italic.subset.woff2") format("woff2"),
+		url("/font/Rag-Bold.subset.woff2") format("woff2"),
+		url("/font/Rag-BoldItalic.subset.woff2") format("woff2");
 	font-display: swap;
-	unicode-range: U+0020-007F;
 }
 
 /* Global stylesheet */
@@ -844,7 +840,28 @@ header {
 .search-result p {
 	margin: 0;
 	color: var(--color-gray-50);
-}</style>
+}
+
+/* Post gradient title */
+.gradient-underline {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 10vh;
+	z-index: -1;
+	pointer-events: none;
+}
+
+.gradient-underline::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+		</style>
 	</head>
 	<body style="--nav-item-active: 1;">
 		<div class="noise-container"></div>
@@ -903,7 +920,7 @@ header {
 		</div>
 		<footer></footer>
 
-		<!-- This page `/tags/` was built on 2024-09-07T01:07:25.183Z -->
+		<!-- This page `/tags/` was built on 2024-09-09T04:01:22.310Z -->
 	</body>
 </html>
 <script defer>

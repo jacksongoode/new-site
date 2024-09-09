@@ -7,17 +7,12 @@
 		<meta name="description" content="A sonic installation exploring live networked media for Sound Pedro 2024">
 		<meta name="generator" content="Eleventy v3.0.0">
 
-		<link rel="preload" as="font" href="/font/Switzer-Variable-S.woff2" crossorigin>
-		<link rel="preload" as="font" href="/font/Rag-Regular-S.woff2" crossorigin>
+		<link rel="preload" as="font" href="/font/Switzer-Variable.subset.woff2" crossorigin>
+		<link rel="preload" as="font" href="/font/Rag-Regular.subset.woff2" crossorigin>
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Jackson">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Jackson">
-
-		
-		
-		<link rel="stylesheet" href="/css/prism.css"/>
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.2/src/lite-yt-embed.css">
-		
-		<style>/*
+		<style>
+			/*
   Josh's Custom CSS Reset
   https://www.joshwcomeau.com/css/custom-css-reset/
 */
@@ -105,10 +100,9 @@ h6 {
 
 @font-face {
 	font-family: "Switzer";
-	src: url("/font/Switzer-Variable-S.woff2") format("woff2");
+	src: url("/font/Switzer-Variable.subset.woff2") format("woff2");
 	font-weight: 500;
 	font-display: swap;
-	unicode-range: U+0020-007F;
 	/* font-variation-settings: "wght" 400; */
 }
 @font-face {
@@ -116,12 +110,11 @@ h6 {
 	font-style: normal italic;
 	font-weight: 400;
 	src:
-		url("/font/Rag-Regular-S.woff2") format("woff2"),
-		url("/font/Rag-Italic.woff2") format("woff2"),
-		url("/font/Rag-Bold.woff2") format("woff2"),
-		url("/font/Rag-BoldItalic.woff2") format("woff2");
+		url("/font/Rag-Regular.subset.woff2") format("woff2"),
+		url("/font/Rag-Italic.subset.woff2") format("woff2"),
+		url("/font/Rag-Bold.subset.woff2") format("woff2"),
+		url("/font/Rag-BoldItalic.subset.woff2") format("woff2");
 	font-display: swap;
-	unicode-range: U+0020-007F;
 }
 
 /* Global stylesheet */
@@ -847,7 +840,35 @@ header {
 .search-result p {
 	margin: 0;
 	color: var(--color-gray-50);
-}</style>
+}
+
+/* Post gradient title */
+.gradient-underline {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 10vh;
+	z-index: -1;
+	pointer-events: none;
+}
+
+.gradient-underline::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+
+		
+		
+			/* PrismJS 1.29.0
+https://prismjs.com/download.html#themes=prism-tomorrow&languages=markup+css+clike+javascript+bash+python */
+code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]{background:#2d2d2d}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#999}.token.punctuation{color:#ccc}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}
+		</style>
 	</head>
 	<body style="--nav-item-active: 1;">
 		<div class="noise-container"></div>
@@ -915,7 +936,10 @@ header {
 <div class="progress-bar"></div>
 
 <article class="post">
-  <h1>Sound Pedro 2024: Cacophony&ensp;💥</h1>
+  
+  <h1 id="post-title" data-emoji="💥">
+    Sound Pedro 2024: Cacophony&ensp;💥
+  </h1>
 
   <ul class="post-metadata">
     <li>
@@ -942,23 +966,25 @@ header {
 <figure><video src="/vid/pad.mp4" style="aspect-ratio: 16/9;" controls>Your browser does not support the video tag.</video><figcaption>My spot</figcaption></figure>
 <p>The hours preparing before Sound Pedro were just as frantic as it was the first time arriving on that defunct naval base. I spent the past night dusting off speakers, cutting wire, frantically coding and adding catches for robustness and so the speakers wouldn't accidentally explode. Yet, there was very little at home to give an impression of the concrete cave I would be in.</p>
 <p>I was happy when my friends quietly appeared in the stream of visitors.</p>
-<figure><img src="/img/surprise.jpg" style="aspect-ratio: 16/9;" alt="Me, surprised" /><figcaption>Me, surprised</figcaption></figure>
+<figure><img src="/img/surprise.jpg" alt="Me, surprised" /><figcaption>Me, surprised</figcaption></figure>
 <h2 id="after-the-noise" tabindex="-1">After the noise <a class="header-anchor" href="#after-the-noise">#</a></h2>
 <p>Like with a lot of art projects, you spend far more time invested, perfecting, tuning, scrutinizing than anyone will ever see. When I came down to setting up the space, I decided to bring my whole living room up and into whatever space I would be given. Lamps, lights, chairs, my table. Mine turned out to be one of the coziest concrete bungalows there.</p>
 <p>With some continued routing woes, I wasn't able to project the colorful display of video thumbnails as I intended, so I used my laptop's display instead. Folks passing by were excited, confused, disturbed, entertained, and generally interested, since there is very little visual indication of all of the many simultaneous streams of audio that were booming off the semi-circular apartment I was squatting in for the evening.</p>
 <figure><video src="/vid/ongoing.mp4" style="aspect-ratio: 16/9;" controls>Your browser does not support the video tag.</video><figcaption>A quick clip - sadly the drones of the surrounding performances did just that :)</figcaption></figure>
 
       <ul class="links-nextprev">
-          <li>Previous: <a href="/projects/2022-08-24-film-for-music-2/">Music for a Series of Scenes: Part 2</a>
+          <li>Previous: <a href="/projects/2021-05-14-meet-in-space/">Toward a Telepresence of Sound: Video Conferencing in Spatial Audio</a>
           </li>
         
       </ul>
 </article>
+
+<script src="/js/emoji-color.js"></script>
 			</main>
 		</div>
 		<footer></footer>
 
-		<!-- This page `/projects/2024-05-01-cacophony/` was built on 2024-09-07T01:07:25.187Z -->
+		<!-- This page `/projects/2024-05-01-cacophony/` was built on 2024-09-09T04:01:22.315Z -->
 	</body>
 </html>
 <script defer>
@@ -1164,5 +1190,5 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
-<script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.3/src/lite-yt-embed.js"></script>
-<script type="module" src="https://cdn.jsdelivr.net/npm/lite-vimeo-embed/+esm" defer></script>
+	<script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.3/src/lite-yt-embed.js"></script>
+	<script type="module" src="https://cdn.jsdelivr.net/npm/lite-vimeo-embed/+esm" defer></script>

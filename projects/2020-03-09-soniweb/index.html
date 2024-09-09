@@ -7,17 +7,12 @@
 		<meta name="description" content="A project created for the MCT Master&#39;s program&#39;s sonification course">
 		<meta name="generator" content="Eleventy v3.0.0">
 
-		<link rel="preload" as="font" href="/font/Switzer-Variable-S.woff2" crossorigin>
-		<link rel="preload" as="font" href="/font/Rag-Regular-S.woff2" crossorigin>
+		<link rel="preload" as="font" href="/font/Switzer-Variable.subset.woff2" crossorigin>
+		<link rel="preload" as="font" href="/font/Rag-Regular.subset.woff2" crossorigin>
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Jackson">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Jackson">
-
-		
-		
-		<link rel="stylesheet" href="/css/prism.css"/>
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.2/src/lite-yt-embed.css">
-		
-		<style>/*
+		<style>
+			/*
   Josh's Custom CSS Reset
   https://www.joshwcomeau.com/css/custom-css-reset/
 */
@@ -105,10 +100,9 @@ h6 {
 
 @font-face {
 	font-family: "Switzer";
-	src: url("/font/Switzer-Variable-S.woff2") format("woff2");
+	src: url("/font/Switzer-Variable.subset.woff2") format("woff2");
 	font-weight: 500;
 	font-display: swap;
-	unicode-range: U+0020-007F;
 	/* font-variation-settings: "wght" 400; */
 }
 @font-face {
@@ -116,12 +110,11 @@ h6 {
 	font-style: normal italic;
 	font-weight: 400;
 	src:
-		url("/font/Rag-Regular-S.woff2") format("woff2"),
-		url("/font/Rag-Italic.woff2") format("woff2"),
-		url("/font/Rag-Bold.woff2") format("woff2"),
-		url("/font/Rag-BoldItalic.woff2") format("woff2");
+		url("/font/Rag-Regular.subset.woff2") format("woff2"),
+		url("/font/Rag-Italic.subset.woff2") format("woff2"),
+		url("/font/Rag-Bold.subset.woff2") format("woff2"),
+		url("/font/Rag-BoldItalic.subset.woff2") format("woff2");
 	font-display: swap;
-	unicode-range: U+0020-007F;
 }
 
 /* Global stylesheet */
@@ -847,7 +840,35 @@ header {
 .search-result p {
 	margin: 0;
 	color: var(--color-gray-50);
-}</style>
+}
+
+/* Post gradient title */
+.gradient-underline {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 10vh;
+	z-index: -1;
+	pointer-events: none;
+}
+
+.gradient-underline::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+
+		
+		
+			/* PrismJS 1.29.0
+https://prismjs.com/download.html#themes=prism-tomorrow&languages=markup+css+clike+javascript+bash+python */
+code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]{background:#2d2d2d}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#999}.token.punctuation{color:#ccc}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}
+		</style>
 	</head>
 	<body style="--nav-item-active: 1;">
 		<div class="noise-container"></div>
@@ -896,7 +917,10 @@ header {
 <div class="progress-bar"></div>
 
 <article class="post">
-  <h1>Soniweb: An Experiment in Web Traffic Sonification and Ambisonics&ensp;🌎</h1>
+  
+  <h1 id="post-title" data-emoji="🌎">
+    Soniweb: An Experiment in Web Traffic Sonification and Ambisonics&ensp;🌎
+  </h1>
 
   <ul class="post-metadata">
     <li>
@@ -947,7 +971,7 @@ client <span class="token operator">=</span> udp_client<span class="token punctu
     <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Sent to "</span><span class="token operator">+</span><span class="token builtin">str</span><span class="token punctuation">(</span>dst_resp<span class="token punctuation">.</span>country<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
 <h2 id="sonification" tabindex="-1">Sonification <a class="header-anchor" href="#sonification">#</a></h2>
 <p>All the while, our third group member started development on the Pure Data patch simultaneous to our work in Python. He began with a sample handler that would play five different samples that corresponded to the protocol type, amplitude. We initially attempted ambisonics production through <a href="https://www.reaper.fm/">Reaper</a> as a DAW but found a wonderful (and actively developed updated) library for Pd called <a href="https://github.com/Spacechild1/vstplugin">vstplugin~</a> where we loaded the <a href="https://plugins.iem.at/">IEM</a> plugin suite for ambisonics. The library worked quite well for our purposes and we were able to load each of our 32 channel’s azimuth and elevations as an initialization process. Each of the “voice” sub-patches contain five “samplehandler” sub-patches to play any of the potential five sounds given the protocol message. Within these sub-patches is one “singlesample” sub-patch that plays the sample with “tabread4~”. However, this sub-patch is cloned for times for the possibility of a single channel playing a particular sample up to four times simultaneously. This was built in due to the high frequency of packet data that we receive during the python script’s playback.</p>
-<figure><img src="/img/soniweb-pd.png" style="aspect-ratio: 16/9;" alt="The Pure Data patch (and sub-patches)" /><figcaption>The Pure Data patch (and sub-patches)</figcaption></figure>
+<figure><img src="/img/soniweb-pd.png" alt="The Pure Data patch (and sub-patches)" /><figcaption>The Pure Data patch (and sub-patches)</figcaption></figure>
 <h2 id="the-effect" tabindex="-1">The Effect <a class="header-anchor" href="#the-effect">#</a></h2>
 <p>When running the script and patch simultaneously, the network activity that your current machine is relaying is sonified and located in a <a href="https://en.wikipedia.org/wiki/Ambisonics">5th order ambisonics</a> environment. The various bells ping around the listener as if they were sitting in the center of the Earth listening to the machines around them speak to one another. While we achieved our set goals, there are a few unanswered questions as to whether the packets that are being received are actually too quick to receive and process in real-time and may become backlogged over the course of a session. This may either have to do with limitations imposed by Pd, Python, Wireshark or the CPU power afforded by the user’s computer. In a recent update, converting one of the &quot;if&quot; statements to a dpf filter within pyshark's instantiation made the incoming packets quite responsive to web browsing activity. However, it may be possible to mitigate these issues and enhance the sonification by generating the instruments within Pd rather than using sample files. This project has great potential for an extension into a live installation, one, perhaps, that asks the audience to connect their devices to a network hosted in the space so that they could listen to the network activity of their collective devices.</p>
 <figure><video src="https://www.uio.no/english/studies/programmes/mct-master/blog/assets/video/2020_03_07_jacksong_soniweb_demo.mp4" style="aspect-ratio: 16/9;" controls>Your browser does not support the video tag.</video><figcaption>A demo of Soniweb (headphones required!)</figcaption></figure>
@@ -972,11 +996,13 @@ client <span class="token operator">=</span> udp_client<span class="token punctu
         
       </ul>
 </article>
+
+<script src="/js/emoji-color.js"></script>
 			</main>
 		</div>
 		<footer></footer>
 
-		<!-- This page `/projects/2020-03-09-soniweb/` was built on 2024-09-07T01:07:25.185Z -->
+		<!-- This page `/projects/2020-03-09-soniweb/` was built on 2024-09-09T04:01:22.313Z -->
 	</body>
 </html>
 <script defer>
@@ -1182,5 +1208,5 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
-<script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.3/src/lite-yt-embed.js"></script>
-<script type="module" src="https://cdn.jsdelivr.net/npm/lite-vimeo-embed/+esm" defer></script>
+	<script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.3/src/lite-yt-embed.js"></script>
+	<script type="module" src="https://cdn.jsdelivr.net/npm/lite-vimeo-embed/+esm" defer></script>

@@ -7,17 +7,12 @@
 		<meta name="description" content="A reflection on visiting Montreal, exploring its French influence, cultural shifts, and urban landscape.">
 		<meta name="generator" content="Eleventy v3.0.0">
 
-		<link rel="preload" as="font" href="/font/Switzer-Variable-S.woff2" crossorigin>
-		<link rel="preload" as="font" href="/font/Rag-Regular-S.woff2" crossorigin>
+		<link rel="preload" as="font" href="/font/Switzer-Variable.subset.woff2" crossorigin>
+		<link rel="preload" as="font" href="/font/Rag-Regular.subset.woff2" crossorigin>
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Jackson">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Jackson">
-
-		
-		
-		<link rel="stylesheet" href="/css/prism.css"/>
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.2/src/lite-yt-embed.css">
-		
-		<style>/*
+		<style>
+			/*
   Josh's Custom CSS Reset
   https://www.joshwcomeau.com/css/custom-css-reset/
 */
@@ -105,10 +100,9 @@ h6 {
 
 @font-face {
 	font-family: "Switzer";
-	src: url("/font/Switzer-Variable-S.woff2") format("woff2");
+	src: url("/font/Switzer-Variable.subset.woff2") format("woff2");
 	font-weight: 500;
 	font-display: swap;
-	unicode-range: U+0020-007F;
 	/* font-variation-settings: "wght" 400; */
 }
 @font-face {
@@ -116,12 +110,11 @@ h6 {
 	font-style: normal italic;
 	font-weight: 400;
 	src:
-		url("/font/Rag-Regular-S.woff2") format("woff2"),
-		url("/font/Rag-Italic.woff2") format("woff2"),
-		url("/font/Rag-Bold.woff2") format("woff2"),
-		url("/font/Rag-BoldItalic.woff2") format("woff2");
+		url("/font/Rag-Regular.subset.woff2") format("woff2"),
+		url("/font/Rag-Italic.subset.woff2") format("woff2"),
+		url("/font/Rag-Bold.subset.woff2") format("woff2"),
+		url("/font/Rag-BoldItalic.subset.woff2") format("woff2");
 	font-display: swap;
-	unicode-range: U+0020-007F;
 }
 
 /* Global stylesheet */
@@ -847,7 +840,35 @@ header {
 .search-result p {
 	margin: 0;
 	color: var(--color-gray-50);
-}</style>
+}
+
+/* Post gradient title */
+.gradient-underline {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 10vh;
+	z-index: -1;
+	pointer-events: none;
+}
+
+.gradient-underline::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+
+		
+		
+			/* PrismJS 1.29.0
+https://prismjs.com/download.html#themes=prism-tomorrow&languages=markup+css+clike+javascript+bash+python */
+code[class*=language-],pre[class*=language-]{color:#ccc;background:0 0;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]{background:#2d2d2d}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#999}.token.punctuation{color:#ccc}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}
+		</style>
 	</head>
 	<body style="--nav-item-active: 1;">
 		<div class="noise-container"></div>
@@ -896,7 +917,10 @@ header {
 <div class="progress-bar"></div>
 
 <article class="post">
-  <h1>Montreal&ensp;🍁</h1>
+  
+  <h1 id="post-title" data-emoji="🍁">
+    Montreal&ensp;🍁
+  </h1>
 
   <ul class="post-metadata">
     <li>
@@ -907,7 +931,7 @@ header {
       </li>
   </ul>
 
-  <p>I didn't think  I would end up in Montreal. I think my only awareness of the city was a unit on Quebec within my French class in middle/highschool. Even then, the recollections I have are of maple syrup dripped over snow, poutine, bitter winters and ice sculptures.</p>
+  <p>I didn't think I would end up visiting Montreal. I think my only awareness of the city was a unit on Quebec within my French class in middle/highschool. Even then, the recollections I have are of maple syrup dripped over snow, poutine, bitter winters and ice sculptures.</p>
 <p>However, it came more into focus during the last years of undergrad where thoughts towards the future, my continued education within Cognitive Science, were looming. McGill had a department and program in neuroscience which I had mentioned to my fellow cog-sci classmates thinking it would be a cool program abroad (though Canada in my mind felt far less international than anywhere else.) And I've been considering moving from Long Beach, and Montreal was always a place on my list.</p>
 <p>While I ended up not pursuing down that road, remarkably, one of those close friends I mentioned this program to did! She is now close to finishing a PhD in Neuroscience studying the effects of canabanoids during prenatal development in mice. I was able to visit her during the warmest period in Montreal (flight likely discounted by the raging wildfires) and so became quite enamoured with a beautiful été in Montreal.</p>
 <h2 id="french" tabindex="-1">French <a class="header-anchor" href="#french">#</a></h2>
@@ -937,11 +961,13 @@ header {
         
       </ul>
 </article>
+
+<script src="/js/emoji-color.js"></script>
 			</main>
 		</div>
 		<footer></footer>
 
-		<!-- This page `/blog/2023-07-19-montreal/` was built on 2024-09-07T01:07:25.188Z -->
+		<!-- This page `/blog/2023-07-19-montreal/` was built on 2024-09-09T04:01:22.316Z -->
 	</body>
 </html>
 <script defer>
@@ -1147,5 +1173,5 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
-<script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.3/src/lite-yt-embed.js"></script>
-<script type="module" src="https://cdn.jsdelivr.net/npm/lite-vimeo-embed/+esm" defer></script>
+	<script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.3/src/lite-yt-embed.js"></script>
+	<script type="module" src="https://cdn.jsdelivr.net/npm/lite-vimeo-embed/+esm" defer></script>
