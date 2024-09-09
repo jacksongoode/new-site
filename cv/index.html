@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Jackson</title>
+		<title>Curriculum Vitae</title>
 		<meta name="description" content="Hello, I&#39;m Jackson.">
 		<meta name="generator" content="Eleventy v3.0.0">
 
@@ -865,83 +865,6 @@ header {
 	left: 0;
 	content: "";
 }
-
-
-		
-		
-
-		
-		
-			.word {
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	display: flex;
-	z-index: 0;
-	position: relative;
-	justify-content: space-between;
-	width: 100%;
-	height: 50vh;
-	text-align: center;
-	/* Prevent highlight */
-	user-select: none;
-}
-
-.letter-wrapper {
-	display: flex;
-	position: relative;
-	flex: 1;
-	align-items: center; /* Center align items horizontally within the wrapper */
-	justify-content: center;
-	height: 0; /* We don't want height */
-}
-
-.letter {
-	z-index: calc(1000 - var(--random-size));
-	position: absolute; /* Enable relative positioning for random vertical offset */
-
-	/* Rotation based effects */
-	transform: rotate3d(0, 0, 1, calc(var(--rotation, 0) * 1deg));
-
-	/* Size and placement */
-	font-size: clamp(
-		4rem,
-		calc(32px + (var(--random-size) * (50vw - 32px)) / 100),
-		384px
-	);
-	font-variation-settings: "wght" var(--font-weight, 400);
-	animation: fadeIn 0.3s ease-in forwards;
-	animation-delay: var(--random-delay);
-	mix-blend-mode: overlay;
-	cursor: pointer;
-
-	/* Fade in */
-	opacity: 0;
-	transition: transform 1s cubic-bezier(0.25, 0.1, 0.25, 1);
-	will-change: transform, font-variation-settings;
-	user-select: none;
-}
-
-.letter.spinning {
-	transition: none;
-}
-
-@keyframes fadeIn {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 1;
-	}
-}
-
-.card {
-	position: relative;
-	padding: 1rem;
-	border: 1px solid var(--color-gray-90);
-	border-radius: 0.25rem;
-	background-color: color-mix(in srgb, Canvas 90%, transparent);
-	box-shadow: var(--shadow-elevation-medium);
-}
 		</style>
 	</head>
 
@@ -960,8 +883,6 @@ header {
             
             
                 
-            
-                
                     
                 
             
@@ -973,8 +894,12 @@ header {
                     
                 
             
+                
+                    
+                
             
-            <span>You're home! What about checking out <a href="/projects/">projects</a>, <a href="/blog/">blog</a> or <a href="/about/">about me</a>?</span>
+            
+            <span>Welcome to my CV! Here's a glimpse of my professional journey.</span>
         
     </div>
     <form method="post" id="theme-form" class="theme-toggle">
@@ -986,7 +911,7 @@ header {
 						<ul class="nav-list">
 							<li id="chat-toggle" class="nav-item">Welcome!</li>
 								<li class="nav-item">
-									<a href="/" aria-current="page">Home</a>
+									<a href="/">Home</a>
 								</li>
 								<li class="nav-item">
 									<a href="/projects/">Projects</a>
@@ -1006,56 +931,64 @@ header {
 
 			<main id="skip">
 				
+<link href="/css/cv.css" rel="stylesheet">
 
+<h2>Experience</h2>
 
-<h2>Hi, I'm</h2>
+<details>
+    <summary>
+        <div class="job-title">Software Engineer</div>
+        <div class="job-details">
+            <span>nLine</span>
+            <span>Oct 2021 - Present · 3 yrs</span>
+        </div>
+        <p class="job-location">Berkeley, California, United States</p>
+        <p class="job-summary">Developing infrastructure for real-time grid monitoring and data analysis.</p>
+    </summary>
+    <ul>
+        <li>Develop and maintain infrastructure services for real-time data monitoring and analysis across thousands of sensors in cities and rural communities, improving electrical grid reliability</li>
+        <li>Created and maintain an open-source plugin for Grafana, enhancing data visualization capabilities</li>
+        <li>Designed and implemented a sophisticated data analysis pipeline incorporating advanced Python concepts such as memoization, caching, and partial analysis</li>
+        <li>Co-design and maintain the company website and blog, overseeing content creation and publishing processes</li>
+        <li>Collaborate with cross-functional teams to optimize data collection, processing, and presentation for improved decision-making in grid management</li>
+    </ul>
+</details>
 
+<details>
+    <summary>
+        <div class="job-title">Graduate Researcher</div>
+        <div class="job-details">
+            <span>University of Oslo (UiO)</span>
+            <span>Sep 2019 - May 2021 · 1 yr 9 mos</span>
+        </div>
+        <p class="job-location">Oslo, Norway</p>
+        <p class="job-summary">Conducted research in music technology and data analysis.</p>
+    </summary>
+    <ul>
+        <li>Developed a comprehensive Python analysis toolkit to extract and analyze 20 years of metadata and text from an academic journal, resulting in a published paper</li>
+        <li>Led the archival and analysis project of all recorded instances of a specific musical composition, focusing on tempo analysis and creating insightful visualizations</li>
+        <li>Designed and built a React-based website for music technology guides and resources, significantly improving accessibility of information for students and researchers</li>
+        <li>Maintained the official blog for the master's program, enhancing communication and engagement within the academic community</li>
+    </ul>
+</details>
 
-  <div class="word">
-    
-      <div class="letter-wrapper">
-        <div class="letter">J</div>
-      </div>
-    
-      <div class="letter-wrapper">
-        <div class="letter">a</div>
-      </div>
-    
-      <div class="letter-wrapper">
-        <div class="letter">c</div>
-      </div>
-    
-      <div class="letter-wrapper">
-        <div class="letter">k</div>
-      </div>
-    
-      <div class="letter-wrapper">
-        <div class="letter">s</div>
-      </div>
-    
-      <div class="letter-wrapper">
-        <div class="letter">o</div>
-      </div>
-    
-      <div class="letter-wrapper">
-        <div class="letter">n</div>
-      </div>
-    
-  </div>
-
-
-<div class="card">
-  <p>You can find some project writeups and personal blogs of mine here.</p>
-  <p>I also like <a href="https://github.com/jacksongoode">coding</a> for fun, <a href="https://infinitytakes.bandcamp.com/">making music</a> with friends, <a href="https://vimeo.com/jacksongoode">making videos</a> (and watching movies), or you can <a href="mailto:hi@jackson.gd">send me an email</a>.</p>
-</div>
-
-<script src="/js/spin-letters.js"></script>
-<script type="module" src="/js/sound-letters.js"></script>
+<details>
+    <summary>
+        <div class="job-title">Data Analyst</div>
+        <div class="job-details">
+            <span>Exactly Business Data</span>
+            <span>Aug 2018 - May 2019 · 10 mos</span>
+        </div>
+        <p class="job-location">Pasadena, CA</p>
+        <p class="job-summary">Analyzed corporate data and developed Python functions for data enrichment.</p>
+    </summary>
+    <p>Conducted corporate data analysis and developed Python functions for data enrichment, supporting marketing teams and contributing to seed-round funding strategies.</p>
+</details>
 			</main>
 		</div>
 		<footer></footer>
 
-		<!-- This page `/` was built on 2024-09-09T07:52:21.765Z -->
+		<!-- This page `/cv/` was built on 2024-09-09T07:52:21.764Z -->
 	</body>
 </html>
 <script defer>
