@@ -117,7 +117,10 @@ h6 {
 	font-display: swap;
 }
 
-/* Global stylesheet */
+/* Only set the overflow to the root */
+html {
+	overflow-x: hidden;
+}
 html,
 body {
 	width: 100%;
@@ -126,14 +129,8 @@ body {
 	background-color: transparent;
 	color: CanvasText;
 	font-family: var(--font-family);
-	overflow-x: hidden;
 }
 body {
-	/* transition:
-		color 0.1s,
-		background-color 0.1s; */
-	/* background-color: Canvas;
-		color: CanvasText; */
 	display: flex;
 	justify-content: center;
 	max-width: none;
@@ -1054,7 +1051,7 @@ lite-youtube.lyt-activated > .lty-playbtn {
 		</div>
 		<footer></footer>
 
-		<!-- This page `/blog/2023-06-03-thought/` was built on 2024-09-09T17:38:05.288Z -->
+		<!-- This page `/blog/2023-06-03-thought/` was built on 2024-09-09T19:37:13.883Z -->
 	</body>
 </html>
 <script defer>

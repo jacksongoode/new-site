@@ -117,7 +117,10 @@ h6 {
 	font-display: swap;
 }
 
-/* Global stylesheet */
+/* Only set the overflow to the root */
+html {
+	overflow-x: hidden;
+}
 html,
 body {
 	width: 100%;
@@ -126,14 +129,8 @@ body {
 	background-color: transparent;
 	color: CanvasText;
 	font-family: var(--font-family);
-	overflow-x: hidden;
 }
 body {
-	/* transition:
-		color 0.1s,
-		background-color 0.1s; */
-	/* background-color: Canvas;
-		color: CanvasText; */
 	display: flex;
 	justify-content: center;
 	max-width: none;
@@ -1147,7 +1144,7 @@ Clover looks down at the mess but is uninterested having fallen under some sort 
 		</div>
 		<footer></footer>
 
-		<!-- This page `/blog/2018-11-02-43-rpm/` was built on 2024-09-09T17:38:05.288Z -->
+		<!-- This page `/blog/2018-11-02-43-rpm/` was built on 2024-09-09T19:37:13.883Z -->
 	</body>
 </html>
 <script defer>
