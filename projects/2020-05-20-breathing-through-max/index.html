@@ -845,23 +845,19 @@ header {
 }
 
 /* Post gradient title */
-.gradient-underline {
-	z-index: -1;
-	position: absolute;
-	top: 0;
-	right: 0;
-	left: 0;
-	height: 10vh;
-	pointer-events: none;
+#post-title {
+	position: relative;
+	padding-bottom: 0.5rem;
 }
 
-.gradient-underline::before {
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
+#post-title::after {
 	content: "";
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 2px;
+	background: linear-gradient(to right, var(--emoji-color), transparent);
 }
 
 
@@ -1016,8 +1012,7 @@ lite-youtube.lyt-activated > .lty-playbtn {
 <div class="progress-bar"></div>
 
 <article class="post">
-  
-  <h1 id="post-title" data-emoji="🧘">
+  <h1 id="post-title" style="--emoji-color: rgb(222,153,36)">
     Breathing through Max&ensp;🧘
   </h1>
 
@@ -1078,13 +1073,11 @@ lite-youtube.lyt-activated > .lty-playbtn {
         
       </ul>
 </article>
-
-<script src="/js/emoji-color.js"></script>
 			</main>
 		</div>
 		<footer></footer>
 
-		<!-- This page `/projects/2020-05-20-breathing-through-max/` was built on 2024-09-12T06:23:26.107Z -->
+		<!-- This page `/projects/2020-05-20-breathing-through-max/` was built on 2024-09-12T07:20:43.574Z -->
 	</body>
 </html>
 <script defer>

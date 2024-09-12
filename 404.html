@@ -845,23 +845,19 @@ header {
 }
 
 /* Post gradient title */
-.gradient-underline {
-	z-index: -1;
-	position: absolute;
-	top: 0;
-	right: 0;
-	left: 0;
-	height: 10vh;
-	pointer-events: none;
+#post-title {
+	position: relative;
+	padding-bottom: 0.5rem;
 }
 
-.gradient-underline::before {
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
+#post-title::after {
 	content: "";
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 2px;
+	background: linear-gradient(to right, var(--emoji-color), transparent);
 }
 		</style>
 	</head>
@@ -927,7 +923,7 @@ This will work for both GitHub pages and Netlify:
 		</div>
 		<footer></footer>
 
-		<!-- This page `/404.html` was built on 2024-09-12T06:23:26.103Z -->
+		<!-- This page `/404.html` was built on 2024-09-12T07:20:43.570Z -->
 	</body>
 </html>
 <script defer>
