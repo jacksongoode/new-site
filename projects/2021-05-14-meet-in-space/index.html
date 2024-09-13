@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Toward a Telepresence of Sound: Video Conferencing in Spatial Audio</title>
+		<title>Meet in Space: Video Conferencing in Spatial Audio</title>
 		<meta name="description" content="Teleconferencing in spatial audio with the help of Jitsi Meet and Web Audio">
 		<meta name="generator" content="Eleventy v3.0.0">
 
@@ -148,7 +148,9 @@ main {
 	max-width: 40rem;
 	padding: 1rem;
 
-	& :first-child {
+	& h1:first-child,
+	& h2:first-child,
+	& h3:first-child {
 		margin-top: 0;
 	}
 
@@ -190,11 +192,49 @@ p:last-child {
 	margin-bottom: 0;
 }
 
-.links-nextprev {
+/* Post navigation */
+.post-nav {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
 	margin-top: 1rem;
-	padding: 1rem 0;
-	border-top: 1px dashed var(--color-gray-20);
-	list-style: none;
+}
+
+.post-nav a {
+	display: flex;
+	align-items: center;
+	text-decoration: none;
+	color: var(--color-gray-20);
+	max-width: 100%;
+}
+
+.post-nav:has(.post-nav-prev):has(.post-nav-next) a {
+	max-width: calc(50% - 1rem);
+}
+
+.post-nav-prev {
+	margin-right: auto;
+}
+
+.post-nav-next {
+	margin-left: auto;
+}
+
+.post-nav-title {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.post-nav-arrow {
+	flex-shrink: 0;
+	padding: 0 0.25rem;
+}
+
+.post-nav-divider {
+	padding: 0 0.5rem;
+	color: var(--color-gray-50);
 }
 
 table {
@@ -844,40 +884,72 @@ header {
 	color: var(--color-gray-50);
 }
 
+/* Wave divider */
+#post-title {
+	margin-bottom: 0.5rem;
+}
+
 :root {
 	--wave-width: 30px;
 	--wave-height: 10px;
 }
 
-/* Wave divider */
 .wave-divider {
 	width: 100%;
 	height: var(--wave-height);
-	/* background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='10'%3E%3Cpath d='M0 5q15-5 30 0t30 0' stroke='lightgray' fill='none' stroke-width='1.5'/%3E%3C/svg%3E")
-		repeat-x bottom; */
-	background-size: var(--wave-width) var(--wave-height);
-	margin-bottom: 1rem;
+	margin: 2rem 0;
+	/* margin-top: 0.3rem;
+	margin-bottom: 1rem; */
 	background-color: var(--emoji-color);
 
-	mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='10'%3E%3Cpath d='M0 5q15-5 30 0t30 0' stroke='white' fill='none' stroke-width='1.5'/%3E%3C/svg%3E"),
-		linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-	mask-composite: intersect;
-	mask-repeat: repeat-x;
+	/* Wave mask */
+	--wave-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='10'%3E%3Cpath d='M0 5q15-5 30 0t30 0' stroke='white' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");
+
+	/* Fade-out mask */
+	--fade-mask: linear-gradient(
+		to right,
+		transparent,
+		black 15%,
+		black 85%,
+		transparent
+	);
+
+	/* Combine masks */
+	mask-image: var(--wave-mask), var(--fade-mask);
 	mask-size:
 		var(--wave-width) var(--wave-height),
 		100% 100%;
+	mask-repeat: repeat-x, no-repeat;
+	mask-composite: intersect;
 
-	-webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='10'%3E%3Cpath d='M0 5q15-5 30 0t30 0' stroke='white' fill='none' stroke-width='1.5'/%3E%3C/svg%3E"),
-		linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-	-webkit-mask-composite: source-in;
-	-webkit-mask-repeat: repeat-x;
+	/* For webkit browsers */
+	-webkit-mask-image: var(--wave-mask), var(--fade-mask);
 	-webkit-mask-size:
 		var(--wave-width) var(--wave-height),
 		100% 100%;
+	-webkit-mask-repeat: repeat-x, no-repeat;
+	-webkit-mask-composite: source-in;
+
+	animation: wave-animation 5s linear infinite;
 }
 
-#post-title {
-	margin-bottom: 0;
+@keyframes wave-animation {
+	0% {
+		mask-position:
+			0 0,
+			0 0;
+		-webkit-mask-position:
+			0 0,
+			0 0;
+	}
+	100% {
+		mask-position:
+			var(--wave-width) 0,
+			0 0;
+		-webkit-mask-position:
+			var(--wave-width) 0,
+			0 0;
+	}
 }
 
 
@@ -1029,12 +1101,13 @@ lite-youtube.lyt-activated > .lty-playbtn {
 
 			<main id="skip">
 				
+
+
 <div class="progress-bar"></div>
 
 <article class="post">
   <h1 id="post-title">
-    Toward a Telepresence of Sound: Video Conferencing in Spatial Audio&ensp;🪐
-    <div class="wave-divider" style="--emoji-color: #d4ceb0;"></div>
+    Meet in Space: Video Conferencing in Spatial Audio&ensp;🪐
   </h1>
 
   <ul class="post-metadata">
@@ -1046,8 +1119,11 @@ lite-youtube.lyt-activated > .lty-playbtn {
       </li>
   </ul>
 
-  <h1 id="meet-in-space-video-conferencing-in-spatial-audio" tabindex="-1">Meet in Space: Video Conferencing in Spatial Audio <a class="header-anchor" href="#meet-in-space-video-conferencing-in-spatial-audio">#</a></h1>
-<h2 id="abstract" tabindex="-1">Abstract <a class="header-anchor" href="#abstract">#</a></h2>
+  <div class="wave-divider-container">
+    <div class="wave-divider" style="--emoji-color: #d4ceb0;"></div>
+  </div>
+
+  <h2 id="toward-a-telepresence-of-sound" tabindex="-1">Toward a Telepresence of Sound <a class="header-anchor" href="#toward-a-telepresence-of-sound">#</a></h2>
 <p>Digital communications technologies have developed at an increasingly rapid pace, with the COVID-19 pandemic accelerating its recent adoption. This shift over the last few decades has seen a mass migration online, where utilities like video conferencing software have become essential to entire industries and institutions. Yet, there are clear limitations with this new digital work space - most of which exist from the nuance of natural communication. My master's thesis for the Music, Communications and Technology program at the University of Oslo and Norwegian University of Science and Technology proposes the integration of binaural spatialized audio within a web-based video conferencing platform for small-group, distributed conversations. The proposed system builds upon findings on the benefits of spatial audio in video conferencing platforms and is guided by the tenets of telepresence. The developed implementation is based on Jitsi Meet, a robust open-source conferencing system. It localizes participant’s voices through sound spatialization methods provided by the Web Audio API, a modern library in JavaScript for complex audio manipulation on the web.</p>
 <p>This project treads new ground in exploring how localized audio can be conceptualized within an accessible telecommunications platform, proposing a novel integration of HRTF-based binaural spatialization within a standard video conferencing layout. A novel system design and experimental questions used in a technical evaluation and user study are informed from a review of audio and video conference systems found in the literature and commercial market. The system evaluation suggests its viability from a compatibility and performance perspective. Perceptual metrics of cognitive load, social presence, and intelligibility are further investigated by a user study where four remote subjects were asked to engage in a short group discussion on a live deployment of the system. Results find support for improvements across all defined metrics as well as increased opinion scores regarding the preference of conferencing with a spatial audio system.</p>
 <h2 id="teleconferencing-is-here-to-stay" tabindex="-1">Teleconferencing is Here to Stay <a class="header-anchor" href="#teleconferencing-is-here-to-stay">#</a></h2>
@@ -1110,20 +1186,27 @@ lite-youtube.lyt-activated > .lty-playbtn {
 <h2 id="and-the-future" tabindex="-1">And the future? <a class="header-anchor" href="#and-the-future">#</a></h2>
 <p>Spatial audio is being adopted at a rapid pace, but has still yet to be introduced in small group interactions like the ones presented here. Hopefully, this thesis can provide a valid proof of concept for the benefits of spatial audio in video conferencing platforms.</p>
 
-      <ul class="links-nextprev">
-          <li>Previous: <a href="/projects/2020-10-23-film-for-music/">Music for a Series of Scenes</a>
-          </li>
-        
-          <li>Next: <a href="/projects/2024-05-01-cacophony/">Sound Pedro 2024: Cacophony</a>
-          </li>
-        
-      </ul>
+
+  <div class="wave-divider-container">
+    <div class="wave-divider" style="--emoji-color: #d4ceb0;"></div>
+  </div>
+    <nav class="post-nav">
+        <a href="/projects/2020-10-23-film-for-music/" class="post-nav-prev">
+          <span class="post-nav-arrow">←</span>
+          <span class="post-nav-title">Music for a Series of Scenes</span>
+        </a>
+        <span class="post-nav-divider">•</span>
+        <a href="/projects/2024-05-01-cacophony/" class="post-nav-next">
+          <span class="post-nav-title">Sound Pedro 2024: Cacophony</span>
+          <span class="post-nav-arrow">→</span>
+        </a>
+    </nav>
 </article>
 			</main>
 		</div>
 		<footer></footer>
 
-		<!-- This page `/projects/2021-05-14-meet-in-space/` was built on 2024-09-12T19:45:54.776Z -->
+		<!-- This page `/projects/2021-05-14-meet-in-space/` was built on 2024-09-13T18:53:41.445Z -->
 	</body>
 </html>
 <script defer>

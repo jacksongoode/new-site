@@ -148,7 +148,9 @@ main {
 	max-width: 40rem;
 	padding: 1rem;
 
-	& :first-child {
+	& h1:first-child,
+	& h2:first-child,
+	& h3:first-child {
 		margin-top: 0;
 	}
 
@@ -190,11 +192,49 @@ p:last-child {
 	margin-bottom: 0;
 }
 
-.links-nextprev {
+/* Post navigation */
+.post-nav {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
 	margin-top: 1rem;
-	padding: 1rem 0;
-	border-top: 1px dashed var(--color-gray-20);
-	list-style: none;
+}
+
+.post-nav a {
+	display: flex;
+	align-items: center;
+	text-decoration: none;
+	color: var(--color-gray-20);
+	max-width: 100%;
+}
+
+.post-nav:has(.post-nav-prev):has(.post-nav-next) a {
+	max-width: calc(50% - 1rem);
+}
+
+.post-nav-prev {
+	margin-right: auto;
+}
+
+.post-nav-next {
+	margin-left: auto;
+}
+
+.post-nav-title {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.post-nav-arrow {
+	flex-shrink: 0;
+	padding: 0 0.25rem;
+}
+
+.post-nav-divider {
+	padding: 0 0.5rem;
+	color: var(--color-gray-50);
 }
 
 table {
@@ -844,40 +884,72 @@ header {
 	color: var(--color-gray-50);
 }
 
+/* Wave divider */
+#post-title {
+	margin-bottom: 0.5rem;
+}
+
 :root {
 	--wave-width: 30px;
 	--wave-height: 10px;
 }
 
-/* Wave divider */
 .wave-divider {
 	width: 100%;
 	height: var(--wave-height);
-	/* background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='10'%3E%3Cpath d='M0 5q15-5 30 0t30 0' stroke='lightgray' fill='none' stroke-width='1.5'/%3E%3C/svg%3E")
-		repeat-x bottom; */
-	background-size: var(--wave-width) var(--wave-height);
-	margin-bottom: 1rem;
+	margin: 2rem 0;
+	/* margin-top: 0.3rem;
+	margin-bottom: 1rem; */
 	background-color: var(--emoji-color);
 
-	mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='10'%3E%3Cpath d='M0 5q15-5 30 0t30 0' stroke='white' fill='none' stroke-width='1.5'/%3E%3C/svg%3E"),
-		linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-	mask-composite: intersect;
-	mask-repeat: repeat-x;
+	/* Wave mask */
+	--wave-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='10'%3E%3Cpath d='M0 5q15-5 30 0t30 0' stroke='white' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");
+
+	/* Fade-out mask */
+	--fade-mask: linear-gradient(
+		to right,
+		transparent,
+		black 15%,
+		black 85%,
+		transparent
+	);
+
+	/* Combine masks */
+	mask-image: var(--wave-mask), var(--fade-mask);
 	mask-size:
 		var(--wave-width) var(--wave-height),
 		100% 100%;
+	mask-repeat: repeat-x, no-repeat;
+	mask-composite: intersect;
 
-	-webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='10'%3E%3Cpath d='M0 5q15-5 30 0t30 0' stroke='white' fill='none' stroke-width='1.5'/%3E%3C/svg%3E"),
-		linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-	-webkit-mask-composite: source-in;
-	-webkit-mask-repeat: repeat-x;
+	/* For webkit browsers */
+	-webkit-mask-image: var(--wave-mask), var(--fade-mask);
 	-webkit-mask-size:
 		var(--wave-width) var(--wave-height),
 		100% 100%;
+	-webkit-mask-repeat: repeat-x, no-repeat;
+	-webkit-mask-composite: source-in;
+
+	animation: wave-animation 5s linear infinite;
 }
 
-#post-title {
-	margin-bottom: 0;
+@keyframes wave-animation {
+	0% {
+		mask-position:
+			0 0,
+			0 0;
+		-webkit-mask-position:
+			0 0,
+			0 0;
+	}
+	100% {
+		mask-position:
+			var(--wave-width) 0,
+			0 0;
+		-webkit-mask-position:
+			var(--wave-width) 0,
+			0 0;
+	}
 }
 
 
@@ -1029,12 +1101,13 @@ lite-youtube.lyt-activated > .lty-playbtn {
 
 			<main id="skip">
 				
+
+
 <div class="progress-bar"></div>
 
 <article class="post">
   <h1 id="post-title">
     Music for a Series of Scenes&ensp;📽️
-    <div class="wave-divider" style="--emoji-color: #6e787d;"></div>
   </h1>
 
   <ul class="post-metadata">
@@ -1045,6 +1118,10 @@ lite-youtube.lyt-activated > .lty-playbtn {
         <a href="/tags/projects/" class="post-tag">projects</a>
       </li>
   </ul>
+
+  <div class="wave-divider-container">
+    <div class="wave-divider" style="--emoji-color: #6e787d;"></div>
+  </div>
 
   <p>Film has always been a big part of my life, as entertainment, education, and artistic inspiration. Towards the end of high school my taste in all things artistic broadened past the &quot;indie&quot; titles often found on the shelves of Urban Outfitters (forgive me) directly into the obscure. While diving into the archives of cult cinema, midnight movies and the like was entertaining on its own for the shock and awe, it was like the thrill of driving for the first time but unaware of the vistas you're passing by. Unfortunately, it took me a lot of movies to get a taste for the landscape of cinema and even now I have plenty of room to grow.</p>
 <p>As I have continued to explore the wakes of history through my 13.3in portal I've always felt some interest in the continuities between film and music. Often soundtracks highlight the emotional emphasis of a scene or tend to cast a feelings across moments or to even color the mood of the film as a whole. Less often does a film employ music that has existed prior to the film itself. There could be lots of reasons for why a director might want to avoid this: copyright/licencing, its potentially abrupt intrusion, or, what I suspect is largely the case, the meaning that a song could carry with it into the film. The appearance of a song from the past (especially if it is particularly well-known) can dramatically color the viewing experience of that scene and the movie as a whole. In cases where a song fits beautifully into a scene, you can tell the director had either imagined this song as its backdrop before getting behind the camera or was just incredibly intuitive/lucky.</p>
@@ -1074,20 +1151,27 @@ lite-youtube.lyt-activated > .lty-playbtn {
 <h2 id="for-more" tabindex="-1">For more <a class="header-anchor" href="#for-more">#</a></h2>
 <p>To see more shorts from this ongoing series, you can find the showcase, hosted on Vimeo, <a href="https://vimeo.com/showcase/7853493">here</a>.</p>
 
-      <ul class="links-nextprev">
-          <li>Previous: <a href="/projects/2020-10-16-musings-bela/">Musings with Bela</a>
-          </li>
-        
-          <li>Next: <a href="/projects/2021-05-14-meet-in-space/">Toward a Telepresence of Sound: Video Conferencing in Spatial Audio</a>
-          </li>
-        
-      </ul>
+
+  <div class="wave-divider-container">
+    <div class="wave-divider" style="--emoji-color: #6e787d;"></div>
+  </div>
+    <nav class="post-nav">
+        <a href="/projects/2020-10-16-musings-bela/" class="post-nav-prev">
+          <span class="post-nav-arrow">←</span>
+          <span class="post-nav-title">Musings with Bela</span>
+        </a>
+        <span class="post-nav-divider">•</span>
+        <a href="/projects/2021-05-14-meet-in-space/" class="post-nav-next">
+          <span class="post-nav-title">Meet in Space: Video Conferencing in Spatial Audio</span>
+          <span class="post-nav-arrow">→</span>
+        </a>
+    </nav>
 </article>
 			</main>
 		</div>
 		<footer></footer>
 
-		<!-- This page `/projects/2020-10-23-film-for-music/` was built on 2024-09-12T19:45:54.776Z -->
+		<!-- This page `/projects/2020-10-23-film-for-music/` was built on 2024-09-13T18:53:41.445Z -->
 	</body>
 </html>
 <script defer>

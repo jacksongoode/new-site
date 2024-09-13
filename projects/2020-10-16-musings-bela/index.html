@@ -148,7 +148,9 @@ main {
 	max-width: 40rem;
 	padding: 1rem;
 
-	& :first-child {
+	& h1:first-child,
+	& h2:first-child,
+	& h3:first-child {
 		margin-top: 0;
 	}
 
@@ -190,11 +192,49 @@ p:last-child {
 	margin-bottom: 0;
 }
 
-.links-nextprev {
+/* Post navigation */
+.post-nav {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
 	margin-top: 1rem;
-	padding: 1rem 0;
-	border-top: 1px dashed var(--color-gray-20);
-	list-style: none;
+}
+
+.post-nav a {
+	display: flex;
+	align-items: center;
+	text-decoration: none;
+	color: var(--color-gray-20);
+	max-width: 100%;
+}
+
+.post-nav:has(.post-nav-prev):has(.post-nav-next) a {
+	max-width: calc(50% - 1rem);
+}
+
+.post-nav-prev {
+	margin-right: auto;
+}
+
+.post-nav-next {
+	margin-left: auto;
+}
+
+.post-nav-title {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.post-nav-arrow {
+	flex-shrink: 0;
+	padding: 0 0.25rem;
+}
+
+.post-nav-divider {
+	padding: 0 0.5rem;
+	color: var(--color-gray-50);
 }
 
 table {
@@ -844,40 +884,72 @@ header {
 	color: var(--color-gray-50);
 }
 
+/* Wave divider */
+#post-title {
+	margin-bottom: 0.5rem;
+}
+
 :root {
 	--wave-width: 30px;
 	--wave-height: 10px;
 }
 
-/* Wave divider */
 .wave-divider {
 	width: 100%;
 	height: var(--wave-height);
-	/* background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='10'%3E%3Cpath d='M0 5q15-5 30 0t30 0' stroke='lightgray' fill='none' stroke-width='1.5'/%3E%3C/svg%3E")
-		repeat-x bottom; */
-	background-size: var(--wave-width) var(--wave-height);
-	margin-bottom: 1rem;
+	margin: 2rem 0;
+	/* margin-top: 0.3rem;
+	margin-bottom: 1rem; */
 	background-color: var(--emoji-color);
 
-	mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='10'%3E%3Cpath d='M0 5q15-5 30 0t30 0' stroke='white' fill='none' stroke-width='1.5'/%3E%3C/svg%3E"),
-		linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-	mask-composite: intersect;
-	mask-repeat: repeat-x;
+	/* Wave mask */
+	--wave-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='10'%3E%3Cpath d='M0 5q15-5 30 0t30 0' stroke='white' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");
+
+	/* Fade-out mask */
+	--fade-mask: linear-gradient(
+		to right,
+		transparent,
+		black 15%,
+		black 85%,
+		transparent
+	);
+
+	/* Combine masks */
+	mask-image: var(--wave-mask), var(--fade-mask);
 	mask-size:
 		var(--wave-width) var(--wave-height),
 		100% 100%;
+	mask-repeat: repeat-x, no-repeat;
+	mask-composite: intersect;
 
-	-webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='10'%3E%3Cpath d='M0 5q15-5 30 0t30 0' stroke='white' fill='none' stroke-width='1.5'/%3E%3C/svg%3E"),
-		linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-	-webkit-mask-composite: source-in;
-	-webkit-mask-repeat: repeat-x;
+	/* For webkit browsers */
+	-webkit-mask-image: var(--wave-mask), var(--fade-mask);
 	-webkit-mask-size:
 		var(--wave-width) var(--wave-height),
 		100% 100%;
+	-webkit-mask-repeat: repeat-x, no-repeat;
+	-webkit-mask-composite: source-in;
+
+	animation: wave-animation 5s linear infinite;
 }
 
-#post-title {
-	margin-bottom: 0;
+@keyframes wave-animation {
+	0% {
+		mask-position:
+			0 0,
+			0 0;
+		-webkit-mask-position:
+			0 0,
+			0 0;
+	}
+	100% {
+		mask-position:
+			var(--wave-width) 0,
+			0 0;
+		-webkit-mask-position:
+			var(--wave-width) 0,
+			0 0;
+	}
 }
 
 
@@ -1029,12 +1101,13 @@ lite-youtube.lyt-activated > .lty-playbtn {
 
 			<main id="skip">
 				
+
+
 <div class="progress-bar"></div>
 
 <article class="post">
   <h1 id="post-title">
     Musings with Bela&ensp;🧠
-    <div class="wave-divider" style="--emoji-color: #f59999;"></div>
   </h1>
 
   <ul class="post-metadata">
@@ -1045,6 +1118,10 @@ lite-youtube.lyt-activated > .lty-playbtn {
         <a href="/tags/projects/" class="post-tag">projects</a>
       </li>
   </ul>
+
+  <div class="wave-divider-container">
+    <div class="wave-divider" style="--emoji-color: #f59999;"></div>
+  </div>
 
   <p>In an effort to explore the wild world of interactive music systems, I decided to work with a <a href="https://choosemuse.com/">portable EEG reader</a> and a <a href="https://bela.io/">Bela</a> coupled with an accelerometer and potentiometers. Little did I know how much of a challenge it would be to join both software and hardware within an interactive package.</p>
 <h2 id="inspiration" tabindex="-1">Inspiration <a class="header-anchor" href="#inspiration">#</a></h2>
@@ -1148,20 +1225,27 @@ lite-youtube.lyt-activated > .lty-playbtn {
 <p class="citation">Straebel, V., & Thoben, W.. (2014). <em>Alvin Lucier's Music for Solo Performer: Experimental Music beyond Sonification</em>. Organised Sound, vol. 19, no. 1, pp. 17--29</p>
 <p class="citation">Wu, D., et al.. (2013). <em>Scale-Free Brain Quartet: Artistic Filtering of Multi-Channel Brainwave Music</em>. PloS One, vol. 8, no. 5, p. e64046</p>
 
-      <ul class="links-nextprev">
-          <li>Previous: <a href="/projects/2020-09-20-classifying-urban-sounds/">Classifying Urban Sounds in a Multi-label Database</a>
-          </li>
-        
-          <li>Next: <a href="/projects/2020-10-23-film-for-music/">Music for a Series of Scenes</a>
-          </li>
-        
-      </ul>
+
+  <div class="wave-divider-container">
+    <div class="wave-divider" style="--emoji-color: #f59999;"></div>
+  </div>
+    <nav class="post-nav">
+        <a href="/projects/2020-09-20-classifying-urban-sounds/" class="post-nav-prev">
+          <span class="post-nav-arrow">←</span>
+          <span class="post-nav-title">Classifying Urban Sounds in a Multi-label Database</span>
+        </a>
+        <span class="post-nav-divider">•</span>
+        <a href="/projects/2020-10-23-film-for-music/" class="post-nav-next">
+          <span class="post-nav-title">Music for a Series of Scenes</span>
+          <span class="post-nav-arrow">→</span>
+        </a>
+    </nav>
 </article>
 			</main>
 		</div>
 		<footer></footer>
 
-		<!-- This page `/projects/2020-10-16-musings-bela/` was built on 2024-09-12T19:45:54.775Z -->
+		<!-- This page `/projects/2020-10-16-musings-bela/` was built on 2024-09-13T18:53:41.445Z -->
 	</body>
 </html>
 <script defer>

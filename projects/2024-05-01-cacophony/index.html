@@ -148,7 +148,9 @@ main {
 	max-width: 40rem;
 	padding: 1rem;
 
-	& :first-child {
+	& h1:first-child,
+	& h2:first-child,
+	& h3:first-child {
 		margin-top: 0;
 	}
 
@@ -190,11 +192,49 @@ p:last-child {
 	margin-bottom: 0;
 }
 
-.links-nextprev {
+/* Post navigation */
+.post-nav {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
 	margin-top: 1rem;
-	padding: 1rem 0;
-	border-top: 1px dashed var(--color-gray-20);
-	list-style: none;
+}
+
+.post-nav a {
+	display: flex;
+	align-items: center;
+	text-decoration: none;
+	color: var(--color-gray-20);
+	max-width: 100%;
+}
+
+.post-nav:has(.post-nav-prev):has(.post-nav-next) a {
+	max-width: calc(50% - 1rem);
+}
+
+.post-nav-prev {
+	margin-right: auto;
+}
+
+.post-nav-next {
+	margin-left: auto;
+}
+
+.post-nav-title {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.post-nav-arrow {
+	flex-shrink: 0;
+	padding: 0 0.25rem;
+}
+
+.post-nav-divider {
+	padding: 0 0.5rem;
+	color: var(--color-gray-50);
 }
 
 table {
@@ -844,40 +884,72 @@ header {
 	color: var(--color-gray-50);
 }
 
+/* Wave divider */
+#post-title {
+	margin-bottom: 0.5rem;
+}
+
 :root {
 	--wave-width: 30px;
 	--wave-height: 10px;
 }
 
-/* Wave divider */
 .wave-divider {
 	width: 100%;
 	height: var(--wave-height);
-	/* background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='10'%3E%3Cpath d='M0 5q15-5 30 0t30 0' stroke='lightgray' fill='none' stroke-width='1.5'/%3E%3C/svg%3E")
-		repeat-x bottom; */
-	background-size: var(--wave-width) var(--wave-height);
-	margin-bottom: 1rem;
+	margin: 2rem 0;
+	/* margin-top: 0.3rem;
+	margin-bottom: 1rem; */
 	background-color: var(--emoji-color);
 
-	mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='10'%3E%3Cpath d='M0 5q15-5 30 0t30 0' stroke='white' fill='none' stroke-width='1.5'/%3E%3C/svg%3E"),
-		linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-	mask-composite: intersect;
-	mask-repeat: repeat-x;
+	/* Wave mask */
+	--wave-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='10'%3E%3Cpath d='M0 5q15-5 30 0t30 0' stroke='white' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");
+
+	/* Fade-out mask */
+	--fade-mask: linear-gradient(
+		to right,
+		transparent,
+		black 15%,
+		black 85%,
+		transparent
+	);
+
+	/* Combine masks */
+	mask-image: var(--wave-mask), var(--fade-mask);
 	mask-size:
 		var(--wave-width) var(--wave-height),
 		100% 100%;
+	mask-repeat: repeat-x, no-repeat;
+	mask-composite: intersect;
 
-	-webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='10'%3E%3Cpath d='M0 5q15-5 30 0t30 0' stroke='white' fill='none' stroke-width='1.5'/%3E%3C/svg%3E"),
-		linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-	-webkit-mask-composite: source-in;
-	-webkit-mask-repeat: repeat-x;
+	/* For webkit browsers */
+	-webkit-mask-image: var(--wave-mask), var(--fade-mask);
 	-webkit-mask-size:
 		var(--wave-width) var(--wave-height),
 		100% 100%;
+	-webkit-mask-repeat: repeat-x, no-repeat;
+	-webkit-mask-composite: source-in;
+
+	animation: wave-animation 5s linear infinite;
 }
 
-#post-title {
-	margin-bottom: 0;
+@keyframes wave-animation {
+	0% {
+		mask-position:
+			0 0,
+			0 0;
+		-webkit-mask-position:
+			0 0,
+			0 0;
+	}
+	100% {
+		mask-position:
+			var(--wave-width) 0,
+			0 0;
+		-webkit-mask-position:
+			var(--wave-width) 0,
+			0 0;
+	}
 }
 
 
@@ -1048,12 +1120,13 @@ lite-youtube.lyt-activated > .lty-playbtn {
 
 			<main id="skip">
 				
+
+
 <div class="progress-bar"></div>
 
 <article class="post">
   <h1 id="post-title">
     Sound Pedro 2024: Cacophony&ensp;💥
-    <div class="wave-divider" style="--emoji-color: #fa8733;"></div>
   </h1>
 
   <ul class="post-metadata">
@@ -1064,6 +1137,10 @@ lite-youtube.lyt-activated > .lty-playbtn {
         <a href="/tags/projects/" class="post-tag">projects</a>
       </li>
   </ul>
+
+  <div class="wave-divider-container">
+    <div class="wave-divider" style="--emoji-color: #fa8733;"></div>
+  </div>
 
   <p>This year I presented a sonic installation at Sound Pedro alongside a cohort of other artists presenting wacky and experimental audio works. Initially, I thought it would just make sense to write up a technical overview of my piece but the whole experience and very existence of Sound Pedro made me think it would be interesting to tell a story alongside the technical details.</p>
 <h2 id="a-little-context" tabindex="-1">A little context <a class="header-anchor" href="#a-little-context">#</a></h2>
@@ -1086,17 +1163,22 @@ lite-youtube.lyt-activated > .lty-playbtn {
 <p>With some continued routing woes, I wasn't able to project the colorful display of video thumbnails as I intended, so I used my laptop's display instead. Folks passing by were excited, confused, disturbed, entertained, and generally interested, since there is very little visual indication of all of the many simultaneous streams of audio that were booming off the semi-circular apartment I was squatting in for the evening.</p>
 <figure><video src="/vid/ongoing.mp4" style="aspect-ratio: 16/9;" controls>Your browser does not support the video tag.</video><figcaption>A quick clip - sadly the drones of the surrounding performances did just that :)</figcaption></figure>
 
-      <ul class="links-nextprev">
-          <li>Previous: <a href="/projects/2021-05-14-meet-in-space/">Toward a Telepresence of Sound: Video Conferencing in Spatial Audio</a>
-          </li>
-        
-      </ul>
+
+  <div class="wave-divider-container">
+    <div class="wave-divider" style="--emoji-color: #fa8733;"></div>
+  </div>
+    <nav class="post-nav">
+        <a href="/projects/2021-05-14-meet-in-space/" class="post-nav-prev">
+          <span class="post-nav-arrow">←</span>
+          <span class="post-nav-title">Meet in Space: Video Conferencing in Spatial Audio</span>
+        </a>
+    </nav>
 </article>
 			</main>
 		</div>
 		<footer></footer>
 
-		<!-- This page `/projects/2024-05-01-cacophony/` was built on 2024-09-12T19:45:54.776Z -->
+		<!-- This page `/projects/2024-05-01-cacophony/` was built on 2024-09-13T18:53:41.445Z -->
 	</body>
 </html>
 <script defer>
