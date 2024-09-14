@@ -12,7 +12,187 @@
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Jackson">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Jackson">
 		<style>
-			/*
+			/* CV Styles */
+.cv-header {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 1rem;
+	text-align: center;
+}
+
+.cv-header h1 {
+	margin: 0;
+}
+
+.cv-tagline {
+	margin: 0;
+	color: var(--color-gray-50);
+	font-style: italic;
+}
+
+.timeline {
+	position: relative;
+}
+
+.timeline::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	width: 2px;
+	background-color: var(--color-gray-90);
+}
+
+.timeline-item {
+	position: relative;
+	padding-left: 1.5rem;
+	margin-bottom: 1.5rem;
+}
+
+.timeline-item:last-child {
+	margin-bottom: 0;
+}
+
+.timeline-item::before {
+	content: "";
+	position: absolute;
+	top: 0.75rem;
+	left: -0.2rem;
+	width: 0.5rem;
+	height: 0.5rem;
+	background-color: lightgray;
+	border-radius: 50%;
+}
+
+.item-title {
+	margin: 0 0 0.5rem;
+	font-size: 1.1rem;
+}
+
+.item-details,
+.item-location {
+	margin-bottom: 0.25rem;
+	color: var(--color-gray-20);
+	font-size: 0.9rem;
+}
+
+.item-summary {
+	margin-top: 0.5rem;
+	font-style: italic;
+}
+
+.timeline-item ul {
+	padding-left: 1.5rem;
+	margin-top: 0.5rem;
+}
+
+.timeline-item p {
+	margin-bottom: 0.5rem;
+}
+
+/* Enhanced about and contact section */
+.cv-about-contact {
+	display: flex;
+	gap: 1rem;
+}
+
+.cv-about {
+	flex: 5;
+}
+
+.cv-contact {
+	flex: 1;
+}
+
+.cv-about p {
+	margin-top: 0;
+}
+
+.contact-list {
+	padding: 0;
+	text-align: right;
+	list-style: none;
+}
+
+.contact-list li {
+	margin-bottom: 0.5rem;
+}
+
+/* Skills section */
+.skills-container {
+	margin-top: 1.5rem;
+}
+
+.skills-list {
+	display: flex;
+	flex-wrap: wrap;
+	padding: 0;
+	list-style: none;
+	gap: 0.5rem;
+}
+
+.skills-list li {
+	padding: 0.25rem 0.5rem;
+	background-color: var(--color-gray-90);
+	font-size: 0.9rem;
+	border-radius: 4px;
+}
+
+/* Print styles */
+@media print {
+	body {
+		font-size: 12pt;
+	}
+
+	.cv-section {
+		page-break-inside: avoid;
+	}
+
+	a {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.timeline::before {
+		display: none;
+	}
+
+	.timeline-item::before {
+		display: none;
+	}
+
+	.timeline-item {
+		padding-left: 0;
+	}
+}
+
+/* Experience details/summary styles */
+.timeline-item {
+	& details {
+		margin-top: 0.5rem;
+	}
+
+	& summary {
+		cursor: pointer;
+		color: var(--color-gray-20);
+	}
+
+	& details[open] {
+		& summary {
+			margin-bottom: 0.5rem;
+		}
+
+		& ul {
+			padding-left: 1.5rem;
+			margin-top: 0.5rem;
+			color: var(--color-gray-20);
+		}
+	}
+}
+/*
   Josh's Custom CSS Reset
   https://www.joshwcomeau.com/css/custom-css-reset/
 */
@@ -1017,7 +1197,7 @@ header {
 
 			<main id="skip">
 				
-<link href="/css/cv.css" rel="stylesheet">
+
 
 <section class="cv-header">
     <h1>Jackson Goode</h1>
@@ -1234,7 +1414,7 @@ header {
 		</div>
 		<footer></footer>
 
-		<!-- This page `/cv/` was built on 2024-09-14T00:50:18.377Z -->
+		<!-- This page `/cv/` was built on 2024-09-14T01:27:27.769Z -->
 	</body>
 </html>
 <script defer>
@@ -1293,8 +1473,14 @@ function sendMessageToWorker(message) {
 
 	updateNavPhrase(isDarkMode ? "Ribbit" : "Cluck", true);
 
+	// Get the body content
+	const bodyContent = document.body.innerText;
+
+	// Prepare the message with the body content
+	const fullMessage = `Current page content:\n${bodyContent}\n\nUser message: ${message}`;
+
 	fetch(
-		`${baseUrl}/ai?message=${encodeURIComponent(message)}&animal=${animalParam}&userId=${getUserId()}`,
+		`${baseUrl}/ai?message=${encodeURIComponent(fullMessage)}&animal=${animalParam}&userId=${getUserId()}`,
 	)
 		.then((response) => {
 			if (!response.ok)

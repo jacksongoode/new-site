@@ -1195,7 +1195,7 @@ client <span class="token operator">=</span> udp_client<span class="token punctu
 		</div>
 		<footer></footer>
 
-		<!-- This page `/projects/2020-03-09-soniweb/` was built on 2024-09-14T00:50:18.382Z -->
+		<!-- This page `/projects/2020-03-09-soniweb/` was built on 2024-09-14T01:27:27.775Z -->
 	</body>
 </html>
 <script defer>
@@ -1254,8 +1254,14 @@ function sendMessageToWorker(message) {
 
 	updateNavPhrase(isDarkMode ? "Ribbit" : "Cluck", true);
 
+	// Get the body content
+	const bodyContent = document.body.innerText;
+
+	// Prepare the message with the body content
+	const fullMessage = `Current page content:\n${bodyContent}\n\nUser message: ${message}`;
+
 	fetch(
-		`${baseUrl}/ai?message=${encodeURIComponent(message)}&animal=${animalParam}&userId=${getUserId()}`,
+		`${baseUrl}/ai?message=${encodeURIComponent(fullMessage)}&animal=${animalParam}&userId=${getUserId()}`,
 	)
 		.then((response) => {
 			if (!response.ok)
