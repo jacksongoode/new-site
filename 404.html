@@ -118,9 +118,6 @@ h6 {
 }
 
 /* Only set the overflow to the root */
-html {
-	overflow-x: hidden; /* or auto */
-}
 html,
 body {
 	max-width: 100%;
@@ -129,6 +126,7 @@ body {
 	background-color: transparent;
 	color: CanvasText;
 	font-family: var(--font-family);
+	contain: paint;
 }
 
 body {
@@ -1014,7 +1012,7 @@ This will work for both GitHub pages and Netlify:
 
 		<footer></footer>
 
-		<!-- This page `/404.html` was built on 2024-09-15T06:16:02.470Z -->
+		<!-- This page `/404.html` was built on 2024-09-15T06:23:49.711Z -->
 	</body>
 </html>
 <script defer>
