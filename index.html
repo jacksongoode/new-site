@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="no-js">
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -959,6 +959,7 @@ header {
 	}
 }
 
+
 		
 		
 
@@ -978,6 +979,14 @@ header {
 	user-select: none;
 }
 
+.word {
+	visibility: visible; /* Show by default for non-JS environments */
+}
+
+.js-loaded .word {
+	visibility: visible; /* Show when JS has finished loading */
+}
+
 .letter-wrapper {
 	display: flex;
 	position: relative;
@@ -985,6 +994,7 @@ header {
 	align-items: center; /* Center align items horizontally within the wrapper */
 	justify-content: center;
 	height: 0; /* We don't want height */
+	top: var(--random-height);
 }
 
 .letter {
@@ -992,7 +1002,7 @@ header {
 	position: absolute; /* Enable relative positioning for random vertical offset */
 
 	/* Rotation based effects */
-	transform: rotate3d(0, 0, 1, calc(var(--rotation, 0) * 1deg));
+	transform: rotate3d(0, 0, 1, var(--rotation, 0deg));
 
 	/* Size and placement */
 	font-size: clamp(
@@ -1004,7 +1014,12 @@ header {
 	animation: fadeIn 0.3s ease-in forwards;
 	animation-delay: var(--random-delay);
 	mix-blend-mode: overlay;
-	cursor: pointer;
+
+	/* Color */
+	color: var(--accent-color, gray);
+	-webkit-text-stroke: 1px var(--primary-color, black);
+	text-stroke: 1px var(--primary-color, black);
+	paint-order: stroke fill;
 
 	/* Fade in */
 	opacity: 0;
@@ -1115,32 +1130,39 @@ header {
 
   <div class="word">
     
-      <div class="letter-wrapper">
-        <div class="letter">J</div>
+      
+      <div class="letter-wrapper" style="--random-height: 22%;">
+        <span class="letter" style="--rotation: 42deg; --random-size: 47.94925884679388; --primary-color: #b34da8; --accent-color: #d16bc6;">J</span>
       </div>
     
-      <div class="letter-wrapper">
-        <div class="letter">a</div>
+      
+      <div class="letter-wrapper" style="--random-height: 59%;">
+        <span class="letter" style="--rotation: 103deg; --random-size: 38.314803839297085; --primary-color: #4db38b; --accent-color: #6bd1a9;">a</span>
       </div>
     
-      <div class="letter-wrapper">
-        <div class="letter">c</div>
+      
+      <div class="letter-wrapper" style="--random-height: 83%;">
+        <span class="letter" style="--rotation: 357deg; --random-size: 9.135141924525158; --primary-color: #76b34d; --accent-color: #94d16b;">c</span>
       </div>
     
-      <div class="letter-wrapper">
-        <div class="letter">k</div>
+      
+      <div class="letter-wrapper" style="--random-height: 96%;">
+        <span class="letter" style="--rotation: 277deg; --random-size: 41.4041799867652; --primary-color: #574db3; --accent-color: #756bd1;">k</span>
       </div>
     
-      <div class="letter-wrapper">
-        <div class="letter">s</div>
+      
+      <div class="letter-wrapper" style="--random-height: 85%;">
+        <span class="letter" style="--rotation: 263deg; --random-size: 16.19961600356843; --primary-color: #4d77b3; --accent-color: #6b95d1;">s</span>
       </div>
     
-      <div class="letter-wrapper">
-        <div class="letter">o</div>
+      
+      <div class="letter-wrapper" style="--random-height: 50%;">
+        <span class="letter" style="--rotation: 16deg; --random-size: 8.929152537914753; --primary-color: #4db362; --accent-color: #6bd180;">o</span>
       </div>
     
-      <div class="letter-wrapper">
-        <div class="letter">n</div>
+      
+      <div class="letter-wrapper" style="--random-height: 67%;">
+        <span class="letter" style="--rotation: 82deg; --random-size: 11.782950575742902; --primary-color: #4d5bb3; --accent-color: #6b79d1;">n</span>
       </div>
     
   </div>
@@ -1151,13 +1173,16 @@ header {
   <p>I also like <a href="https://github.com/jacksongoode">coding</a> for fun, <a href="https://infinitytakes.bandcamp.com/">making music</a> with friends, <a href="https://vimeo.com/jacksongoode">making videos</a> (and watching movies), or you can <a href="mailto:hi@jackson.gd">send me an email</a>.</p>
 </div>
 
-<script src="/js/spin-letters.js"></script>
+<script type="module">
+  import { initializeLetters } from "/js/spin-letters.js";
+  initializeLetters();
+</script>
 <script type="module" src="/js/sound-letters.js"></script>
 		</main>
 
 		<footer></footer>
 
-		<!-- This page `/` was built on 2024-09-17T18:14:17.300Z -->
+		<!-- This page `/` was built on 2024-09-18T08:16:03.787Z -->
 	</body>
 </html>
 <script defer>
