@@ -1,9 +1,9 @@
-const {
+import {
 	getRandomHeight,
 	getRandomRotate,
 	getRandomSize,
 	generateColors,
-} = require("./sound-letters/letter-utils.js");
+} from "./sound-letters/letter-utils.js";
 
 function initializeLetters() {
 	const wordElement = document.querySelector(".word");
@@ -35,10 +35,10 @@ function initializeLetters() {
 		wrapper.style.setProperty("--random-height", `${height}px`);
 	});
 
-	// After applying all styles, show the word element
-	requestAnimationFrame(() => {
-		document.documentElement.classList.add("js-loaded");
-	});
+    // After applying all styles, show the word element
+    requestAnimationFrame(() => {
+        document.documentElement.classList.add("js-loaded");
+    });
 }
 
 // Also export the function for potential use elsewhere

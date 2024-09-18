@@ -1,6 +1,6 @@
 // Utils for letter animations
 
-function getRandomHeight(index, parentHeight, letterHeights = []) {
+export function getRandomHeight(index, parentHeight, letterHeights = []) {
 	const maxHeight = parentHeight;
 	const minGap = parentHeight * 0.5;
 	let height = Math.floor(Math.random() * maxHeight);
@@ -19,15 +19,15 @@ function getRandomHeight(index, parentHeight, letterHeights = []) {
 	return height;
 }
 
-function getRandomRotate() {
+export function getRandomRotate() {
 	return Math.floor(Math.random() * 360);
 }
 
-function getRandomSize() {
+export function getRandomSize() {
 	return Math.random() * 100;
 }
 
-function hslToRgb(h, s, l) {
+export function hslToRgb(h, s, l) {
 	let r, g, b;
 
 	if (s === 0) {
@@ -52,11 +52,11 @@ function hslToRgb(h, s, l) {
 	return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
 }
 
-function rgbToHex(r, g, b) {
+export function rgbToHex(r, g, b) {
 	return "#" + [r, g, b].map((x) => x.toString(16).padStart(2, "0")).join("");
 }
 
-function generateColors(numLetters) {
+export function generateColors(numLetters) {
 	const baseHue = Math.random();
 	return Array(numLetters)
 		.fill()
@@ -69,12 +69,3 @@ function generateColors(numLetters) {
 			};
 		});
 }
-
-module.exports = {
-	getRandomHeight,
-	getRandomRotate,
-	getRandomSize,
-	hslToRgb,
-	rgbToHex,
-	generateColors
-};
