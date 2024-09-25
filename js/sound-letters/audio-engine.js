@@ -8,13 +8,16 @@ export class AudioEngine {
 
 	constructor() {
 		this.core = new WebRenderer();
-		this.ctx = new AudioContext();
-		this.ctx.suspend();
+		this.ctx = null;
 		this.initializePromise = null;
 		this.isInitialized = false;
 	}
 
 	async initialize() {
+		if (!this.ctx) {
+			this.ctx = new AudioContext();
+		}
+		
 		if (!this.initializePromise) {
 			this.initializePromise = this._initialize();
 		}
@@ -35,6 +38,15 @@ export class AudioEngine {
 		} catch (error) {
 			console.error("Failed to initialize audio engine:", error);
 			throw error;
+		}
+	}
+
+	async ensureAudioContext() {
+		if (!this.ctx) {
+			this.ctx = new AudioContext();
+		}
+		if (this.ctx.state === 'suspended') {
+			await this.ctx.resume();
 		}
 	}
 

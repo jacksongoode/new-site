@@ -99,7 +99,9 @@ class SoundLetters {
 	async handleInteraction(element, isPressed) {
 		if (this.isChatInputActive) return;
 
-		await this.initializeAudio();
+		await this.audioEngine.ensureAudioContext();
+		await this.audioEngine.initialize();
+
 		const key = element.textContent.toLowerCase();
 		if (isPressed && !element.isPressed) {
 			const normalizedFreq = this.voiceManager.allocateVoice(key);
