@@ -15,6 +15,7 @@ class SoundLetters {
 		this.rotationManager = new RotationManager();
 		this.letterMap = new Map();
 		this.isChatInputActive = false;
+		this.isAudioInitialized = false;
 
 		this.initializeLetters();
 		this.addEventListeners();
@@ -99,14 +100,23 @@ class SoundLetters {
 	async handleInteraction(element, isPressed) {
 		if (this.isChatInputActive) return;
 
-		await this.audioEngine.ensureAudioContext();
-		await this.audioEngine.initialize();
+		if (!this.isAudioInitialized) {
+			try {
+				await this.audioEngine.initialize();
+				this.isAudioInitialized = true;
+			} catch (error) {
+				console.error("Failed to initialize audio:", error);
+				return;
+			}
+		}
 
 		const key = element.textContent.toLowerCase();
 		if (isPressed && !element.isPressed) {
+			element.isPressed = true;
 			const normalizedFreq = this.voiceManager.allocateVoice(key);
 			this.rotationManager.applyRotation(element, normalizedFreq);
-		} else if (!isPressed) {
+		} else if (!isPressed && element.isPressed) {
+			element.isPressed = false;
 			this.voiceManager.releaseVoice(key);
 			this.rotationManager.stopRotation(element);
 		}

@@ -4,12 +4,9 @@ import WebRenderer from "https://cdn.jsdelivr.net/npm/@elemaudio/web-renderer@4.
 import { AUDIO_CONFIG } from "./config.js";
 
 export class AudioEngine {
-	static instance = null;
-
 	constructor() {
 		this.core = new WebRenderer();
 		this.ctx = null;
-		this.initializePromise = null;
 		this.isInitialized = false;
 	}
 
@@ -18,15 +15,11 @@ export class AudioEngine {
 			this.ctx = new AudioContext();
 		}
 		
-		if (!this.initializePromise) {
-			this.initializePromise = this._initialize();
-		}
-		return this.initializePromise;
-	}
-
-	async _initialize() {
-		try {
+		if (this.ctx.state === 'suspended') {
 			await this.ctx.resume();
+		}
+
+		if (!this.isInitialized) {
 			const node = await this.core.initialize(this.ctx, {
 				numberOfInputs: 0,
 				numberOfOutputs: 1,
@@ -35,9 +28,6 @@ export class AudioEngine {
 			node.connect(this.ctx.destination);
 			this.isInitialized = true;
 			console.log("Audio engine initialized and connected");
-		} catch (error) {
-			console.error("Failed to initialize audio engine:", error);
-			throw error;
 		}
 	}
 
