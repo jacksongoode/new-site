@@ -100,27 +100,28 @@ class SoundLetters {
 	async handleInteraction(element, isPressed) {
 		if (this.isChatInputActive) return;
 
-		if (!this.isAudioInitialized) {
-			try {
+		try {
+			await this.audioEngine.ensureAudioContext();
+			if (!this.audioEngine.isInitialized) {
 				await this.audioEngine.initialize();
-				this.isAudioInitialized = true;
-			} catch (error) {
-				console.error("Failed to initialize audio:", error);
-				return;
 			}
-		}
 
-		const key = element.textContent.toLowerCase();
-		if (isPressed && !element.isPressed) {
-			element.isPressed = true;
-			const normalizedFreq = this.voiceManager.allocateVoice(key);
-			this.rotationManager.applyRotation(element, normalizedFreq);
-		} else if (!isPressed && element.isPressed) {
-			element.isPressed = false;
-			this.voiceManager.releaseVoice(key);
-			this.rotationManager.stopRotation(element);
+			const key = element.textContent.toLowerCase();
+			if (isPressed && !element.isPressed) {
+				element.isPressed = true;
+				const normalizedFreq = this.voiceManager.allocateVoice(key);
+				this.rotationManager.applyRotation(element, normalizedFreq);
+			} else if (!isPressed && element.isPressed) {
+				element.isPressed = false;
+				this.voiceManager.releaseVoice(key);
+				this.rotationManager.stopRotation(element);
+			}
+
+			// Ensure we always render the current state of voices
+			this.voiceManager.renderActiveVoices();
+		} catch (error) {
+			console.error("Error handling interaction:", error);
 		}
-		this.voiceManager.renderActiveVoices();
 	}
 
 	handleKeyDown(event) {
