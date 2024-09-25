@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en" class="no-js">
+	<script>document.documentElement.classList.remove('no-js');</script>
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -1022,6 +1023,7 @@ header {
 	paint-order: stroke fill;
 
 	/* Fade in */
+	will-change: opacity;
 	opacity: 0;
 	transition: transform 1s cubic-bezier(0.25, 0.1, 0.25, 1);
 	will-change: transform, font-variation-settings;
@@ -1060,6 +1062,11 @@ header {
 
 .card :first-child {
 	margin-top: 0;
+}
+
+.js-loaded .letter {
+	animation: none;
+	transition: opacity 0.3s ease-in;
 }
 		</style>
 	</head>
@@ -1131,38 +1138,80 @@ header {
   <div class="word">
     
       
-      <div class="letter-wrapper" style="--random-height: 90%;">
-        <span class="letter" style="--rotation: 17deg; --random-size: 3.8768158460390945; --primary-color: #4db39e; --accent-color: #6bd1bc;">J</span>
+      <div class="letter-wrapper" style="--random-height: 41%;">
+        <span class="letter" style="
+					--rotation: 241deg;
+					--random-size: 42.19024984827162;
+					--primary-color: #b3964d;
+					--accent-color: #d1b46b;
+					--random-delay: 0.4219024984827162s;
+				">J</span>
       </div>
     
       
-      <div class="letter-wrapper" style="--random-height: 17%;">
-        <span class="letter" style="--rotation: 76deg; --random-size: 97.73304319392938; --primary-color: #4d70b3; --accent-color: #6b8ed1;">a</span>
+      <div class="letter-wrapper" style="--random-height: 63%;">
+        <span class="letter" style="
+					--rotation: 358deg;
+					--random-size: 34.55549502008613;
+					--primary-color: #77b34d;
+					--accent-color: #95d16b;
+					--random-delay: 0.34555495020086124s;
+				">a</span>
       </div>
     
       
-      <div class="letter-wrapper" style="--random-height: 49%;">
-        <span class="letter" style="--rotation: 64deg; --random-size: 29.13537144896705; --primary-color: #814db3; --accent-color: #9f6bd1;">c</span>
+      <div class="letter-wrapper" style="--random-height: 57%;">
+        <span class="letter" style="
+					--rotation: 301deg;
+					--random-size: 11.222343090282916;
+					--primary-color: #4db379;
+					--accent-color: #6bd197;
+					--random-delay: 0.11222343090282916s;
+				">c</span>
       </div>
     
       
-      <div class="letter-wrapper" style="--random-height: 11%;">
-        <span class="letter" style="--rotation: 324deg; --random-size: 66.35235937063734; --primary-color: #b34d8d; --accent-color: #d16bab;">k</span>
+      <div class="letter-wrapper" style="--random-height: 55%;">
+        <span class="letter" style="
+					--rotation: 322deg;
+					--random-size: 50.6147374844774;
+					--primary-color: #4d95b3;
+					--accent-color: #6bb3d1;
+					--random-delay: 0.506147374844774s;
+				">k</span>
       </div>
     
       
-      <div class="letter-wrapper" style="--random-height: 56%;">
-        <span class="letter" style="--rotation: 236deg; --random-size: 99.00870123564059; --primary-color: #b3644d; --accent-color: #d1826b;">s</span>
+      <div class="letter-wrapper" style="--random-height: 46%;">
+        <span class="letter" style="
+					--rotation: 238deg;
+					--random-size: 11.006984271313435;
+					--primary-color: #5c4db3;
+					--accent-color: #7a6bd1;
+					--random-delay: 0.11006984271313434s;
+				">s</span>
       </div>
     
       
-      <div class="letter-wrapper" style="--random-height: 12%;">
-        <span class="letter" style="--rotation: 312deg; --random-size: 34.899576355241344; --primary-color: #aab34d; --accent-color: #c8d16b;">o</span>
+      <div class="letter-wrapper" style="--random-height: 86%;">
+        <span class="letter" style="
+					--rotation: 0deg;
+					--random-size: 4.214261041409451;
+					--primary-color: #b34db2;
+					--accent-color: #d16bd0;
+					--random-delay: 0.042142610414094506s;
+				">o</span>
       </div>
     
       
-      <div class="letter-wrapper" style="--random-height: 36%;">
-        <span class="letter" style="--rotation: 88deg; --random-size: 44.968820430445675; --primary-color: #53b34d; --accent-color: #71d16b;">n</span>
+      <div class="letter-wrapper" style="--random-height: 91%;">
+        <span class="letter" style="
+					--rotation: 163deg;
+					--random-size: 8.598524880996905;
+					--primary-color: #b34d5a;
+					--accent-color: #d16b78;
+					--random-delay: 0.08598524880996905s;
+				">n</span>
       </div>
     
   </div>
@@ -1182,7 +1231,7 @@ header {
 
 		<footer></footer>
 
-		<!-- This page `/` was built on 2024-09-18T09:08:02.345Z -->
+		<!-- This page `/` was built on 2024-09-25T02:03:59.088Z -->
 	</body>
 </html>
 <script defer>
