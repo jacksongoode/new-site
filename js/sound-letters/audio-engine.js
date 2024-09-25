@@ -14,8 +14,8 @@ export class AudioEngine {
 		if (!this.ctx) {
 			this.ctx = new AudioContext();
 		}
-		
-		if (this.ctx.state === 'suspended') {
+
+		if (this.ctx.state === "suspended") {
 			await this.ctx.resume();
 		}
 
@@ -28,15 +28,6 @@ export class AudioEngine {
 			node.connect(this.ctx.destination);
 			this.isInitialized = true;
 			console.log("Audio engine initialized and connected");
-		}
-	}
-
-	async ensureAudioContext() {
-		if (!this.ctx) {
-			this.ctx = new AudioContext();
-		}
-		if (this.ctx.state === 'suspended') {
-			await this.ctx.resume();
 		}
 	}
 
