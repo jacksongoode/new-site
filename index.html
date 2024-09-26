@@ -1068,6 +1068,139 @@ header {
 	animation: none;
 	transition: opacity 0.3s ease-in;
 }
+
+			#audio-params-gui {
+	max-height: 300px;
+	overflow-y: auto;
+	padding: 1rem;
+	font-family: var(--font-family);
+	color: var(--color-gray-20);
+}
+
+#audio-params-gui h2 {
+	font-size: 1rem;
+	margin-bottom: 1rem;
+	font-weight: normal;
+	display: flex;
+	align-items: center;
+}
+
+.param-group {
+	margin-bottom: 1rem;
+}
+
+.param-group h3 {
+	font-size: 0.9rem;
+	margin-bottom: 0.5rem;
+	border-bottom: 1px solid var(--color-gray-90);
+	font-weight: normal;
+}
+
+.param-slider {
+	display: grid;
+	grid-template-columns: 1fr 2fr 50px;
+	align-items: center;
+	margin-bottom: 0.25rem;
+	font-size: 0.8rem;
+}
+
+.param-slider label {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	padding-right: 0.5rem;
+}
+
+.param-slider input[type="range"] {
+	width: 100%;
+	-webkit-appearance: none;
+	background: var(--color-gray-90);
+	outline: none;
+	height: 3px;
+	border-radius: 1.5px;
+}
+
+.param-slider input[type="range"]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	background: var(--color-gray-20);
+	cursor: pointer;
+}
+
+.param-slider input[type="range"]::-moz-range-thumb {
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	background: var(--color-gray-20);
+	cursor: pointer;
+	border: none;
+}
+
+.param-slider span {
+	text-align: right;
+	font-size: 0.75rem;
+	color: var(--color-gray-50);
+}
+
+#audio-params-toggle {
+	position: absolute;
+	bottom: 8px;
+	right: 8px;
+	width: 28px;
+	height: 28px;
+	background: var(--color-gray-90);
+	border: 1px solid var(--color-gray-50);
+	border-radius: 50%;
+	cursor: pointer;
+	padding: 5px;
+	box-shadow: var(--shadow-elevation-medium);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#audio-params-toggle svg {
+	width: 16px;
+	height: 16px;
+	color: var(--color-gray-50);
+}
+
+#audio-params-toggle:hover svg {
+	color: var(--color-gray-20);
+}
+
+.fade-transition {
+	transition: opacity 0.3s ease-in-out;
+}
+
+.fade-out {
+	opacity: 0;
+}
+
+.fade-in {
+	opacity: 1;
+}
+
+#randomize-params {
+	background: none;
+	border: none;
+	cursor: pointer;
+	padding: 0;
+	margin-left: 0.5rem;
+}
+
+#randomize-params svg {
+	width: 16px;
+	height: 16px;
+	color: var(--color-gray-50);
+}
+
+#randomize-params:hover svg {
+	color: var(--color-gray-20);
+}
 		</style>
 	</head>
 
@@ -1138,88 +1271,104 @@ header {
   <div class="word">
     
       
-      <div class="letter-wrapper" style="--random-height: 96%;">
+      <div class="letter-wrapper" style="--random-height: 84%;">
         <span class="letter" style="
-					--rotation: 217deg;
-					--random-size: 67.93234062863651;
-					--primary-color: #4db35d;
-					--accent-color: #6bd17b;
-					--random-delay: 0.6793234062863651s;
+					--rotation: 89deg;
+					--random-size: 75.6531852717332;
+					--primary-color: #b3ab4d;
+					--accent-color: #d1c96b;
+					--random-delay: 0.7565318527173319s;
 				">J</span>
       </div>
     
       
-      <div class="letter-wrapper" style="--random-height: 4%;">
+      <div class="letter-wrapper" style="--random-height: 49%;">
         <span class="letter" style="
-					--rotation: 105deg;
-					--random-size: 68.69883459670393;
-					--primary-color: #4db1b3;
-					--accent-color: #6bcfd1;
-					--random-delay: 0.6869883459670393s;
+					--rotation: 204deg;
+					--random-size: 42.686253929338605;
+					--primary-color: #63b34d;
+					--accent-color: #81d16b;
+					--random-delay: 0.426862539293386s;
 				">a</span>
       </div>
     
       
-      <div class="letter-wrapper" style="--random-height: 59%;">
+      <div class="letter-wrapper" style="--random-height: 86%;">
         <span class="letter" style="
-					--rotation: 330deg;
-					--random-size: 60.7761848858539;
-					--primary-color: #4d59b3;
-					--accent-color: #6b77d1;
-					--random-delay: 0.607761848858539s;
+					--rotation: 297deg;
+					--random-size: 20.75976404011708;
+					--primary-color: #4db38e;
+					--accent-color: #6bd1ac;
+					--random-delay: 0.2075976404011708s;
 				">c</span>
       </div>
     
       
-      <div class="letter-wrapper" style="--random-height: 51%;">
+      <div class="letter-wrapper" style="--random-height: 63%;">
         <span class="letter" style="
-					--rotation: 171deg;
-					--random-size: 37.164385986315594;
-					--primary-color: #974db3;
-					--accent-color: #b56bd1;
-					--random-delay: 0.37164385986315596s;
+					--rotation: 99deg;
+					--random-size: 65.51276754211221;
+					--primary-color: #4d80b3;
+					--accent-color: #6b9ed1;
+					--random-delay: 0.6551276754211222s;
 				">k</span>
       </div>
     
       
-      <div class="letter-wrapper" style="--random-height: 80%;">
+      <div class="letter-wrapper" style="--random-height: 64%;">
         <span class="letter" style="
-					--rotation: 10deg;
-					--random-size: 32.10522647579703;
-					--primary-color: #b34d76;
-					--accent-color: #d16b94;
-					--random-delay: 0.32105226475797033s;
+					--rotation: 156deg;
+					--random-size: 81.89399363934031;
+					--primary-color: #714db3;
+					--accent-color: #8f6bd1;
+					--random-delay: 0.8189399363934031s;
 				">s</span>
       </div>
     
       
-      <div class="letter-wrapper" style="--random-height: 83%;">
+      <div class="letter-wrapper" style="--random-height: 50%;">
         <span class="letter" style="
-					--rotation: 149deg;
-					--random-size: 43.78689288109363;
-					--primary-color: #b37a4d;
-					--accent-color: #d1986b;
-					--random-delay: 0.4378689288109363s;
+					--rotation: 38deg;
+					--random-size: 94.94699728173242;
+					--primary-color: #b34d9d;
+					--accent-color: #d16bbb;
+					--random-delay: 0.9494699728173243s;
 				">o</span>
       </div>
     
       
-      <div class="letter-wrapper" style="--random-height: 65%;">
+      <div class="letter-wrapper" style="--random-height: 9%;">
         <span class="letter" style="
-					--rotation: 338deg;
-					--random-size: 52.287147820016514;
-					--primary-color: #94b34d;
-					--accent-color: #b2d16b;
-					--random-delay: 0.5228714782001651s;
+					--rotation: 332deg;
+					--random-size: 28.665848943352955;
+					--primary-color: #b3544d;
+					--accent-color: #d1726b;
+					--random-delay: 0.28665848943352956s;
 				">n</span>
       </div>
     
   </div>
 
 
-<div class="card">
-  <p>You can find some project writeups and personal blogs of mine here.</p>
-  <p>I also like <a href="https://github.com/jacksongoode">coding</a> for fun, <a href="https://infinitytakes.bandcamp.com/">making music</a> with friends, <a href="https://vimeo.com/jacksongoode">making videos</a> (and watching movies), or you can <a href="mailto:hi@jackson.gd">send me an email</a>.</p>
+<div id="info-modal" class="modal card">
+  <div class="modal-content">
+    <div id="info-content">
+      <p>You can find some project writeups and personal blogs of mine here.</p>
+      <p>I also like <a href="https://github.com/jacksongoode">coding</a> for fun, <a href="https://infinitytakes.bandcamp.com/">making music</a> with friends, <a href="https://vimeo.com/jacksongoode">making videos</a> (and watching movies), or you can <a href="mailto:hi@jackson.gd">send me an email</a>.</p>
+    </div>
+    <div id="audio-params-gui" style="display: none;">
+      <h2>
+        Audio Parameters
+        <button id="randomize-params" title="Randomize parameters">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shuffle"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>
+        </button>
+      </h2>
+      <div id="audio-params-controls"></div>
+    </div>
+  </div>
+  <button id="audio-params-toggle" class="icon-button">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-music"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+  </button>
 </div>
 
 <script type="module">
@@ -1227,11 +1376,12 @@ header {
   initializeLetters();
 </script>
 <script type="module" src="/js/sound-letters.js"></script>
+<script type="module" src="/js/audio-params-gui.js"></script>
 		</main>
 
 		<footer></footer>
 
-		<!-- This page `/` was built on 2024-09-25T08:25:39.767Z -->
+		<!-- This page `/` was built on 2024-09-26T01:26:47.690Z -->
 	</body>
 </html>
 <script defer>
