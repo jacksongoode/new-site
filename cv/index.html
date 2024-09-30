@@ -25,8 +25,8 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	margin-bottom: 1rem;
-	text-align: center;
+	margin-bottom: 2rem;
+	text-align: left;
 }
 
 .cv-header h1 {
@@ -72,6 +72,7 @@
 	height: 0.5rem;
 	background-color: lightgray;
 	border-radius: 50%;
+	border: 1px solid darkgray;
 }
 
 .item-title {
@@ -147,8 +148,10 @@
 
 .contact-info {
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	overflow: hidden;
+	gap: 0.5rem;
+	align-items: center;
 }
 
 .contact-value {
@@ -165,12 +168,6 @@
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-}
-
-@media (max-width: 600px) {
-	.contact-item {
-		flex-basis: 100%;
-	}
 }
 
 /* Skills section */
@@ -378,7 +375,7 @@ body {
 	width: 100%;
 	max-width: calc(40rem + 200px + 2rem);
 	margin: 0 auto;
-	padding: 0 1rem;
+	padding: 1rem;
 }
 
 .site-header {
@@ -981,7 +978,6 @@ header {
 
 	main {
 		max-width: none;
-		padding: 1rem;
 	}
 
 	.site-header {
@@ -1260,7 +1256,7 @@ header {
 
 <section class="cv-header">
     <h1>Jackson Goode</h1>
-    <p class="cv-tagline">Technology through humanism</p>
+    <p class="cv-tagline">Engineer in Long Beach, CA</p>
 </section>
 
 <section class="cv-about-contact">
@@ -1278,31 +1274,31 @@ header {
             </li>
             
             <li class="contact-item">
-                <a href="https://jackson.gd" class="contact-link">
+                <a href="jackson.gd" class="contact-link">
                     <span class="contact-icon">🌐</span>
                     <div class="contact-info">
                         <span class="contact-value">Web</span>
-                        <span class="contact-url">https://jackson.gd</span>
+                        <span class="contact-url">jackson.gd</span>
                     </div>
                 </a>
             </li>
             
             <li class="contact-item">
-                <a href="https://github.com/jacksongoode" class="contact-link">
+                <a href="github.com/jacksongoode" class="contact-link">
                     <span class="contact-icon">💻</span>
                     <div class="contact-info">
                         <span class="contact-value">GitHub</span>
-                        <span class="contact-url">https://github.com/jacksongoode</span>
+                        <span class="contact-url">github.com/jacksongoode</span>
                     </div>
                 </a>
             </li>
             
             <li class="contact-item">
-                <a href="https://linkedin.com/in/jacksongoode" class="contact-link">
+                <a href="linkedin.com/in/jacksongoode" class="contact-link">
                     <span class="contact-icon">👔</span>
                     <div class="contact-info">
                         <span class="contact-value">LinkedIn</span>
-                        <span class="contact-url">https://linkedin.com/in/jacksongoode</span>
+                        <span class="contact-url">linkedin.com/in/jacksongoode</span>
                     </div>
                 </a>
             </li>
@@ -1310,7 +1306,11 @@ header {
         </ul>
     </div>
     <div class="cv-about">
-        <p>Platform engineer with expertise in scaling analysis for distributed systems, audio programming, and human-computer interaction. Master&#39;s graduate from the University of Oslo focused on communications technology and its intersection with audio. Interested in how technology can afford new perspectives in media and communications. Currently working as a platform engineer at nLine, evaluating improvements to the energy grid.</p>
+        
+            <p>Platform engineer with expertise in scaling analysis for distributed systems, audio programming, and human-computer interaction. Master&#39;s graduate from the University of Oslo focused on communications technology and its intersection with audio.</p>
+        
+            <p>Interested in how technology can afford new perspectives in media and communications. Currently working as a platform engineer at nLine, evaluating improvements to the energy grid.</p>
+        
     </div>
 </section>
 
@@ -1503,7 +1503,7 @@ header {
 
 		<footer></footer>
 
-		<!-- This page `/cv/` was built on 2024-09-30T15:52:58.181Z -->
+		<!-- This page `/cv/` was built on 2024-09-30T23:46:53.137Z -->
 	</body>
 </html>
 <script defer>
