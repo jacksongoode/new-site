@@ -153,7 +153,6 @@ body {
 	top: 0;
 	align-self: flex-start;
 	width: 200px;
-	height: 100vh;
 	flex-shrink: 0;
 	padding: 1rem;
 }
@@ -546,7 +545,6 @@ header {
 	align-items: flex-end;
 	justify-content: flex-start;
 	width: 200px;
-	height: 100vh;
 	padding: 1rem;
 
 	&:not(:has(+ .chat-active)) {
@@ -1125,7 +1123,7 @@ header {
 	width: 12px;
 	height: 12px;
 	border-radius: 50%;
-	background: var(--color-gray-20);
+	background: var(--color-gray-50);
 	cursor: pointer;
 }
 
@@ -1133,7 +1131,7 @@ header {
 	width: 12px;
 	height: 12px;
 	border-radius: 50%;
-	background: var(--color-gray-20);
+	background: var(--color-gray-50);
 	cursor: pointer;
 	border: none;
 }
@@ -1146,12 +1144,10 @@ header {
 
 #audio-params-toggle {
 	position: absolute;
-	bottom: 8px;
-	right: 8px;
+	right: -14px;
 	width: 28px;
 	height: 28px;
 	background: var(--color-gray-90);
-	border: 1px solid var(--color-gray-50);
 	border-radius: 50%;
 	cursor: pointer;
 	padding: 5px;
@@ -1167,8 +1163,8 @@ header {
 	color: var(--color-gray-50);
 }
 
-#audio-params-toggle:hover svg {
-	color: var(--color-gray-20);
+#audio-params-toggle:hover {
+	filter: brightness(90%);
 }
 
 .fade-transition {
@@ -1200,6 +1196,10 @@ header {
 #randomize-params:hover svg {
 	color: var(--color-gray-20);
 }
+
+/* #audio-params-gui {
+	display: none;
+} */
 		</style>
 	</head>
 
@@ -1270,79 +1270,79 @@ header {
   <div class="word">
     
       
-      <div class="letter-wrapper" style="--random-height: 85%;">
+      <div class="letter-wrapper" style="--random-height: 43%;">
         <span class="letter" style="
-					--rotation: 84deg;
-					--random-size: 56.17486724094163;
-					--primary-color: #61b34d;
-					--accent-color: #7fd16b;
-					--random-delay: 0.5617486724094163s;
+					--rotation: 64deg;
+					--random-size: 93.69371746541061;
+					--primary-color: #b34d8b;
+					--accent-color: #d16ba9;
+					--random-delay: 0.9369371746541062s;
 				">J</span>
       </div>
     
       
-      <div class="letter-wrapper" style="--random-height: 58%;">
+      <div class="letter-wrapper" style="--random-height: 40%;">
         <span class="letter" style="
-					--rotation: 212deg;
-					--random-size: 12.880934891654338;
-					--primary-color: #4db390;
-					--accent-color: #6bd1ae;
-					--random-delay: 0.1288093489165434s;
+					--rotation: 345deg;
+					--random-size: 17.172333298235465;
+					--primary-color: #b3654d;
+					--accent-color: #d1836b;
+					--random-delay: 0.17172333298235465s;
 				">a</span>
       </div>
     
       
-      <div class="letter-wrapper" style="--random-height: 75%;">
+      <div class="letter-wrapper" style="--random-height: 39%;">
         <span class="letter" style="
-					--rotation: 34deg;
-					--random-size: 7.812247111122739;
-					--primary-color: #4d7eb3;
-					--accent-color: #6b9cd1;
-					--random-delay: 0.07812247111122739s;
+					--rotation: 12deg;
+					--random-size: 27.991511476757292;
+					--primary-color: #a8b34d;
+					--accent-color: #c6d16b;
+					--random-delay: 0.2799151147675729s;
 				">c</span>
       </div>
     
       
-      <div class="letter-wrapper" style="--random-height: 26%;">
+      <div class="letter-wrapper" style="--random-height: 56%;">
         <span class="letter" style="
-					--rotation: 346deg;
-					--random-size: 29.693281366467428;
-					--primary-color: #724db3;
-					--accent-color: #906bd1;
-					--random-delay: 0.2969328136646743s;
+					--rotation: 259deg;
+					--random-size: 7.822731033739538;
+					--primary-color: #51b34d;
+					--accent-color: #6fd16b;
+					--random-delay: 0.07822731033739538s;
 				">k</span>
       </div>
     
       
-      <div class="letter-wrapper" style="--random-height: 28%;">
+      <div class="letter-wrapper" style="--random-height: 24%;">
         <span class="letter" style="
-					--rotation: 311deg;
-					--random-size: 9.01269328847265;
-					--primary-color: #b34d9b;
-					--accent-color: #d16bb9;
-					--random-delay: 0.09012693288472651s;
+					--rotation: 104deg;
+					--random-size: 32.283760856802424;
+					--primary-color: #4db3a0;
+					--accent-color: #6bd1be;
+					--random-delay: 0.32283760856802424s;
 				">s</span>
       </div>
     
       
-      <div class="letter-wrapper" style="--random-height: 71%;">
+      <div class="letter-wrapper" style="--random-height: 15%;">
         <span class="letter" style="
-					--rotation: 153deg;
-					--random-size: 93.52470881382608;
-					--primary-color: #b3554d;
-					--accent-color: #d1736b;
-					--random-delay: 0.9352470881382609s;
+					--rotation: 9deg;
+					--random-size: 20.0573219592852;
+					--primary-color: #4d6eb3;
+					--accent-color: #6b8cd1;
+					--random-delay: 0.20057321959285201s;
 				">o</span>
       </div>
     
       
-      <div class="letter-wrapper" style="--random-height: 18%;">
+      <div class="letter-wrapper" style="--random-height: 84%;">
         <span class="letter" style="
-					--rotation: 334deg;
-					--random-size: 41.42446122173234;
-					--primary-color: #b3ad4d;
-					--accent-color: #d1cb6b;
-					--random-delay: 0.41424461221732334s;
+					--rotation: 257deg;
+					--random-size: 72.01137349808384;
+					--primary-color: #824db3;
+					--accent-color: #a06bd1;
+					--random-delay: 0.7201137349808384s;
 				">n</span>
       </div>
     
@@ -1357,17 +1357,17 @@ header {
     </div>
     <div id="audio-params-gui" style="display: none;">
       <h2>
-        Audio Parameters
-        <button id="randomize-params" title="Randomize parameters">
+        Randomize!
+        <div id="randomize-params" title="Randomize parameters">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shuffle"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>
-        </button>
+        </div>
       </h2>
       <div id="audio-params-controls"></div>
     </div>
   </div>
-  <button id="audio-params-toggle" class="icon-button">
+  <div id="audio-params-toggle">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-music"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
-  </button>
+  </div>
 </div>
 
 <script type="module">
@@ -1380,7 +1380,7 @@ header {
 
 		<footer></footer>
 
-		<!-- This page `/` was built on 2024-09-30T23:46:53.138Z -->
+		<!-- This page `/` was built on 2024-10-01T06:29:26.052Z -->
 	</body>
 </html>
 <script defer>
