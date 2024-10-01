@@ -14,8 +14,8 @@
 		<link rel="apple-touch-icon" href="/icon/favicons/apple-touch-icon.png">
 		<link rel="manifest" href="/icon/favicons/manifest.webmanifest">
 
-		<link rel="preload" as="font" href="/font/Switzer-Variable.subset.woff2" crossorigin>
-		<link rel="preload" as="font" href="/font/Rag-Regular.subset.woff2" crossorigin>
+		<link rel="preload" as="font" href="/font/Switzer-Variable.subset.woff2" crossorigin="">
+		<link rel="preload" as="font" href="/font/Rag-Regular.subset.woff2" crossorigin="">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Jackson">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Jackson">
 		<style>
@@ -55,8 +55,8 @@
 
 .timeline-item {
 	position: relative;
-	padding-left: 1.5rem;
-	margin-bottom: 1.5rem;
+	padding-left: 2rem;
+	margin-bottom: 2rem;
 }
 
 .timeline-item:last-child {
@@ -93,7 +93,7 @@
 }
 
 .timeline-item ul {
-	padding-left: 1.5rem;
+	padding-left: 2rem;
 	margin-top: 0.5rem;
 }
 
@@ -172,7 +172,7 @@
 
 /* Skills section */
 .skills-container {
-	margin-top: 1.5rem;
+	margin-top: 2rem;
 }
 
 .skills-list {
@@ -243,7 +243,7 @@
 		}
 
 		& ul {
-			padding-left: 1.5rem;
+			padding-left: 2rem;
 			margin-top: 0.5rem;
 			color: var(--color-gray-20);
 		}
@@ -1251,6 +1251,8 @@ header {
 			
 
 
+
+
 <section class="cv-header">
     <h1>Jackson Goode</h1>
     <p class="cv-tagline">Engineer in Long Beach, CA</p>
@@ -1313,197 +1315,169 @@ header {
 
 <div class="wave-divider" style="--emoji-color: lightgray;"></div>
 
-<section class="cv-section">
-    <h2>Experience</h2>
-    <div class="timeline">
-        
-        <div class="timeline-item">
-            <h3 class="item-title">Software Engineer · nLine</h3>
-            <div class="item-details">
-                October 2021 → Present
-                 (3 years)
-            </div>
-            <div class="item-location">Berkeley, California, United States</div>
-            <details>
-                <summary>Lead engineer architecting and implementing scalable solutions for real-time monitoring of electrical grid reliability across Sub-Saharan Africa.</summary>
-                <ul>
-                    
-                    <li>Develop and maintain infrastructure for real-time data monitoring, processing massive, real-time datasets from thousands of sensors in Spark</li>
-                    
-                    <li>Design and implement custom Grafana plugins and programmatically deploy dashboards across multiple country deployments using Terraform</li>
-                    
-                    <li>Architect a comprehensive library for distributed data processing and analysis in PySpark, enabling scalable ingestion, processing, and visualization of grid reliability data</li>
-                    
-                    <li>Co-design and maintain company blog and website with modern web development frameworks</li>
-                    
-                </ul>
-            </details>
+
+  
+  <h2 id="experience">
+    Experience
+    <a href="#experience" class="header-anchor" aria-label="Permalink to Experience">#</a>
+  </h2>
+
+<div class="timeline">
+    
+    <div class="timeline-item">
+        <h3 class="item-title">Platform Engineer · nLine</h3>
+        <div class="item-details">
+            October 2021 → Present
+             (3 years)
         </div>
-        
-        <div class="timeline-item">
-            <h3 class="item-title">Graduate Researcher · University of Oslo (UiO)</h3>
-            <div class="item-details">
-                September 2019 → May 2021
-                 (1 year 9 months)
-            </div>
-            <div class="item-location">Oslo, Norway</div>
-            <details>
-                <summary>Led software development for various academic projects.</summary>
-                <ul>
-                    
-                    <li>Developed Python analysis toolkit for academic journal metadata extraction and analysis</li>
-                    
-                    <li>Assisted in archival and analysis of musical composition recordings</li>
-                    
-                    <li>Built React website for music technology guides and resources</li>
-                    
-                    <li>Maintained official blog for master&#39;s program</li>
-                    
-                </ul>
-            </details>
+        <div class="item-location">Berkeley, California, United States</div>
+        <details>
+            <summary>Lead engineer architecting and implementing scalable solutions for real-time monitoring of electrical grid reliability across Sub-Saharan Africa.</summary>
+            <ul>
+                
+                <li>Develop and maintain infrastructure for real-time data monitoring, processing massive, real-time datasets from thousands of sensors in Spark</li>
+                
+                <li>Design and implement custom Grafana plugins and programmatically deploy dashboards across multiple country deployments using Terraform</li>
+                
+                <li>Architect a comprehensive library for distributed data processing and analysis in PySpark, enabling scalable ingestion, processing, and visualization of grid reliability data</li>
+                
+                <li>Co-design and maintain company blog and website with modern web development frameworks</li>
+                
+            </ul>
+        </details>
+    </div>
+    
+    <div class="timeline-item">
+        <h3 class="item-title">Graduate Researcher · University of Oslo (UiO)</h3>
+        <div class="item-details">
+            September 2019 → May 2021
+             (1 year 9 months)
         </div>
-        
-        <div class="timeline-item">
-            <h3 class="item-title">Data Analyst · Exactly Business Data</h3>
-            <div class="item-details">
-                August 2018 → May 2019
-                 (10 months)
-            </div>
-            <div class="item-location">Pasadena, CA</div>
-            <details>
-                <summary>Involved in retrieval and analysis of corporate and lead data, and improving in-house software.</summary>
-                <ul>
-                    
-                    <li>Retrieved, compiled, and enriched corporate data for clients&#39; marketing teams</li>
-                    
-                    <li>Built Python functions for batch data enrichment</li>
-                    
-                    <li>Designed UI for programs, product forms, and marketing material</li>
-                    
-                    <li>Assisted in implementing marketing strategies for seed-round funding campaign</li>
-                    
-                </ul>
-            </details>
+        <div class="item-location">Oslo, Norway</div>
+        <details>
+            <summary>Led software development for various academic projects.</summary>
+            <ul>
+                
+                <li>Developed Python analysis toolkit for academic journal metadata extraction and analysis</li>
+                
+                <li>Assisted in archival and analysis of musical composition recordings</li>
+                
+                <li>Built React website for music technology guides and resources</li>
+                
+                <li>Maintained official blog for master&#39;s program</li>
+                
+            </ul>
+        </details>
+    </div>
+    
+    <div class="timeline-item">
+        <h3 class="item-title">Data Analyst · Exactly Business Data</h3>
+        <div class="item-details">
+            August 2018 → May 2019
+             (10 months)
         </div>
+        <div class="item-location">Pasadena, CA</div>
+        <details>
+            <summary>Involved in retrieval and analysis of corporate and lead data, and improving in-house software.</summary>
+            <ul>
+                
+                <li>Retrieved, compiled, and enriched corporate data for clients&#39; marketing teams</li>
+                
+                <li>Developed Python scripts for batch data enrichment</li>
+                
+                <li>Designed UI for programs, product forms, and marketing material</li>
+                
+                <li>Assisted in implementing marketing strategies for seed-round funding campaign</li>
+                
+            </ul>
+        </details>
+    </div>
+    
+</div>
+
+
+  
+  <h2 id="education">
+    Education
+    <a href="#education" class="header-anchor" aria-label="Permalink to Education">#</a>
+  </h2>
+
+<div class="timeline">
+    
+    <div class="timeline-item">
+        <h3 class="item-title">MPhil - Music, Communication, and Technology</h3>
+        <div class="item-details">University of Oslo · September 2019 - May 2021</div>
+        <div class="item-location">Oslo, Norway</div>
         
     </div>
-    <div class="skills-container">
-        <ul class="skills-list">
-            
-            <li>Python</li>
-            
-            <li>JavaScript</li>
-            
-            <li>Terraform</li>
-            
-            <li>HTML/CSS</li>
-            
-            <li>Rust</li>
-            
-            <li>React</li>
-            
-            <li>SQL</li>
-            
-            <li>Linux/Unix</li>
-            
-            <li>Bash/Fish/Shell</li>
-            
-            <li>Git</li>
-            
-            <li>Docker</li>
-            
-            <li>Grafana</li>
-            
-            <li>Spark/PySpark</li>
-            
-            <li>Pure Data</li>
-            
-        </ul>
-    </div>
-</section>
-
-<div class="wave-divider" style="--emoji-color: lightgray;"></div>
-
-<section class="cv-section">
-    <h2>Education</h2>
-    <div class="timeline">
-        
-        <div class="timeline-item">
-            <h3 class="item-title">MPhil - Music, Communication, and Technology</h3>
-            <div class="item-details">University of Oslo · September 2019 - May 2021</div>
-            <div class="item-location">Oslo, Norway</div>
-            
-        </div>
-        
-        <div class="timeline-item">
-            <h3 class="item-title">BA - Cognitive Science, Neuroscience</h3>
-            <div class="item-details">Occidental College · August 2014 - December 2017</div>
-            <div class="item-location">Los Angeles, CA</div>
-            
-        </div>
+    
+    <div class="timeline-item">
+        <h3 class="item-title">BA - Cognitive Science, Neuroscience</h3>
+        <div class="item-details">Occidental College · August 2014 - December 2017</div>
+        <div class="item-location">Los Angeles, CA</div>
         
     </div>
-</section>
+    
+</div>
 
-<div class="wave-divider" style="--emoji-color: lightgray;"></div>
 
-<section class="cv-section projects-skills">
-    <div class="projects-container">
-        <h2>Selected Projects</h2>
-        <div class="timeline">
+  
+  <h2 id="selected-projects">
+    Selected Projects
+    <a href="#selected-projects" class="header-anchor" aria-label="Permalink to Selected Projects">#</a>
+  </h2>
+
+<div class="timeline">
+    
+    <div class="timeline-item">
+        <h3 class="item-title">
             
-            <div class="timeline-item">
-                <h3 class="item-title">
-                    
-                        <a href="https://github.com/jacksongoode/cacophony/" target="_blank" rel="noopener noreferrer">Cacophony</a>
-                    
-                </h3>
-                <div class="item-details">Python, Multi-channel routing, FFmpeg</div>
-                <p>Developed an immersive sound installation for Sound Pedro 2024, exploring the overwhelming nature of consumptive media platforms. Created a real-time, multi-channel audio system that streams in random clips from YouTube videos in real-time.</p>
-            </div>
+                <a href="https://github.com/jacksongoode/cacophony/" target="_blank" rel="noopener noreferrer">Cacophony</a>
             
-            <div class="timeline-item">
-                <h3 class="item-title">
-                    
-                        <a href="https://github.com/jacksongoode/meet-in-space" target="_blank" rel="noopener noreferrer">Meet in Space</a>
-                    
-                </h3>
-                <div class="item-details">JavaScript, React, WebRTC</div>
-                <p>A deployment of binaural, spatial audio in Jitsi Meet, an enterprise-level conferencing platform. My master&#39;s thesis project for MCT at the University of Oslo.</p>
-            </div>
-            
-            <div class="timeline-item">
-                <h3 class="item-title">
-                    
-                        <a href="https://github.com/jacksongoode/soniweb" target="_blank" rel="noopener noreferrer">Soniweb</a>
-                    
-                </h3>
-                <div class="item-details">Pure Data &amp; Python</div>
-                <p>Sonification of web packet origins in real-time through Pure Data and Python</p>
-            </div>
-            
-            <div class="timeline-item">
-                <h3 class="item-title">
-                    
-                        <a href="https://github.com/jacksongoode/NIME-proceedings-analyzer" target="_blank" rel="noopener noreferrer">NIME Proceedings Analyzer</a>
-                    
-                </h3>
-                <div class="item-details">Python</div>
-                <p>A toolkit for bibliometric meta-data extraction and text analysis over 20 years of an academic journal</p>
-            </div>
-            
-        </div>
+        </h3>
+        <div class="item-details">Python, Multi-channel routing, FFmpeg</div>
+        <p>Developed an immersive sound installation for Sound Pedro 2024, exploring the overwhelming nature of consumptive media platforms. Created a real-time, multi-channel audio system that streams in random clips from YouTube videos in real-time.</p>
     </div>
-
-</section>
+    
+    <div class="timeline-item">
+        <h3 class="item-title">
+            
+                <a href="https://github.com/jacksongoode/meet-in-space" target="_blank" rel="noopener noreferrer">Meet in Space</a>
+            
+        </h3>
+        <div class="item-details">JavaScript, React, WebRTC</div>
+        <p>A deployment of binaural, spatial audio in Jitsi Meet, an enterprise-level conferencing platform. My master&#39;s thesis project for MCT at the University of Oslo.</p>
+    </div>
+    
+    <div class="timeline-item">
+        <h3 class="item-title">
+            
+                <a href="https://github.com/jacksongoode/soniweb" target="_blank" rel="noopener noreferrer">Soniweb</a>
+            
+        </h3>
+        <div class="item-details">Pure Data &amp; Python</div>
+        <p>Sonification of web packet origins in real-time through Pure Data and Python</p>
+    </div>
+    
+    <div class="timeline-item">
+        <h3 class="item-title">
+            
+                <a href="https://github.com/jacksongoode/NIME-proceedings-analyzer" target="_blank" rel="noopener noreferrer">NIME Proceedings Analyzer</a>
+            
+        </h3>
+        <div class="item-details">Python</div>
+        <p>A toolkit for bibliometric meta-data extraction and text analysis over 20 years of an academic journal</p>
+    </div>
+    
+</div>
 		</main>
 
 		<footer></footer>
 
-		<!-- This page `/cv/` was built on 2024-10-01T06:45:05.149Z -->
+		<!-- This page `/cv/` was built on 2024-10-01T23:47:10.914Z -->
 	</body>
 </html>
-<script defer>
+<script defer="">
 	// Minimal JS for handling user preference
 (function () {
     const toggle = document.getElementById('dark-mode-toggle');
