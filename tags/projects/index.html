@@ -99,12 +99,12 @@ h6 {
 /* Both for system and user preference */
 :root[data-theme="dark"],
 .dark-mode {
+	color-scheme: dark;
 	--color-bg: black;
 	--color-gray-20: #cccccc;
 	--color-gray-50: #808080;
 	--color-gray-90: #1a1a1a;
 	--noise-opacity: 0.1;
-	color-scheme: dark;
 }
 
 @font-face {
@@ -132,7 +132,6 @@ html {
 }
 html,
 body {
-	padding: 0;
 	background-color: Canvas;
 	background-color: transparent;
 	color: CanvasText;
@@ -303,14 +302,28 @@ nav {
 	list-style: none;
 }
 .nav-item {
-	display: inline-block;
+	display: block;
+}
+
+.nav-link {
+	display: block;
 	padding: 0.25rem 0;
-}
-.nav-item a[href]:not(:hover) {
 	text-decoration: none;
+	color: inherit;
 }
-.nav a[href][aria-current="page"] {
+
+a.nav-link:hover {
 	text-decoration: underline;
+}
+
+.nav-item a[href][aria-current="page"] {
+	color: GrayText;
+	cursor: default;
+	pointer-events: none;
+}
+
+.nav-item a[href][aria-current="page"]:hover {
+	text-decoration: none;
 }
 
 /* Posts list */
@@ -986,18 +999,28 @@ header {
 </div>
 				<div class="side-nav">
 					<ul class="nav-list">
-						<li id="chat-toggle" class="nav-item">Welcome!</li>
+						<li id="chat-toggle" class="nav-item">
+							<span class="nav-link">Welcome!</span>
+						</li>
 							<li class="nav-item">
-								<a href="/">Home</a>
+								<a href="/" class="nav-link">
+									Home
+								</a>
 							</li>
 							<li class="nav-item">
-								<a href="/projects/">Projects</a>
+								<a href="/projects/" class="nav-link">
+									Projects
+								</a>
 							</li>
 							<li class="nav-item">
-								<a href="/blog/">Blog</a>
+								<a href="/blog/" class="nav-link">
+									Blog
+								</a>
 							</li>
 							<li class="nav-item">
-								<a href="/about/">About Me</a>
+								<a href="/about/" class="nav-link">
+									About Me
+								</a>
 							</li>
 					</ul>
 				</div>
@@ -1093,7 +1116,7 @@ header {
 
 		<footer></footer>
 
-		<!-- This page `/tags/projects/` was built on 2024-10-07T07:12:49.002Z -->
+		<!-- This page `/tags/projects/` was built on 2024-10-07T08:33:24.187Z -->
 	</body>
 </html>
 <script defer="">
