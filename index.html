@@ -128,7 +128,11 @@ h6 {
 
 /* Only set the overflow to the root */
 html {
-	contain: paint;
+	/* contain: paint; */
+
+	/* Hide scrollbar for Chrome, Safari and Opera */
+	scrollbar-width: none;
+	-ms-overflow-style: none;
 }
 html,
 body {
@@ -145,6 +149,9 @@ body {
 	width: 100%;
 	max-width: calc(40rem + 200px + 2rem);
 	margin: 0 auto;
+}
+body::-webkit-scrollbar {
+	display: none;
 }
 
 .site-header {
@@ -825,35 +832,33 @@ header {
 	position: fixed;
 	top: 0;
 	left: 0;
-	width: 0.5rem;
+	width: 5px;
 	height: 100vh;
-	transform: scaleY(0);
-	transform-origin: 0 0;
 	background-color: var(--color-gray-50);
+	z-index: 1000;
+	transform-origin: top;
+	transform: scaleY(0);
 }
 
 @supports (animation-timeline: scroll()) {
-	html {
-		-ms-overflow-style: none; /* Internet Explorer 10+ */
-		scrollbar-width: none; /* Firefox */
-	}
-
-	html::-webkit-scrollbar {
-		display: none; /* Chrome, Safari, and Opera */
-		width: 0;
-		height: 0;
-	}
-
 	.progress-bar {
+		animation: grow-progress auto linear;
 		animation-timeline: scroll(root block);
-		animation-range: entry 0% cover 100%;
-		animation: grow-progress linear;
 	}
 
 	@keyframes grow-progress {
+		from {
+			transform: scaleY(0);
+		}
 		to {
 			transform: scaleY(1);
 		}
+	}
+}
+
+@supports not (animation-timeline: scroll()) {
+	.progress-bar {
+		transition: transform 0.1s ease-out;
 	}
 }
 
@@ -932,8 +937,8 @@ header {
 	--fade-mask: linear-gradient(
 		to right,
 		transparent,
-		black 15%,
-		black 85%,
+		black 25%,
+		black 75%,
 		transparent
 	);
 
@@ -1298,79 +1303,79 @@ header {
   <div class="word">
     
       
-      <div class="letter-wrapper" style="--random-height: 14%;">
+      <div class="letter-wrapper" style="--random-height: 25%;">
         <span class="letter" style="
-					--rotation: 68deg;
-					--random-size: 6.572616354546579;
-					--primary-color: #4db361;
-					--accent-color: #6bd17f;
-					--random-delay: 0.06572616354546579s;
+					--rotation: 107deg;
+					--random-size: 42.189805268480086;
+					--primary-color: #b34d9c;
+					--accent-color: #d16bba;
+					--random-delay: 0.42189805268480085s;
 				">J</span>
       </div>
     
       
-      <div class="letter-wrapper" style="--random-height: 74%;">
+      <div class="letter-wrapper" style="--random-height: 1%;">
         <span class="letter" style="
-					--rotation: 226deg;
-					--random-size: 4.911423612606103;
-					--primary-color: #4dadb3;
-					--accent-color: #6bcbd1;
-					--random-delay: 0.04911423612606103s;
+					--rotation: 318deg;
+					--random-size: 69.82144511738578;
+					--primary-color: #b3544d;
+					--accent-color: #d1726b;
+					--random-delay: 0.6982144511738578s;
 				">a</span>
       </div>
     
       
-      <div class="letter-wrapper" style="--random-height: 76%;">
+      <div class="letter-wrapper" style="--random-height: 93%;">
         <span class="letter" style="
-					--rotation: 307deg;
-					--random-size: 7.3842412341641905;
-					--primary-color: #4d55b3;
-					--accent-color: #6b73d1;
-					--random-delay: 0.0738424123416419s;
+					--rotation: 142deg;
+					--random-size: 85.62692777296105;
+					--primary-color: #b3ac4d;
+					--accent-color: #d1ca6b;
+					--random-delay: 0.8562692777296106s;
 				">c</span>
       </div>
     
       
-      <div class="letter-wrapper" style="--random-height: 55%;">
+      <div class="letter-wrapper" style="--random-height: 22%;">
         <span class="letter" style="
-					--rotation: 152deg;
-					--random-size: 75.25015034384646;
-					--primary-color: #9b4db3;
-					--accent-color: #b96bd1;
-					--random-delay: 0.7525015034384646s;
+					--rotation: 210deg;
+					--random-size: 17.699045030982006;
+					--primary-color: #62b34d;
+					--accent-color: #80d16b;
+					--random-delay: 0.17699045030982005s;
 				">k</span>
       </div>
     
       
-      <div class="letter-wrapper" style="--random-height: 94%;">
+      <div class="letter-wrapper" style="--random-height: 27%;">
         <span class="letter" style="
-					--rotation: 209deg;
-					--random-size: 87.70715628945078;
-					--primary-color: #b34d73;
-					--accent-color: #d16b91;
-					--random-delay: 0.8770715628945078s;
+					--rotation: 81deg;
+					--random-size: 39.076210364325824;
+					--primary-color: #4db38e;
+					--accent-color: #6bd1ac;
+					--random-delay: 0.39076210364325825s;
 				">s</span>
       </div>
     
       
-      <div class="letter-wrapper" style="--random-height: 14%;">
+      <div class="letter-wrapper" style="--random-height: 78%;">
         <span class="letter" style="
-					--rotation: 11deg;
-					--random-size: 11.69407620030447;
-					--primary-color: #b37e4d;
-					--accent-color: #d19c6b;
-					--random-delay: 0.11694076200304471s;
+					--rotation: 184deg;
+					--random-size: 20.322602981569805;
+					--primary-color: #4d7fb3;
+					--accent-color: #6b9dd1;
+					--random-delay: 0.20322602981569804s;
 				">o</span>
       </div>
     
       
-      <div class="letter-wrapper" style="--random-height: 35%;">
+      <div class="letter-wrapper" style="--random-height: 29%;">
         <span class="letter" style="
-					--rotation: 224deg;
-					--random-size: 73.57588374772772;
-					--primary-color: #90b34d;
-					--accent-color: #aed16b;
-					--random-delay: 0.7357588374772771s;
+					--rotation: 9deg;
+					--random-size: 14.854102316172636;
+					--primary-color: #714db3;
+					--accent-color: #8f6bd1;
+					--random-delay: 0.14854102316172635s;
 				">n</span>
       </div>
     
@@ -1408,7 +1413,7 @@ header {
 
 		<footer></footer>
 
-		<!-- This page `/` was built on 2024-10-07T08:33:24.186Z -->
+		<!-- This page `/` was built on 2024-10-07T09:28:22.840Z -->
 	</body>
 </html>
 <script defer="">
