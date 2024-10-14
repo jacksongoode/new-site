@@ -980,6 +980,23 @@ header {
 	}
 }
 		</style>
+
+		<script type="speculationrules">
+		{
+			"prerender": [
+				{
+					"source": "document",
+					"where": {
+						"and": [
+							{ "href": { "url-prefix": "https://jackson.gd/" } },
+							{ "href": { "not": "/about/" } },
+							{ "selector": "a[href]:is(:hover, :focus)" }
+						]
+					}
+				}
+			]
+		}
+		</script>
 	</head>
 
 	<body style="--nav-item-active: 4;">
@@ -1069,7 +1086,7 @@ header {
 
 		<footer></footer>
 
-		<!-- This page `/about/` was built on 2024-10-07T19:49:49.387Z -->
+		<!-- This page `/about/` was built on 2024-10-14T03:12:27.879Z -->
 	</body>
 </html>
 <script defer="">

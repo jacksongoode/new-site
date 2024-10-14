@@ -1083,6 +1083,23 @@ lite-youtube.lyt-activated > .lty-playbtn {
     width: 1px;
   }
 		</style>
+
+		<script type="speculationrules">
+		{
+			"prerender": [
+				{
+					"source": "document",
+					"where": {
+						"and": [
+							{ "href": { "url-prefix": "https://jackson.gd/" } },
+							{ "href": { "not": "/projects/2020-10-16-musings-bela/" } },
+							{ "selector": "a[href]:is(:hover, :focus)" }
+						]
+					}
+				}
+			]
+		}
+		</script>
 	</head>
 
 	<body style="--nav-item-active: 1;">
@@ -1155,7 +1172,7 @@ lite-youtube.lyt-activated > .lty-playbtn {
       </li>
   </ul>
 
-  <div class="wave-divider" style="--emoji-color: #f59999;"></div>
+  <div class="wave-divider" style="--emoji-color: #f59897;"></div>
 
   <p>In an effort to explore the wild world of interactive music systems, I decided to work with a <a href="https://choosemuse.com/">portable EEG reader</a> and a <a href="https://bela.io/">Bela</a> coupled with an accelerometer and potentiometers. Little did I know how much of a challenge it would be to join both software and hardware within an interactive package.</p>
 <h2 id="inspiration" tabindex="-1">Inspiration <a class="header-anchor" href="#inspiration">#</a></h2>
@@ -1252,7 +1269,7 @@ lite-youtube.lyt-activated > .lty-playbtn {
 <p class="citation">Wu, D., et al.. (2013). <em>Scale-Free Brain Quartet: Artistic Filtering of Multi-Channel Brainwave Music</em>. PloS One, vol. 8, no. 5, p. e64046</p>
 
 
-  <div class="wave-divider" style="--emoji-color: #f59999;"></div>
+  <div class="wave-divider" style="--emoji-color: #f59897;"></div>
     <nav class="post-nav">
         <a href="/projects/2020-09-20-classifying-urban-sounds/" class="post-nav-prev">
           <span class="post-nav-arrow">←</span>
@@ -1286,7 +1303,7 @@ lite-youtube.lyt-activated > .lty-playbtn {
 
 		<footer></footer>
 
-		<!-- This page `/projects/2020-10-16-musings-bela/` was built on 2024-10-07T19:49:49.394Z -->
+		<!-- This page `/projects/2020-10-16-musings-bela/` was built on 2024-10-14T03:12:27.883Z -->
 	</body>
 </html>
 <script defer="">

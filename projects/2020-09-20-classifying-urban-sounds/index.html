@@ -1083,6 +1083,23 @@ lite-youtube.lyt-activated > .lty-playbtn {
     width: 1px;
   }
 		</style>
+
+		<script type="speculationrules">
+		{
+			"prerender": [
+				{
+					"source": "document",
+					"where": {
+						"and": [
+							{ "href": { "url-prefix": "https://jackson.gd/" } },
+							{ "href": { "not": "/projects/2020-09-20-classifying-urban-sounds/" } },
+							{ "selector": "a[href]:is(:hover, :focus)" }
+						]
+					}
+				}
+			]
+		}
+		</script>
 	</head>
 
 	<body style="--nav-item-active: 1;">
@@ -1262,7 +1279,7 @@ combined<span class="token punctuation">.</span>append<span class="token punctua
 
 		<footer></footer>
 
-		<!-- This page `/projects/2020-09-20-classifying-urban-sounds/` was built on 2024-10-07T19:49:49.394Z -->
+		<!-- This page `/projects/2020-09-20-classifying-urban-sounds/` was built on 2024-10-14T03:12:27.883Z -->
 	</body>
 </html>
 <script defer="">

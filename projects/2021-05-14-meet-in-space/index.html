@@ -1083,6 +1083,23 @@ lite-youtube.lyt-activated > .lty-playbtn {
     width: 1px;
   }
 		</style>
+
+		<script type="speculationrules">
+		{
+			"prerender": [
+				{
+					"source": "document",
+					"where": {
+						"and": [
+							{ "href": { "url-prefix": "https://jackson.gd/" } },
+							{ "href": { "not": "/projects/2021-05-14-meet-in-space/" } },
+							{ "selector": "a[href]:is(:hover, :focus)" }
+						]
+					}
+				}
+			]
+		}
+		</script>
 	</head>
 
 	<body style="--nav-item-active: 1;">
@@ -1155,7 +1172,7 @@ lite-youtube.lyt-activated > .lty-playbtn {
       </li>
   </ul>
 
-  <div class="wave-divider" style="--emoji-color: #d4ceb0;"></div>
+  <div class="wave-divider" style="--emoji-color: #d4cdb0;"></div>
 
   <h2 id="toward-a-telepresence-of-sound" tabindex="-1">Toward a Telepresence of Sound <a class="header-anchor" href="#toward-a-telepresence-of-sound">#</a></h2>
 <p>Digital communications technologies have developed at an increasingly rapid pace, with the COVID-19 pandemic accelerating its recent adoption. This shift over the last few decades has seen a mass migration online, where utilities like video conferencing software have become essential to entire industries and institutions. Yet, there are clear limitations with this new digital work space - most of which exist from the nuance of natural communication. My master's thesis for the Music, Communications and Technology program at the University of Oslo and Norwegian University of Science and Technology proposes the integration of binaural spatialized audio within a web-based video conferencing platform for small-group, distributed conversations. The proposed system builds upon findings on the benefits of spatial audio in video conferencing platforms and is guided by the tenets of telepresence. The developed implementation is based on Jitsi Meet, a robust open-source conferencing system. It localizes participant’s voices through sound spatialization methods provided by the Web Audio API, a modern library in JavaScript for complex audio manipulation on the web.</p>
@@ -1221,7 +1238,7 @@ lite-youtube.lyt-activated > .lty-playbtn {
 <p>Spatial audio is being adopted at a rapid pace, but has still yet to be introduced in small group interactions like the ones presented here. Hopefully, this thesis can provide a valid proof of concept for the benefits of spatial audio in video conferencing platforms.</p>
 
 
-  <div class="wave-divider" style="--emoji-color: #d4ceb0;"></div>
+  <div class="wave-divider" style="--emoji-color: #d4cdb0;"></div>
     <nav class="post-nav">
         <a href="/projects/2020-10-23-film-for-music/" class="post-nav-prev">
           <span class="post-nav-arrow">←</span>
@@ -1255,7 +1272,7 @@ lite-youtube.lyt-activated > .lty-playbtn {
 
 		<footer></footer>
 
-		<!-- This page `/projects/2021-05-14-meet-in-space/` was built on 2024-10-07T19:49:49.395Z -->
+		<!-- This page `/projects/2021-05-14-meet-in-space/` was built on 2024-10-14T03:12:27.884Z -->
 	</body>
 </html>
 <script defer="">

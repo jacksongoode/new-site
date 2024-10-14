@@ -1210,6 +1210,23 @@ header {
 	}
 }
 		</style>
+
+		<script type="speculationrules">
+		{
+			"prerender": [
+				{
+					"source": "document",
+					"where": {
+						"and": [
+							{ "href": { "url-prefix": "https://jackson.gd/" } },
+							{ "href": { "not": "/cv/" } },
+							{ "selector": "a[href]:is(:hover, :focus)" }
+						]
+					}
+				}
+			]
+		}
+		</script>
 	</head>
 
 	<body style="--nav-item-active: 1;">
@@ -1510,7 +1527,7 @@ header {
 
 		<footer></footer>
 
-		<!-- This page `/cv/` was built on 2024-10-07T19:49:49.383Z -->
+		<!-- This page `/cv/` was built on 2024-10-14T03:12:27.875Z -->
 	</body>
 </html>
 <script defer="">

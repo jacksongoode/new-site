@@ -1083,6 +1083,23 @@ lite-youtube.lyt-activated > .lty-playbtn {
     width: 1px;
   }
 		</style>
+
+		<script type="speculationrules">
+		{
+			"prerender": [
+				{
+					"source": "document",
+					"where": {
+						"and": [
+							{ "href": { "url-prefix": "https://jackson.gd/" } },
+							{ "href": { "not": "/blog/2018-11-02-43-rpm/" } },
+							{ "selector": "a[href]:is(:hover, :focus)" }
+						]
+					}
+				}
+			]
+		}
+		</script>
 	</head>
 
 	<body style="--nav-item-active: 1;">
@@ -1290,7 +1307,7 @@ Clover looks down at the mess but is uninterested having fallen under some sort 
 
 		<footer></footer>
 
-		<!-- This page `/blog/2018-11-02-43-rpm/` was built on 2024-10-07T19:49:49.396Z -->
+		<!-- This page `/blog/2018-11-02-43-rpm/` was built on 2024-10-14T03:12:27.885Z -->
 	</body>
 </html>
 <script defer="">
