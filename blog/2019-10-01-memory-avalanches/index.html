@@ -1088,13 +1088,15 @@ lite-youtube.lyt-activated > .lty-playbtn {
 		{
 			"prerender": [
 				{
-					"source": "document",
+					"eagerness": "immediate",
 					"where": {
-						"and": [
-							{ "href": { "url-prefix": "https://jackson.gd/" } },
-							{ "href": { "not": "/blog/2019-10-01-memory-avalanches/" } },
-							{ "selector": "a[href]:is(:hover, :focus)" }
-						]
+						"selector_matches": ".postlist-item:first-child a"
+					}
+				},
+				{
+					"eagerness": "moderate",
+					"where": {
+						"href_matches": "/*"
 					}
 				}
 			]
@@ -1254,7 +1256,7 @@ lite-youtube.lyt-activated > .lty-playbtn {
 
 		<footer></footer>
 
-		<!-- This page `/blog/2019-10-01-memory-avalanches/` was built on 2024-10-14T03:12:27.886Z -->
+		<!-- This page `/blog/2019-10-01-memory-avalanches/` was built on 2024-10-14T03:18:02.018Z -->
 	</body>
 </html>
 <script defer="">

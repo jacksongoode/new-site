@@ -1088,13 +1088,15 @@ lite-youtube.lyt-activated > .lty-playbtn {
 		{
 			"prerender": [
 				{
-					"source": "document",
+					"eagerness": "immediate",
 					"where": {
-						"and": [
-							{ "href": { "url-prefix": "https://jackson.gd/" } },
-							{ "href": { "not": "/projects/2020-10-23-film-for-music/" } },
-							{ "selector": "a[href]:is(:hover, :focus)" }
-						]
+						"selector_matches": ".postlist-item:first-child a"
+					}
+				},
+				{
+					"eagerness": "moderate",
+					"where": {
+						"href_matches": "/*"
 					}
 				}
 			]
@@ -1237,7 +1239,7 @@ lite-youtube.lyt-activated > .lty-playbtn {
 
 		<footer></footer>
 
-		<!-- This page `/projects/2020-10-23-film-for-music/` was built on 2024-10-14T03:12:27.884Z -->
+		<!-- This page `/projects/2020-10-23-film-for-music/` was built on 2024-10-14T03:18:02.017Z -->
 	</body>
 </html>
 <script defer="">

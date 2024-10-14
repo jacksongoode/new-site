@@ -1088,13 +1088,15 @@ lite-youtube.lyt-activated > .lty-playbtn {
 		{
 			"prerender": [
 				{
-					"source": "document",
+					"eagerness": "immediate",
 					"where": {
-						"and": [
-							{ "href": { "url-prefix": "https://jackson.gd/" } },
-							{ "href": { "not": "/projects/2020-02-10-osc-guitar/" } },
-							{ "selector": "a[href]:is(:hover, :focus)" }
-						]
+						"selector_matches": ".postlist-item:first-child a"
+					}
+				},
+				{
+					"eagerness": "moderate",
+					"where": {
+						"href_matches": "/*"
 					}
 				}
 			]
@@ -1232,7 +1234,7 @@ lite-youtube.lyt-activated > .lty-playbtn {
 
 		<footer></footer>
 
-		<!-- This page `/projects/2020-02-10-osc-guitar/` was built on 2024-10-14T03:12:27.882Z -->
+		<!-- This page `/projects/2020-02-10-osc-guitar/` was built on 2024-10-14T03:18:02.015Z -->
 	</body>
 </html>
 <script defer="">

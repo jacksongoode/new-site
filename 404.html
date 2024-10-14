@@ -985,13 +985,15 @@ header {
 		{
 			"prerender": [
 				{
-					"source": "document",
+					"eagerness": "immediate",
 					"where": {
-						"and": [
-							{ "href": { "url-prefix": "https://jackson.gd/" } },
-							{ "href": { "not": "/404.html" } },
-							{ "selector": "a[href]:is(:hover, :focus)" }
-						]
+						"selector_matches": ".postlist-item:first-child a"
+					}
+				},
+				{
+					"eagerness": "moderate",
+					"where": {
+						"href_matches": "/*"
 					}
 				}
 			]
@@ -1068,7 +1070,7 @@ This will work for both GitHub pages and Netlify:
 
 		<footer></footer>
 
-		<!-- This page `/404.html` was built on 2024-10-14T03:12:27.879Z -->
+		<!-- This page `/404.html` was built on 2024-10-14T03:18:02.012Z -->
 	</body>
 </html>
 <script defer="">
