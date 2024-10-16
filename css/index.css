@@ -60,6 +60,10 @@
 	font-display: swap;
 }
 
+@view-transition {
+	navigation: auto;
+}
+
 /* Only set the overflow to the root */
 html {
 	/* contain: paint; */
@@ -390,27 +394,17 @@ a.nav-link:hover {
 	margin-right: 1rem;
 }
 
-/* Direct Links / Markdown Headers */
-.header-anchor {
-	margin-left: 0.1rem;
-	font-style: normal;
-	text-decoration: none;
-}
-a[href].header-anchor,
-a[href].header-anchor:visited {
-	color: transparent;
-}
-a[href].header-anchor:focus,
-a[href].header-anchor:hover {
-	text-decoration: underline;
-}
-a[href].header-anchor:focus,
-:hover > a[href].header-anchor {
-	color: #aaa;
+/* Heading anchors */
+.ha-placeholder,
+.ha {
+	display: inline-block;
+	color: rgba(0, 0, 0, 0.25);
 }
 
-h2 + .header-anchor {
-	font-size: 1.5rem;
+heading-anchors:not(:defined) :is(h2, h3, h4, h5, h6):after {
+	content: "#";
+	padding: 0 0.25em;
+	opacity: 0;
 }
 
 /* Figures */

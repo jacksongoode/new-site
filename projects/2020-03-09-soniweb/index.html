@@ -126,6 +126,10 @@ h6 {
 	font-display: swap;
 }
 
+@view-transition {
+	navigation: auto;
+}
+
 /* Only set the overflow to the root */
 html {
 	/* contain: paint; */
@@ -456,27 +460,17 @@ a.nav-link:hover {
 	margin-right: 1rem;
 }
 
-/* Direct Links / Markdown Headers */
-.header-anchor {
-	margin-left: 0.1rem;
-	font-style: normal;
-	text-decoration: none;
-}
-a[href].header-anchor,
-a[href].header-anchor:visited {
-	color: transparent;
-}
-a[href].header-anchor:focus,
-a[href].header-anchor:hover {
-	text-decoration: underline;
-}
-a[href].header-anchor:focus,
-:hover > a[href].header-anchor {
-	color: #aaa;
+/* Heading anchors */
+.ha-placeholder,
+.ha {
+	display: inline-block;
+	color: rgba(0, 0, 0, 0.25);
 }
 
-h2 + .header-anchor {
-	font-size: 1.5rem;
+heading-anchors:not(:defined) :is(h2, h3, h4, h5, h6):after {
+	content: "#";
+	padding: 0 0.25em;
+	opacity: 0;
 }
 
 /* Figures */
@@ -1110,7 +1104,7 @@ lite-youtube.lyt-activated > .lty-playbtn {
 
 		<header class="site-header">
 			<nav>
-				<h2 class="visually-hidden">Top level navigation menu</h2>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
 				<div class="nav-bubble">
     <button id="chat-reset" class="chat-reset" aria-label="Reset chat">↺</button>
     <div id="navPhrase" class="nav-phrase">
@@ -1155,7 +1149,8 @@ lite-youtube.lyt-activated > .lty-playbtn {
 		</header>
 
 		<main id="skip">
-			
+			<heading-anchors>
+				
 
 
 <div class="progress-bar"></div>
@@ -1176,10 +1171,10 @@ lite-youtube.lyt-activated > .lty-playbtn {
 
   <div class="wave-divider" style="--emoji-color: #399ed6;"></div>
 
-  <h1 id="sonification-of-the-net" tabindex="-1">Sonification of the Net <a class="header-anchor" href="#sonification-of-the-net">#</a></h1>
+  <h1 id="sonification-of-the-net">Sonification of the Net</h1>
 <p>For the MCT's sonification course, our group developed a system that collects and geo-locates web requests in real-time <em>and</em> <a href="https://en.wikipedia.org/wiki/Sonification">sonified</a> this incoming data. We were inspired by the paper and project <a href="https://www.researchgate.net/publication/334041357_Surfing_In_Sound_Sonification_of_Hidden_Web_Tracking">Surfing in Sound</a> which sonifies web-trackers via Ableton with an emphasis on user awareness and with potential of extending the experience into an audio-visual installation. A demo of their system can be viewed <a href="https://www.youtube.com/watch?v=ug3GfEe801k">here</a>. Another project with similar aims, <a href="https://www.researchgate.net/publication/335452963_Soundbeam_a_Platform_for_Sonifying_Web_Tracking">Soundbeam</a>, sonifies various trackers through SuperCollider while visiting a web-page as a lens into internet privacy. Our project, Soniweb, finds closer alignment with Surfing in Sound, employing a combination of Wireshark, Python, and Pure Data.</p>
 <p>Our initial plan was to filter network traffic exclusively from the web browser and then analyze the HTTP response headers for information regarding the resources that are loaded when one visits a webpage. From there, we would send that data over OSC to Pure Data, a visual audio programming language and generate sound from it. However, we found (after extensive testing with various programs) that https webpages encrypt the view of the pages' resources (the s stands for the SSL protocol) - this should have been more obvious at the beginning. This prevents a 3rd party application like <a href="https://www.wireshark.org/">Wireshark</a> from spying in on the network activity and reading the data that is transferred. While this is a wonderful standard for the sake of security, it prevented us from going in that direction as Wireshark is unable to decrypt SSL layers. Another application, <a href="https://www.telerik.com/fiddler">Fiddler</a>, an alternative to Wireshark, is able to achieve this, however, its implementation has poor integration with Python and even less on macOS. So our vision broadened to include all possible network activity that is transmitted on a computer and we went with Wireshark as a tried and true stable of the data-sniffing community.</p>
-<h2 id="implementation" tabindex="-1">Implementation <a class="header-anchor" href="#implementation">#</a></h2>
+<h2 id="implementation">Implementation</h2>
 <p>We decided early on that it would be quite interesting if we were able to sonify the locations of the data packets that were being sent and received when one uses the computer. From a research oriented position, the sonification and spatialization of web data might provide the computer user with insights into:</p>
 <ol>
 <li>Where the data you see, while casually browsing the web or using a web-dependent application, actually originates from (<strong>digital-physical correspondence &amp; global network monopolies</strong>)</li>
@@ -1214,13 +1209,13 @@ client <span class="token operator">=</span> udp_client<span class="token punctu
                         <span class="token comment"># 0 to 7 (8 degrees of differentiation)</span>
 
     <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Sent to "</span><span class="token operator">+</span><span class="token builtin">str</span><span class="token punctuation">(</span>dst_resp<span class="token punctuation">.</span>country<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
-<h2 id="sonification" tabindex="-1">Sonification <a class="header-anchor" href="#sonification">#</a></h2>
+<h2 id="sonification">Sonification</h2>
 <p>All the while, our third group member started development on the Pure Data patch simultaneous to our work in Python. He began with a sample handler that would play five different samples that corresponded to the protocol type, amplitude. We initially attempted ambisonics production through <a href="https://www.reaper.fm/">Reaper</a> as a DAW but found a wonderful (and actively developed updated) library for Pd called <a href="https://github.com/Spacechild1/vstplugin">vstplugin~</a> where we loaded the <a href="https://plugins.iem.at/">IEM</a> plugin suite for ambisonics. The library worked quite well for our purposes and we were able to load each of our 32 channel’s azimuth and elevations as an initialization process. Each of the “voice” sub-patches contain five “samplehandler” sub-patches to play any of the potential five sounds given the protocol message. Within these sub-patches is one “singlesample” sub-patch that plays the sample with “tabread4~”. However, this sub-patch is cloned for times for the possibility of a single channel playing a particular sample up to four times simultaneously. This was built in due to the high frequency of packet data that we receive during the python script’s playback.</p>
 <figure><img src="/img/soniweb-pd.png" alt="The Pure Data patch (and sub-patches)" loading="lazy" decoding="async"><figcaption>The Pure Data patch (and sub-patches)</figcaption></figure>
-<h2 id="the-effect" tabindex="-1">The Effect <a class="header-anchor" href="#the-effect">#</a></h2>
+<h2 id="the-effect">The Effect</h2>
 <p>When running the script and patch simultaneously, the network activity that your current machine is relaying is sonified and located in a <a href="https://en.wikipedia.org/wiki/Ambisonics">5th order ambisonics</a> environment. The various bells ping around the listener as if they were sitting in the center of the Earth listening to the machines around them speak to one another. While we achieved our set goals, there are a few unanswered questions as to whether the packets that are being received are actually too quick to receive and process in real-time and may become backlogged over the course of a session. This may either have to do with limitations imposed by Pd, Python, Wireshark or the CPU power afforded by the user’s computer. In a recent update, converting one of the &quot;if&quot; statements to a dpf filter within pyshark's instantiation made the incoming packets quite responsive to web browsing activity. However, it may be possible to mitigate these issues and enhance the sonification by generating the instruments within Pd rather than using sample files. This project has great potential for an extension into a live installation, one, perhaps, that asks the audience to connect their devices to a network hosted in the space so that they could listen to the network activity of their collective devices.</p>
 <figure><video src="https://www.uio.no/english/studies/programmes/mct-master/blog/assets/video/2020_03_07_jacksong_soniweb_demo.mp4" style="aspect-ratio: 16/9;" controls="">Your browser does not support the video tag.</video><figcaption>A demo of Soniweb (headphones required!)</figcaption></figure>
-<h2 id="works-cited" tabindex="-1">Works Cited <a class="header-anchor" href="#works-cited">#</a></h2>
+<h2 id="works-cited">Works Cited</h2>
 <p class="citation">Telerik. (2020). <em>Fiddler - Free Web Debugging Proxy</em>. Retrieved from <a href="https://www.telerik.com/fiddler">https://www.telerik.com/fiddler</a></p>
 <p class="citation">Hutchins, Charles, et al.. (2014). <em>Soundbeam: A Platform for Sonifying Web Tracking</em></p>
 <p class="citation">MaxMind. (2020). <em>GeoIP2 Downloadable Databases</em>. Retrieved from <a href="https://dev.maxmind.com/geoip/geoip2/downloadable/">https://dev.maxmind.com/geoip/geoip2/downloadable/</a></p>
@@ -1263,712 +1258,12 @@ client <span class="token operator">=</span> udp_client<span class="token punctu
     requestAnimationFrame(updateProgressBar);
   }
 </script>
+			</heading-anchors>
 		</main>
 
 		<footer></footer>
 
-		<!-- This page `/projects/2020-03-09-soniweb/` was built on 2024-10-16T06:32:41.532Z -->
+		<!-- This page `/projects/2020-03-09-soniweb/` was built on 2024-10-16T07:34:33.623Z -->
+		<script type="module" src="/bundle/hFQfOCm41w.js"></script>
 	</body>
 </html>
-<script defer="">
-	// Minimal JS for handling user preference
-(function () {
-    const toggle = document.getElementById('dark-mode-toggle');
-
-    // Set initial state based on localStorage or system preference
-    const storedTheme = localStorage.getItem('color-scheme');
-    if (storedTheme) {
-        document.documentElement.setAttribute('data-theme', storedTheme);
-        toggle.checked = storedTheme === 'dark';
-    }
-
-    // Handle toggle changes
-    toggle.addEventListener('change', () => {
-        const newTheme = toggle.checked ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('color-scheme', newTheme);
-    });
-
-    // const form = document.getElementById('theme-form');
-    // Handle form submission (for no-JS fallback)
-    // form.addEventListener('submit', (e) => {
-    //     e.preventDefault();
-    //     const formData = new FormData(form);
-    //     fetch('/set-theme', {
-    //         method: 'POST',
-    //         body: formData
-    //     }).then(() => {
-    //         location.reload();
-    //     });
-    // });
-})();
-
-		// Generate a random user ID if not already stored
-function getUserId() {
-	return (
-		localStorage.getItem("userId") ||
-		localStorage.setItem(
-			"userId",
-			"user_" + Math.random().toString(36).slice(2, 11),
-		)
-	);
-}
-
-function sendMessageToWorker(message) {
-	const baseUrl =
-		window.location.hostname === "localhost" ||
-		window.location.hostname === "127.0.0.1"
-			? "http://localhost:8090"
-			: "";
-	const isDarkMode =
-		document.documentElement.getAttribute("data-theme") === "dark";
-	const animalParam = isDarkMode ? "frog" : "chicken";
-
-	updateNavPhrase(isDarkMode ? "Ribbit" : "Cluck", true);
-
-	// Get the body content
-	const bodyContent = document.body.innerText;
-
-	// Prepare the message with the body content
-	const fullMessage = `Current page content:\n${bodyContent}\n\nUser message: ${message}`;
-
-	fetch(
-		`${baseUrl}/ai?message=${encodeURIComponent(fullMessage)}&animal=${animalParam}&userId=${getUserId()}`,
-	)
-		.then((response) => {
-			if (!response.ok)
-				throw new Error(`HTTP error! status: ${response.status}`);
-			return response.body.getReader();
-		})
-		.then((reader) => {
-			let accumulatedResponse = "";
-
-			function readStream() {
-				let buffer = "";
-				reader.read().then(function processText({ done, value }) {
-					if (done) {
-						updateNavPhrase(accumulatedResponse, false);
-						return;
-					}
-
-					buffer += new TextDecoder().decode(value);
-					let newlineIndex;
-					while ((newlineIndex = buffer.indexOf("\n")) !== -1) {
-						const line = buffer.slice(0, newlineIndex);
-						buffer = buffer.slice(newlineIndex + 1);
-
-						if (line.startsWith("data: ")) {
-							try {
-								const jsonStr = line.slice(5).trim();
-								if (jsonStr === "[DONE]") {
-									updateNavPhrase(accumulatedResponse, false);
-									return;
-								}
-								const data = JSON.parse(jsonStr);
-								if (data.response) {
-									accumulatedResponse += data.response;
-									updateNavPhrase(accumulatedResponse, false);
-								}
-							} catch (error) {
-								buffer = line + "\n" + buffer;
-								break;
-							}
-						}
-					}
-
-					return reader.read().then(processText);
-				});
-			}
-
-			readStream();
-		})
-		.catch((error) => {
-			console.error("Fetch error:", error);
-			updateNavPhrase("Sorry, something went wrong.");
-		});
-}
-
-function updateNavPhrase(text, isWaiting = false) {
-	const navPhrase = document.getElementById("navPhrase");
-	navPhrase.textContent = text;
-	navPhrase.classList.toggle("waiting", isWaiting);
-	navPhrase.classList.toggle("clickable", !isWaiting && text.length > 0);
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-	const chatTrigger = document.getElementById("chat-toggle");
-	const talkBubble = document.querySelector(".nav-bubble");
-	const mainContent = document.querySelector("main");
-	const navPhrase = document.getElementById("navPhrase");
-	const chatReset = document.getElementById("chat-reset");
-	let originalContent = navPhrase.innerHTML;
-
-	function resetChatInterface() {
-		navPhrase.innerHTML = originalContent;
-		talkBubble.classList.remove("chat-active");
-		mainContent.classList.remove("chat-active");
-	}
-
-	chatReset.addEventListener("click", resetChatInterface);
-
-	function activateChatInterface() {
-		navPhrase.innerHTML = `
-		<form id="chat-form">
-		  <input type="text" id="user-input" placeholder="Search... or say hi?">
-		  <button type="submit" style="display:none;">Send</button>
-		</form>
-		<div id="search-results"></div>
-	  `;
-		document.getElementById("user-input").focus();
-
-		const searchResults = document.getElementById("search-results");
-		let pagefind;
-
-		document
-			.getElementById("user-input")
-			.addEventListener("input", async function () {
-				if (!pagefind) {
-					pagefind = await import("/pagefind/pagefind.js");
-					await pagefind.options({
-						element: "#search-results",
-						excerptLength: 15,
-						highlightParam: "highlight",
-					});
-					await pagefind.init();
-				}
-
-				const query = this.value.trim();
-				if (query.length > 2) {
-					const search = await pagefind.search(query);
-					const results = await Promise.all(
-						search.results.map((r) => r.data()),
-					);
-
-					searchResults.innerHTML =
-						results.length > 0
-							? results
-									.map(
-										(result) => `
-			<a href="${result.url}" class="search-result">
-			  <div class="search-result-title">${result.meta.title || "Untitled"}</div>
-			  <p>${result.excerpt}</p>
-			</a>
-		  `,
-									)
-									.join("")
-							: "";
-					talkBubble.classList.add("chat-active");
-				} else {
-					searchResults.innerHTML = "";
-				}
-			});
-
-		document
-			.getElementById("chat-form")
-			.addEventListener("submit", function (e) {
-				e.preventDefault();
-				const userInput = document.getElementById("user-input");
-				if (userInput.value.trim() !== "") {
-					sendMessageToWorker(userInput.value.trim());
-					userInput.value = "";
-					searchResults.innerHTML = "";
-				}
-			});
-
-		document
-			.getElementById("user-input")
-			.addEventListener("keydown", function (e) {
-				if (e.key === "Escape") resetChatInterface();
-			});
-	}
-
-	function handleChatTrigger() {
-		talkBubble.classList.toggle("chat-active");
-		mainContent.classList.toggle("chat-active");
-		talkBubble.classList.contains("chat-active")
-			? activateChatInterface()
-			: (navPhrase.innerHTML = originalContent);
-	}
-
-	chatTrigger.addEventListener("click", handleChatTrigger);
-
-	navPhrase.addEventListener("click", function (event) {
-		if (event.target.tagName.toLowerCase() === "a") return;
-		if (
-			window.innerWidth < 840 &&
-			!talkBubble.classList.contains("chat-active")
-		) {
-			handleChatTrigger();
-		} else if (navPhrase.classList.contains("clickable")) {
-			activateChatInterface();
-			navPhrase.classList.remove("clickable");
-		}
-	});
-});
-
-
-		
-			
-			/**
- * A lightweight youtube embed. Still should feel the same to the user, just MUCH faster to initialize and paint.
- *
- * Thx to these as the inspiration
- *   https://storage.googleapis.com/amp-vs-non-amp/youtube-lazy.html
- *   https://autoplay-youtube-player.glitch.me/
- *
- * Once built it, I also found these:
- *   https://github.com/ampproject/amphtml/blob/master/extensions/amp-youtube (👍👍)
- *   https://github.com/Daugilas/lazyYT
- *   https://github.com/vb/lazyframe
- */
-class LiteYTEmbed extends HTMLElement {
-    connectedCallback() {
-        this.videoId = this.getAttribute('videoid');
-
-        let playBtnEl = this.querySelector('.lty-playbtn');
-        // A label for the button takes priority over a [playlabel] attribute on the custom-element
-        this.playLabel = (playBtnEl && playBtnEl.textContent.trim()) || this.getAttribute('playlabel') || 'Play';
-
-        this.dataset.title = this.getAttribute('title') || "";
-
-        /**
-         * Lo, the youtube poster image!  (aka the thumbnail, image placeholder, etc)
-         *
-         * See https://github.com/paulirish/lite-youtube-embed/blob/master/youtube-thumbnail-urls.md
-         */
-        if (!this.style.backgroundImage) {
-          this.style.backgroundImage = `url("https://i.ytimg.com/vi/${this.videoId}/hqdefault.jpg")`;
-          this.upgradePosterImage();
-        }
-
-        // Set up play button, and its visually hidden label
-        if (!playBtnEl) {
-            playBtnEl = document.createElement('button');
-            playBtnEl.type = 'button';
-            playBtnEl.classList.add('lty-playbtn');
-            this.append(playBtnEl);
-        }
-        if (!playBtnEl.textContent) {
-            const playBtnLabelEl = document.createElement('span');
-            playBtnLabelEl.className = 'lyt-visually-hidden';
-            playBtnLabelEl.textContent = this.playLabel;
-            playBtnEl.append(playBtnLabelEl);
-        }
-
-        this.addNoscriptIframe();
-
-        // for the PE pattern, change anchor's semantics to button
-        if(playBtnEl.nodeName === 'A'){
-            playBtnEl.removeAttribute('href');
-            playBtnEl.setAttribute('tabindex', '0');
-            playBtnEl.setAttribute('role', 'button');
-            // fake button needs keyboard help
-            playBtnEl.addEventListener('keydown', e => {
-                if( e.key === 'Enter' || e.key === ' ' ){
-                    e.preventDefault();
-                    this.activate();
-                }
-            });
-        }
-
-        // On hover (or tap), warm up the TCP connections we're (likely) about to use.
-        this.addEventListener('pointerover', LiteYTEmbed.warmConnections, {once: true});
-        this.addEventListener('focusin', LiteYTEmbed.warmConnections, {once: true});
-
-        // Once the user clicks, add the real iframe and drop our play button
-        // TODO: In the future we could be like amp-youtube and silently swap in the iframe during idle time
-        //   We'd want to only do this for in-viewport or near-viewport ones: https://github.com/ampproject/amphtml/pull/5003
-        this.addEventListener('click', this.activate);
-
-        // Chrome & Edge desktop have no problem with the basic YouTube Embed with ?autoplay=1
-        // However Safari desktop and most/all mobile browsers do not successfully track the user gesture of clicking through the creation/loading of the iframe,
-        // so they don't autoplay automatically. Instead we must load an additional 2 sequential JS files (1KB + 165KB) (un-br) for the YT Player API
-        // TODO: Try loading the the YT API in parallel with our iframe and then attaching/playing it. #82
-        this.needsYTApi = this.hasAttribute("js-api") || navigator.vendor.includes('Apple') || navigator.userAgent.includes('Mobi');
-    }
-
-    /**
-     * Add a <link rel={preload | preconnect} ...> to the head
-     */
-    static addPrefetch(kind, url, as) {
-        const linkEl = document.createElement('link');
-        linkEl.rel = kind;
-        linkEl.href = url;
-        if (as) {
-            linkEl.as = as;
-        }
-        document.head.append(linkEl);
-    }
-
-    /**
-     * Begin pre-connecting to warm up the iframe load
-     * Since the embed's network requests load within its iframe,
-     *   preload/prefetch'ing them outside the iframe will only cause double-downloads.
-     * So, the best we can do is warm up a few connections to origins that are in the critical path.
-     *
-     * Maybe `<link rel=preload as=document>` would work, but it's unsupported: http://crbug.com/593267
-     * But TBH, I don't think it'll happen soon with Site Isolation and split caches adding serious complexity.
-     */
-    static warmConnections() {
-        if (LiteYTEmbed.preconnected) return;
-
-        // The iframe document and most of its subresources come right off youtube.com
-        LiteYTEmbed.addPrefetch('preconnect', 'https://www.youtube-nocookie.com');
-        // The botguard script is fetched off from google.com
-        LiteYTEmbed.addPrefetch('preconnect', 'https://www.google.com');
-
-        // Not certain if these ad related domains are in the critical path. Could verify with domain-specific throttling.
-        LiteYTEmbed.addPrefetch('preconnect', 'https://googleads.g.doubleclick.net');
-        LiteYTEmbed.addPrefetch('preconnect', 'https://static.doubleclick.net');
-
-        LiteYTEmbed.preconnected = true;
-    }
-
-    fetchYTPlayerApi() {
-        if (window.YT || (window.YT && window.YT.Player)) return;
-
-        this.ytApiPromise = new Promise((res, rej) => {
-            var el = document.createElement('script');
-            el.src = 'https://www.youtube.com/iframe_api';
-            el.async = true;
-            el.onload = _ => {
-                YT.ready(res);
-            };
-            el.onerror = rej;
-            this.append(el);
-        });
-    }
-
-    /** Return the YT Player API instance. (Public L-YT-E API) */
-    async getYTPlayer() {
-        if(!this.playerPromise) {
-            await this.activate();
-        }
-
-        return this.playerPromise;
-    }
-
-    async addYTPlayerIframe() {
-        this.fetchYTPlayerApi();
-        await this.ytApiPromise;
-
-        const videoPlaceholderEl = document.createElement('div')
-        this.append(videoPlaceholderEl);
-
-        const paramsObj = Object.fromEntries(this.getParams().entries());
-
-        this.playerPromise = new Promise(resolve => {
-            let player = new YT.Player(videoPlaceholderEl, {
-                width: '100%',
-                videoId: this.videoId,
-                playerVars: paramsObj,
-                events: {
-                    'onReady': event => {
-                        event.target.playVideo();
-                        resolve(player);
-                    }
-                }
-            });
-        });
-    }
-
-    // Add the iframe within <noscript> for indexability discoverability. See https://github.com/paulirish/lite-youtube-embed/issues/105
-    addNoscriptIframe() {
-        const iframeEl = this.createBasicIframe();
-        const noscriptEl = document.createElement('noscript');
-        // Appending into noscript isn't equivalant for mysterious reasons: https://html.spec.whatwg.org/multipage/scripting.html#the-noscript-element
-        noscriptEl.innerHTML = iframeEl.outerHTML;
-        this.append(noscriptEl);
-    }
-
-    getParams() {
-        const params = new URLSearchParams(this.getAttribute('params') || []);
-        params.append('autoplay', '1');
-        params.append('playsinline', '1');
-        return params;
-    }
-
-    async activate(){
-        if (this.classList.contains('lyt-activated')) return;
-        this.classList.add('lyt-activated');
-
-        if (this.needsYTApi) {
-            return this.addYTPlayerIframe(this.getParams());
-        }
-
-        const iframeEl = this.createBasicIframe();
-        this.append(iframeEl);
-
-        // Set focus for a11y
-        iframeEl.focus();
-    }
-
-    createBasicIframe(){
-        const iframeEl = document.createElement('iframe');
-        iframeEl.width = 560;
-        iframeEl.height = 315;
-        // No encoding necessary as [title] is safe. https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html#:~:text=Safe%20HTML%20Attributes%20include
-        iframeEl.title = this.playLabel;
-        iframeEl.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
-        iframeEl.allowFullscreen = true;
-        // AFAIK, the encoding here isn't necessary for XSS, but we'll do it only because this is a URL
-        // https://stackoverflow.com/q/64959723/89484
-        iframeEl.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(this.videoId)}?${this.getParams().toString()}`;
-        return iframeEl;
-    }
-
-    /**
-     * In the spirit of the `lowsrc` attribute and progressive JPEGs, we'll upgrade the reliable
-     * poster image to a higher resolution one, if it's available.
-     * Interestingly this sddefault webp is often smaller in filesize, but we will still attempt it second
-     * because getting _an_ image in front of the user if our first priority.
-     *
-     * See https://github.com/paulirish/lite-youtube-embed/blob/master/youtube-thumbnail-urls.md for more details
-     */
-    upgradePosterImage() {
-         // Defer to reduce network contention.
-        setTimeout(() => {
-            const webpUrl = `https://i.ytimg.com/vi_webp/${this.videoId}/sddefault.webp`;
-            const img = new Image();
-            img.fetchPriority = 'low'; // low priority to reduce network contention
-            img.referrerpolicy = 'origin'; // Not 100% sure it's needed, but https://github.com/ampproject/amphtml/pull/3940
-            img.src = webpUrl;
-            img.onload = e => {
-                // A pretty ugly hack since onerror won't fire on YouTube image 404. This is (probably) due to
-                // Youtube's style of returning data even with a 404 status. That data is a 120x90 placeholder image.
-                // … per "annoying yt 404 behavior" in the .md
-                const noAvailablePoster = e.target.naturalHeight == 90 && e.target.naturalWidth == 120;
-                if (noAvailablePoster) return;
-
-                this.style.backgroundImage = `url("${webpUrl}")`;
-            }
-        }, 100);
-    }
-}
-// Register custom element
-customElements.define('lite-youtube', LiteYTEmbed);
-
-			const style = document.head.appendChild(document.createElement('style'));
-style.textContent = /*css*/`
-
-  lite-vimeo {
-    aspect-ratio: 16 / 9;
-    background-color: #000;
-    position: relative;
-    display: block;
-    contain: content;
-    background-position: center center;
-    background-size: cover;
-    cursor: pointer;
-  }
-
-  lite-vimeo > iframe {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    border: 0;
-  }
-
-  lite-vimeo > .ltv-playbtn {
-    font-size: 10px;
-    padding: 0;
-    width: 6.5em;
-    height: 4em;
-    background: rgba(23, 35, 34, .75);
-    z-index: 1;
-    opacity: .8;
-    border-radius: .5em;
-    transition: opacity .2s ease-out, background .2s ease-out;
-    outline: 0;
-    border: 0;
-    cursor: pointer;
-  }
-
-  lite-vimeo:hover > .ltv-playbtn {
-    background-color: rgb(0, 173, 239);
-    opacity: 1;
-  }
-
-  /* play button triangle */
-  lite-vimeo > .ltv-playbtn::before {
-    content: '';
-    border-style: solid;
-    border-width: 10px 0 10px 20px;
-    border-color: transparent transparent transparent #fff;
-  }
-
-  lite-vimeo > .ltv-playbtn,
-  lite-vimeo > .ltv-playbtn::before {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate3d(-50%, -50%, 0);
-  }
-
-  /* Post-click styles */
-  lite-vimeo.ltv-activated {
-    cursor: unset;
-  }
-
-  lite-vimeo.ltv-activated::before,
-  lite-vimeo.ltv-activated > .ltv-playbtn {
-    opacity: 0;
-    pointer-events: none;
-  }
-`;
-
-/**
- * Ported from https://github.com/paulirish/lite-youtube-embed
- *
- * A lightweight vimeo embed. Still should feel the same to the user, just MUCH faster to initialize and paint.
- *
- * Thx to these as the inspiration
- *   https://storage.googleapis.com/amp-vs-non-amp/youtube-lazy.html
- *   https://autoplay-youtube-player.glitch.me/
- *
- * Once built it, I also found these:
- *   https://github.com/ampproject/amphtml/blob/master/extensions/amp-youtube (👍👍)
- *   https://github.com/Daugilas/lazyYT
- *   https://github.com/vb/lazyframe
- */
-class LiteVimeo extends (globalThis.HTMLElement ?? class {}) {
-  /**
-   * Begin pre-connecting to warm up the iframe load
-   * Since the embed's network requests load within its iframe,
-   *   preload/prefetch'ing them outside the iframe will only cause double-downloads.
-   * So, the best we can do is warm up a few connections to origins that are in the critical path.
-   *
-   * Maybe `<link rel=preload as=document>` would work, but it's unsupported: http://crbug.com/593267
-   * But TBH, I don't think it'll happen soon with Site Isolation and split caches adding serious complexity.
-   */
-  static _warmConnections() {
-    if (LiteVimeo.preconnected) return;
-    LiteVimeo.preconnected = true;
-
-    // The iframe document and most of its subresources come right off player.vimeo.com
-    addPrefetch('preconnect', 'https://player.vimeo.com');
-    // Images
-    addPrefetch('preconnect', 'https://i.vimeocdn.com');
-    // Files .js, .css
-    addPrefetch('preconnect', 'https://f.vimeocdn.com');
-    // Metrics
-    addPrefetch('preconnect', 'https://fresnel.vimeocdn.com');
-  }
-
-  connectedCallback() {
-    this.videoId = this.getAttribute('videoid');
-
-    /**
-     * Lo, the vimeo placeholder image!  (aka the thumbnail, poster image, etc)
-     * We have to use the Vimeo API.
-     */
-    let { width, height } = getThumbnailDimensions(this.getBoundingClientRect());
-    let devicePixelRatio = window.devicePixelRatio || 1;
-    if (devicePixelRatio >= 2) devicePixelRatio *= .75;
-    width = Math.round(width * devicePixelRatio);
-    height = Math.round(height * devicePixelRatio);
-
-    fetch(`https://vimeo.com/api/v2/video/${this.videoId}.json`)
-      .then(response => response.json())
-      .then(data => {
-        let thumbnailUrl = data[0].thumbnail_large;
-        thumbnailUrl = thumbnailUrl.replace(/-d_[\dx]+$/i, `-d_${width}x${height}`);
-        this.style.backgroundImage = `url("${thumbnailUrl}")`;
-      });
-
-    let playBtnEl = this.querySelector('.ltv-playbtn');
-    // A label for the button takes priority over a [playlabel] attribute on the custom-element
-    this.playLabel = (playBtnEl && playBtnEl.textContent.trim()) || this.getAttribute('playlabel') || 'Play video';
-
-    if (!playBtnEl) {
-      playBtnEl = document.createElement('button');
-      playBtnEl.type = 'button';
-      playBtnEl.setAttribute('aria-label', this.playLabel);
-      playBtnEl.classList.add('ltv-playbtn');
-      this.append(playBtnEl);
-    }
-    playBtnEl.removeAttribute('href');
-
-    // On hover (or tap), warm up the TCP connections we're (likely) about to use.
-    this.addEventListener('pointerover', LiteVimeo._warmConnections, {
-      once: true
-    });
-
-    // Once the user clicks, add the real iframe and drop our play button
-    // TODO: In the future we could be like amp-youtube and silently swap in the iframe during idle time
-    //   We'd want to only do this for in-viewport or near-viewport ones: https://github.com/ampproject/amphtml/pull/5003
-    this.addEventListener('click', this.addIframe);
-  }
-
-  addIframe() {
-    if (this.classList.contains('ltv-activated')) return;
-    this.classList.add('ltv-activated');
-
-    const iframeEl = document.createElement('iframe');
-    iframeEl.width = 640;
-    iframeEl.height = 360;
-    // No encoding necessary as [title] is safe. https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html#:~:text=Safe%20HTML%20Attributes%20include
-    iframeEl.title = this.playLabel;
-    iframeEl.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
-    // AFAIK, the encoding here isn't necessary for XSS, but we'll do it only because this is a URL
-    // https://stackoverflow.com/q/64959723/89484
-    iframeEl.src = `https://player.vimeo.com/video/${encodeURIComponent(this.videoId)}?autoplay=1`;
-    this.append(iframeEl);
-
-    // Set focus for a11y
-    iframeEl.addEventListener('load', iframeEl.focus, { once: true });
-  }
-}
-
-if (globalThis.customElements && !globalThis.customElements.get('lite-vimeo')) {
-  globalThis.customElements.define('lite-vimeo', LiteVimeo);
-}
-
-/**
- * Add a <link rel={preload | preconnect} ...> to the head
- */
-function addPrefetch(kind, url, as) {
-  const linkElem = document.createElement('link');
-  linkElem.rel = kind;
-  linkElem.href = url;
-  if (as) {
-    linkElem.as = as;
-  }
-  linkElem.crossorigin = true;
-  document.head.append(linkElem);
-}
-
-/**
- * Get the thumbnail dimensions to use for a given player size.
- *
- * @param {Object} options
- * @param {number} options.width The width of the player
- * @param {number} options.height The height of the player
- * @return {Object} The width and height
- */
-function getThumbnailDimensions({ width, height }) {
-  let roundedWidth = width;
-  let roundedHeight = height;
-
-  // If the original width is a multiple of 320 then we should
-  // not round up. This is to keep the native image dimensions
-  // so that they match up with the actual frames from the video.
-  //
-  // For example 640x360, 960x540, 1280x720, 1920x1080
-  //
-  // Round up to nearest 100 px to improve cacheability at the
-  // CDN. For example, any width between 601 pixels and 699
-  // pixels will render the thumbnail at 700 pixels width.
-  if (roundedWidth % 320 !== 0) {
-    roundedWidth = Math.ceil(width / 100) * 100;
-    roundedHeight = Math.round((roundedWidth / width) * height);
-  }
-
-  return {
-    width: roundedWidth,
-    height: roundedHeight
-  };
-}
-</script>

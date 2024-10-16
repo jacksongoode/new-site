@@ -126,6 +126,10 @@ h6 {
 	font-display: swap;
 }
 
+@view-transition {
+	navigation: auto;
+}
+
 /* Only set the overflow to the root */
 html {
 	/* contain: paint; */
@@ -456,27 +460,17 @@ a.nav-link:hover {
 	margin-right: 1rem;
 }
 
-/* Direct Links / Markdown Headers */
-.header-anchor {
-	margin-left: 0.1rem;
-	font-style: normal;
-	text-decoration: none;
-}
-a[href].header-anchor,
-a[href].header-anchor:visited {
-	color: transparent;
-}
-a[href].header-anchor:focus,
-a[href].header-anchor:hover {
-	text-decoration: underline;
-}
-a[href].header-anchor:focus,
-:hover > a[href].header-anchor {
-	color: #aaa;
+/* Heading anchors */
+.ha-placeholder,
+.ha {
+	display: inline-block;
+	color: rgba(0, 0, 0, 0.25);
 }
 
-h2 + .header-anchor {
-	font-size: 1.5rem;
+heading-anchors:not(:defined) :is(h2, h3, h4, h5, h6):after {
+	content: "#";
+	padding: 0 0.25em;
+	opacity: 0;
 }
 
 /* Figures */
@@ -1110,7 +1104,7 @@ lite-youtube.lyt-activated > .lty-playbtn {
 
 		<header class="site-header">
 			<nav>
-				<h2 class="visually-hidden">Top level navigation menu</h2>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
 				<div class="nav-bubble">
     <button id="chat-reset" class="chat-reset" aria-label="Reset chat">↺</button>
     <div id="navPhrase" class="nav-phrase">
@@ -1155,7 +1149,8 @@ lite-youtube.lyt-activated > .lty-playbtn {
 		</header>
 
 		<main id="skip">
-			
+			<heading-anchors>
+				
 
 
 <div class="progress-bar"></div>
@@ -1176,15 +1171,15 @@ lite-youtube.lyt-activated > .lty-playbtn {
 
   <div class="wave-divider" style="--emoji-color: #f0f0f0;"></div>
 
-  <h3 id="title-card" tabindex="-1">Title Card <a class="header-anchor" href="#title-card">#</a></h3>
+  <h3 id="title-card">Title Card</h3>
 <blockquote>
 <p>“Indeed a lake is within me, solitary and self-contained;
 but the river of my love draws it off-down to the sea!”</p>
 </blockquote>
 <p>Cut from black. A shot of the sky in silence. Branches of trees are tugged by the wind and framed in a blue tarp, half-filled with clouds. After a few moments, inches above the grassy ground is the top half of Clover on her back, watching the sky. A thick head of opal brown hair, filled with shades of red, is spread over the grass and over an oversized white t-shirt she’s wearing. Clover’s face is freckled and pale. Hers eyes are set neatly under her thick eyebrows, and have low rings under them, making her whole gaze look deeply fatigued but at peace. Sound of those heavy branches in the wind fade in, and after half a minute, the shot cuts to the same angle from looking up at ceiling of her room, light blue with a ceiling fan slowly rotating.</p>
-<h3 id="room" tabindex="-1">Room <a class="header-anchor" href="#room">#</a></h3>
+<h3 id="room">Room</h3>
 <p>A woman in her late forties, Diane, is seen sitting on a chair in the corner of Clover’s dorm, peacefully watching her sleep. In this moment, the sound of the wind, which has persisted through the transition, begins to shift to the ring of a radiator and the ruffling of sheets can be heard behind the shot. It’s around 9am and soft light pours in from an adjacent window. A number of angles from Clover’s room are shown; her dresser below the window, jackets and leggings retreated in corners are Diane is gone now. From a desk at the height of her bed, Clover is beginning to wake up but has rolled over to face the wall bordering her bed. Her hair is spread out over her pillow, which is a light blue, like the sheets. A cell phone rings, vibrating the sheets and lighting up the wall where she’s curled up. The shot moves to her face where a fly has landed on her cheek.</p>
-<h3 id="office" tabindex="-1">Office <a class="header-anchor" href="#office">#</a></h3>
+<h3 id="office">Office</h3>
 <p>As she weakly swipes it away, the scene cuts to Clover now sits in a warmly lit office, it’s mid-afternoon and Clover’s sitting in a wide blue sofa, a dark green button down and jeans, with one leg tucked under her. The area is clean with lots of windows, a desk, sofa, and two chairs. Diane sits in a chair opposing Clover. Diane has a posture that seems to have grown only more elegant in age. She wears a gray cardigan too big for her shoulders slouches over her thin frame. She has short graying hair, thin glasses, and the lean face of an athlete or someone the sun had gifted with agelessness. She keeps a pen and pad by her side, looking carefully at Clover’s withdrawn daze. On the walls are various generic landscapes that were most likely picked up at yard-sales.</p>
 <p><strong>Diane:</strong> &quot;Well, its good to see you again.&quot; A small smile forms from a pair of even smaller lips.</p>
 <p><strong>Clover:</strong> &quot;You too” And she turns to face Diane, flashing a smile.</p>
@@ -1197,10 +1192,10 @@ but the river of my love draws it off-down to the sea!”</p>
 <p><strong>D:</strong> “Yeah, I’ve heard that too, some nutritionists believe a handful might help some people before bed, though I'm not sure why, so don't take my word for it&quot; she chuckles but becomes more serious. &quot;But I’m glad you’ve been trying out writing. If I may ask, what kinds of things do you usually write about?”</p>
 <p><strong>C:</strong> “Oh, um, its mostly just my imagination.” Clover brings her hands to rub her neck. She looks uncomfortable, almost guilty, as she thinks about her answer.</p>
 <p>After she finishes, the camera stays on her, listening to Diane. The sound of her voice drifts (pans left) and fades into the distance, the buzzing of a fly intensifies (panned right). She gets distracted and watches the insect fly upwards towards Clover’s ceiling fan, in a cut back to her bedroom.</p>
-<h3 id="room-1" tabindex="-1">Room <a class="header-anchor" href="#room-1">#</a></h3>
+<h3 id="room-2">Room</h3>
 <p>Clover is groggily staring at her phone. After a few seconds of reading. she frantically shakes out of bed, her long brown hair swings with her, as she hops into jeans, sneakers, a sweater and grabs her keys from the top of a dresser and slams the door. The fly comes to rest on her blanket, which has now settled on the hardwood floor, among other scattered miscellanies. Her running feet are heard outside along the hall for a moment, soon, out of audible range. From the inside of the dorm-rooms, Clover’s feet are seen sprinting past a series of doorways. The sound of her stomps is now being followed, along with heavy breath, from one hall to the next, on and off carpet and wood and finally down a stairwell. Her feet are followed from behind, as the run down the last hall and are trailed through the exit.</p>
 <p>A heavy wooden door of the dorm bursts open with the sound of birds chirping in the early morning. Clover looks around the campus as if expecting to find the source of her stress, still panting from her run through the halls. She slowly leans over, her hands on her knees, breathing erratically, trying to find a natural pace of breath again with whispered counts upwards from “one”. The campus is empty, and a wide shot puts Clover in a yard where other tall and thin dormitories are sat side by side like studious guardians. Suddenly, the sound of her name being shouted has grown in volume, enough to break through her breaths. Clover stops breathing and quickly turns her head towards the shouts</p>
-<h3 id="lot" tabindex="-1">Lot <a class="header-anchor" href="#lot">#</a></h3>
+<h3 id="lot">Lot</h3>
 <p>Her turn cuts the shot to an empty parking lot at night. She’s now sitting, staring up at a florescent light, coming from a single streetlamp. She’s in different clothes, a heather gray sweatshirt and gym shorts, she sits between the headlights of a car, her back resting against the front bumper. The electric buzz of the lamp rolls in and behind her the muffled yelling she had heard before returns more clearly; it’s a muffled male voice, angrily shouting her name but goes quiet moments later. She reaches her arms over to cover the headlights on either side of her, creating red outlines around her hand and darkening her face. There’s nothing visible beyond what’s lit by the street lamp and the car headlights and in fact, the parking lot looks a lot like an island suspended in the void. The asphalt is cracked and ribbed from the movement of earth underneath it. The light hum of a small engine enters soon after. The scene cuts to Clover walking away from the car. A door behind her opens and the car door bell begins ringing. Christ steps out of the car.</p>
 <p><strong>Chris:</strong> “Clove! Where are you going!?” An irritated voice behind her yells “Why are you doing this? We can talk in the car - Clove! - what is wrong with you?” Clover turns around.</p>
 <p><strong>Clover</strong>: “Do you fucking think it’s okay for you to act that way around my family?” Clover’s yelling. Her voice strains from holding back tears and so it comes out in bursts. While she says this her eyes dark around the silhouette of the figure, partially blinded by the headlines she’s standing in front of. ”How fucking old are you? I’ve told you how much it hurts him - can’t you be fucking respectful- why can’t you - just apologize for once!?”</p>
@@ -1212,14 +1207,14 @@ but the river of my love draws it off-down to the sea!”</p>
 <p><strong>C:</strong> “Look, Chris, I don’t know. I don’t know at what point something becomes disrespectful. But I know that there are other people living different lives. You and I are great examples of this. There’s been just enough tolerance between us for it to work so far. And I’ve never tried to make you feel the same way as me. I can’t imagine I’ve asked for a lot of sympathy, since it’s usually met with some long explanation about how it’s “unrealistic” for me to be feeling this way! But it’s just not worth arguing at some point if we can’t even relate to the events happening in our lives.” Clover looks back up at the sky for relief. “Yeah, know what, you might be right - I feel like I’m up on the moon sometimes and you’re on the total opposite side of Earth. And we’re always rotating and I’m always walking around trying to figure where the hell you are and you’re just sitting, sitting there watching me as you swing around and pass me again and again.”</p>
 <p><strong>Ch:</strong> “What can I do, Clover?” Chris hold his hands in the air, waiting for Clover to respond.</p>
 <p>Clover turns her back to the car and Chris and her face quickly tightens up and tears begin in well up in her eyes. She starts to pace away from the car and move across the parking lot, the light behind her now. The height of the shot elevates slowly from her shuffling sneakers, her tense hands gripping her phone, onto her face, still crying. Over her shoulder, we can see the blurry figure of a person leaning out from the open door of the driver’s seat of the sedan. The sound of Chris’s voice fades and echoes across the parking lot, we can still hear him yelling out for her as she begins to run. The sedan cranks on and drives away. Clover’s runs out of the light from parking lot. She pulls out her phone and turns on the flashlight. Both the light from the screen and from the flash illuminate her. Clover looks up from her phone and the shot cuts to a forest at the edge of the lot. She tops walking for a moment to stare up at it in awe. The sounds of the scene and a low drone rises up as if emanating from the forest itself, getting fuller and loud. As it does, Diane’s response returns in the darkness and the drone dissipates in an instant.</p>
-<h3 id="office-1" tabindex="-1">Office <a class="header-anchor" href="#office-1">#</a></h3>
+<h3 id="office-2">Office</h3>
 <p><strong>Diane:</strong> “So, what are those worlds like? Could you explain them to me a little bit? Are they like daydreams?” The shot returns to Diane’s office, where the conversation has continued.</p>
 <p><strong>Clover:</strong> “Kind of, yeah, they’re drawn from the past, or at least in the way I’m reminded of it.” She pauses and it cuts back to a focus on Clover sitting with Diane. “I like to think about it as salvaging. Scraps of memories that, just, stick out for one reason or another. Like, last night I was writing about a memory I had as a kid. I remember one morning watching my mom roll the trash can up the driveway; I was looking from the window of my parents’ bedroom. I must have been 5 or 6.” As Clover’s speaking, the angle rotates from her profile towards the window, focusing on a wisteria tree, climbing the edge of the office outside. It focuses on a bundle of its soft pink flowers hovering in front of the window. Clover continues with the focus now on the tree. “And I remember how I felt watching my mom. She had no idea I was watching her, and the event was so mundane, yet, it felt so weird at the time. Now I probably would call it something like being “contemplative”, which I wasn’t really ever. It was odd, it was like, the realization that my mom existed, as a person, in a world without me. Of course, I must have known that even then, but I had just never seen it so closely” Clover smiles as she finishes her story, Diane looks down at the pad in her hands and quickly takes one note.</p>
 <p><strong>D:</strong> “Huh, well, that’s a lot deeper than I was expecting. I don’t know why you’re a math major!” She giggles. “So how does that exactly make a world? Are you reminiscing or -”</p>
 <p><strong>C:</strong> “Yeah, I mean a bit? It’s hard not to when writing stories. I mean, I can’t not write from experience, right?” She pauses to think “What do you think? Should I stop? I think they give me a chance to reconnect? Or explore the what I remember of the past, now, being older and all.</p>
 <p><strong>D:</strong> “No, no, not at all. I think that’s wonderful, and therapeutic I’m sure! I was just curious how you felt about them and whether they felt good for you. That’s all.”</p>
 <p><strong>C:</strong> ”Yeah, I think - it’s just an exercise that I can tell myself is productive.” Clover leans her head on the arms of the sofa she’s sitting on. “Do you think about old memories often?”</p>
-<h3 id="suburbs" tabindex="-1">Suburbs <a class="header-anchor" href="#suburbs">#</a></h3>
+<h3 id="suburbs">Suburbs</h3>
 <p>The scene cuts to Clover squeezing through the trimmed wall of a hedge. It’s midnight. Crickets and cicadas buzz loudly around the shuffle of Clover’s figure through snapping and whipping twigs that trail her. She walks onto a street of a neighborhood. She left the yard of a large brick house through a wall of vegetation that surrounds it.</p>
 <p><strong>C:</strong> “Come on!” She whispers loudly to the fern, and a second body bursts from the trimmed hedge. “Come on! Let’s go!”</p>
 <p><strong>Nico:</strong> “I’m coming! Ow, ow, was this the best route?” She frees her leg from the hedge and jogs over to Clover. “And more importantly, do you even know where’s the lake from here?”</p>
@@ -1247,7 +1242,7 @@ but the river of my love draws it off-down to the sea!”</p>
 <p><strong>N:</strong> “Oh please. Like I’m going to hop in a random pond in the middle at midnight.”</p>
 <p>Clover shrugs and keeps walking, now off-road, through the untrimmed yards of the new houses. Behind Clover, Nico is noticeably reserved, her arms are kept close to her heavy wool sweater and is hesitant, at first, to step off the road but eventually joins Clover. Clover, holds her hands up to the sky, swinging them back and forth as she’s singing along with current track on her headphones. Her voice sounds quiet next to the roar of insects that fills the field. Nico has caught up with Clover and both are now moving more cautiously as the tall, dense grass begins to hide their feet. They move in unison quietly, for a while. The sound of their steps is loud and make a satisfying crunch over dry reeds.</p>
 <p>Suddenly, Nico’s arms wrap Clover’s shoulders from behind, her head falling on a shoulder and they come to a stop before the tree-line. It’s playful and unexpected, and uncoordinated, causing the two to stumble forward and Clover’s earbuds to fall out. For the first time, the Clover’s bright countenance begins to sink as Nico’s hands come together over her chest. Clover takes a sharp breath in at Nico’s gesture. With the music gone, she starts reorient to the deafening sound around her and begins to look around at where she is as if unaware of how she got here. We stay here watching her and Nico for a while, who has retracted her arms to the tops of Clover’s shoulders and is also staring at the woods. As the growl grows, the scene cuts to outside Clover’s dorm, where she is still recovering from her sprint through the dorm.</p>
-<h3 id="home" tabindex="-1">Home <a class="header-anchor" href="#home">#</a></h3>
+<h3 id="home">Home</h3>
 <p>Her breathing returns to normal. She begins to quickly walk towards the parking lot, where the sun has begun to set and gets into her car. From the inside of her old tan minivan, she pulls out her phone to dial and begins to drive out of the lot.</p>
 <p><strong>C:</strong> “Mom? You there? Is he alright? Is he okay? I’m driving over right now, okay?” She pauses to listen to a sharp voice through the phone “I know, I know you did. It’s okay. I’ll be there soon, okay? Ok? He’s going to be okay. I’m heading over. Don’t worry - yes, of course. I love you. Bye.”</p>
 <p>She turns on the emergency blinkers and speeds through the highway onto the offramp. Entering into a neighborhood, Clover swerves past stop signs and worried parents that watch front yards, some picking up the paper, rolling out the garbage bins, watering the yard, chatting, or holding back their kids from the accelerating vehicle. Crimson flashes of light begin to appear on her face as she finally slows down. Outside, theres a commotion around the front yard of a small single-story house. Police are trying to speak with an older woman who is sobbing on the brick steps of her house. Clover slams on the brakes in front of the lawn, opens her door and runs over, forgetting to close it in her haste.</p>
@@ -1271,13 +1266,13 @@ Clover looks down at the mess but is uninterested having fallen under some sort 
 <p>By the back door is another room, whose door is open. Clover walks up to the backdoor and looks left, into the open bedroom. There, in the center of the room is a bare mattress made visible by the light shining through a small window across from her, covered partially with the torn sheets. A mangled mess of clothes and trash are pilled in corners of the bedroom; nothing is in order. The walls are bare and speckled with small punctures. Besides the bed, there’s a dresser and old chair that’s been overturn. Clover looks over the disarray and takes a calm inhale. Now looking out from the ground of the bedroom, she turns away from the doorway and opens the backdoor to outside.</p>
 <p><strong>C:</strong> “I mean where do they go? Where is it all? The high-school dances and snacks my mom would bring me Saturday afternoons? Those cartoons I watched and all the hikes I spent sprinting up the mountain like a goat, falling and bleeding all over the car? Biking until the late evening wind sent me home, missing dinner, and staying up late with an assignment and never learning to plan ahead. Taking a nervous hand like I would a pillow at night. I mean, they’re all there. But their experience... it wasn’t poetic.” She trails off with a sigh.</p>
 <p>Looking outside her house, she’s confronted with a tall thicket of trees 20 feet from her. She turns back towards the inside of the house, where her turn returns the scene to daylight with its sound muffled, her mother’s cries and the police officer calling her name from the other side of the house are visible, asking her to come back to answer questions, and telling Clover they are already searching for her brother. Those sounds are muffled, and don’t puncture the sound of night. Interrupting the commotion at hand, she returns towards the forest, again transitioning to night, and bolts into the woods. The pitter-patter of crunching leaves can be heard even after the darkness of the woods obscures her.</p>
-<h3 id="forest" tabindex="-1">Forest <a class="header-anchor" href="#forest">#</a></h3>
+<h3 id="forest">Forest</h3>
 <p>Cut to black. The sound of steps in on the forest floor are all that can be heard. Clover slowly becomes visible in the light of the moon that’s broken through the tree tops. The shot follows her from the front, the sound of footsteps crunching through the fallen leaves. The steps quietly multiply, and soon Clover’s steps aren’t the only ones in the forest. She stops for a moment and the other footsteps stop a half-second after her. Clover looks fear-struck, and begins to turn around but stops, her head bent at her shoulder. The air is cold. A close up of her lips show her breaths, warm clouds, entering and exiting through her mouth. Carefully, she returns her gaze ahead. She continues to walk forward and the sound of footsteps are now her own. Soon, Clover comes to a clearing. Rising from behind her back, a large, dark pond stretches before her. She walks towards the body of water. The scintillating shape of the moon, hovers over the surface of the pond. Towards the edge of the pond that Clover’s facing, there’s an old wooden dock. As she moves towards the dock, she begins to make out the outline of a person sitting at its end. She walks over to the edge and sits down, feet dangling over the edge. We watch the two from the beginning of the dock. Clover rests her head on the shoulder of the person she still hasn’t looked at yet. A close shot of Clover, whose face is lit by the pond’s clean reflection of the moonlight.</p>
 <p><strong>C:</strong> “Was I over-detailed in their descriptions?” She starts wearily, “How else was I supposed to remember? Build? Start again? Turn backwards? for the sake of a road ahead.” Her hands thrusting towards the pond air. “And now, they’re getting worn out and indiscernible - from the daily rotation of hormones and maddening routines, like a spool of tape. We’ve just dunked it in developer and pulled it out for a fresh exposure.” She inhales and exhales and a smooth breeze descends from the treetops over the water, “I wish I wasn’t still spending the mornings thawing out from sleep. Spending however many minutes remembering, again, where I was when I fell asleep and that my eyes are now open. I sit up, silence slowly rubs my back and I look over to grimace at all the things I’ve surrounded myself with.”</p>
 <p>Clover lays back against the dock, her eyes looking up at the stars. An owl starts to coo across the open air.</p>
 <p><strong>C:</strong> “But, I’ve been thinking, too, of frightening thoughts, with a gravity of their own. Where, if you’re careful and patient, you might be able to watch existence orbit around their place. They roam around the sky, these massive harmonies, passing through the day silently - undetected. Until, at last, someone looks up. They look up and there it is, the atmosphere stretched past the edges of your eyes. A sky, filled with dancers, the phantoms of new memory, all the days I’ve been searching for that I’d thought I lost. The planet starts to slip from the upturned head, maybe mine. And they begin dancing too! Oh! all those afternoons sought for their nothingness; our simple want that was patient past its years. Instead, we solemnly watched it pass, mysteriously, like a sun setting out of tune.” She smiles at the thought and stops. The figure that was sitting next to her is gone.</p>
 <p>Looking down unto the dock, the shot elevates until the dock, the lake and finally the forests come into view. The perspective continues to rise and the scene fades to black.</p>
-<h3 id="end" tabindex="-1">End <a class="header-anchor" href="#end">#</a></h3>
+<h3 id="end">End</h3>
 
 
   <div class="wave-divider" style="--emoji-color: #f0f0f0;"></div>
@@ -1305,712 +1300,12 @@ Clover looks down at the mess but is uninterested having fallen under some sort 
     requestAnimationFrame(updateProgressBar);
   }
 </script>
+			</heading-anchors>
 		</main>
 
 		<footer></footer>
 
-		<!-- This page `/blog/2018-11-02-43-rpm/` was built on 2024-10-16T06:32:41.535Z -->
+		<!-- This page `/blog/2018-11-02-43-rpm/` was built on 2024-10-16T07:34:33.620Z -->
+		<script type="module" src="/bundle/hFQfOCm41w.js"></script>
 	</body>
 </html>
-<script defer="">
-	// Minimal JS for handling user preference
-(function () {
-    const toggle = document.getElementById('dark-mode-toggle');
-
-    // Set initial state based on localStorage or system preference
-    const storedTheme = localStorage.getItem('color-scheme');
-    if (storedTheme) {
-        document.documentElement.setAttribute('data-theme', storedTheme);
-        toggle.checked = storedTheme === 'dark';
-    }
-
-    // Handle toggle changes
-    toggle.addEventListener('change', () => {
-        const newTheme = toggle.checked ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('color-scheme', newTheme);
-    });
-
-    // const form = document.getElementById('theme-form');
-    // Handle form submission (for no-JS fallback)
-    // form.addEventListener('submit', (e) => {
-    //     e.preventDefault();
-    //     const formData = new FormData(form);
-    //     fetch('/set-theme', {
-    //         method: 'POST',
-    //         body: formData
-    //     }).then(() => {
-    //         location.reload();
-    //     });
-    // });
-})();
-
-		// Generate a random user ID if not already stored
-function getUserId() {
-	return (
-		localStorage.getItem("userId") ||
-		localStorage.setItem(
-			"userId",
-			"user_" + Math.random().toString(36).slice(2, 11),
-		)
-	);
-}
-
-function sendMessageToWorker(message) {
-	const baseUrl =
-		window.location.hostname === "localhost" ||
-		window.location.hostname === "127.0.0.1"
-			? "http://localhost:8090"
-			: "";
-	const isDarkMode =
-		document.documentElement.getAttribute("data-theme") === "dark";
-	const animalParam = isDarkMode ? "frog" : "chicken";
-
-	updateNavPhrase(isDarkMode ? "Ribbit" : "Cluck", true);
-
-	// Get the body content
-	const bodyContent = document.body.innerText;
-
-	// Prepare the message with the body content
-	const fullMessage = `Current page content:\n${bodyContent}\n\nUser message: ${message}`;
-
-	fetch(
-		`${baseUrl}/ai?message=${encodeURIComponent(fullMessage)}&animal=${animalParam}&userId=${getUserId()}`,
-	)
-		.then((response) => {
-			if (!response.ok)
-				throw new Error(`HTTP error! status: ${response.status}`);
-			return response.body.getReader();
-		})
-		.then((reader) => {
-			let accumulatedResponse = "";
-
-			function readStream() {
-				let buffer = "";
-				reader.read().then(function processText({ done, value }) {
-					if (done) {
-						updateNavPhrase(accumulatedResponse, false);
-						return;
-					}
-
-					buffer += new TextDecoder().decode(value);
-					let newlineIndex;
-					while ((newlineIndex = buffer.indexOf("\n")) !== -1) {
-						const line = buffer.slice(0, newlineIndex);
-						buffer = buffer.slice(newlineIndex + 1);
-
-						if (line.startsWith("data: ")) {
-							try {
-								const jsonStr = line.slice(5).trim();
-								if (jsonStr === "[DONE]") {
-									updateNavPhrase(accumulatedResponse, false);
-									return;
-								}
-								const data = JSON.parse(jsonStr);
-								if (data.response) {
-									accumulatedResponse += data.response;
-									updateNavPhrase(accumulatedResponse, false);
-								}
-							} catch (error) {
-								buffer = line + "\n" + buffer;
-								break;
-							}
-						}
-					}
-
-					return reader.read().then(processText);
-				});
-			}
-
-			readStream();
-		})
-		.catch((error) => {
-			console.error("Fetch error:", error);
-			updateNavPhrase("Sorry, something went wrong.");
-		});
-}
-
-function updateNavPhrase(text, isWaiting = false) {
-	const navPhrase = document.getElementById("navPhrase");
-	navPhrase.textContent = text;
-	navPhrase.classList.toggle("waiting", isWaiting);
-	navPhrase.classList.toggle("clickable", !isWaiting && text.length > 0);
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-	const chatTrigger = document.getElementById("chat-toggle");
-	const talkBubble = document.querySelector(".nav-bubble");
-	const mainContent = document.querySelector("main");
-	const navPhrase = document.getElementById("navPhrase");
-	const chatReset = document.getElementById("chat-reset");
-	let originalContent = navPhrase.innerHTML;
-
-	function resetChatInterface() {
-		navPhrase.innerHTML = originalContent;
-		talkBubble.classList.remove("chat-active");
-		mainContent.classList.remove("chat-active");
-	}
-
-	chatReset.addEventListener("click", resetChatInterface);
-
-	function activateChatInterface() {
-		navPhrase.innerHTML = `
-		<form id="chat-form">
-		  <input type="text" id="user-input" placeholder="Search... or say hi?">
-		  <button type="submit" style="display:none;">Send</button>
-		</form>
-		<div id="search-results"></div>
-	  `;
-		document.getElementById("user-input").focus();
-
-		const searchResults = document.getElementById("search-results");
-		let pagefind;
-
-		document
-			.getElementById("user-input")
-			.addEventListener("input", async function () {
-				if (!pagefind) {
-					pagefind = await import("/pagefind/pagefind.js");
-					await pagefind.options({
-						element: "#search-results",
-						excerptLength: 15,
-						highlightParam: "highlight",
-					});
-					await pagefind.init();
-				}
-
-				const query = this.value.trim();
-				if (query.length > 2) {
-					const search = await pagefind.search(query);
-					const results = await Promise.all(
-						search.results.map((r) => r.data()),
-					);
-
-					searchResults.innerHTML =
-						results.length > 0
-							? results
-									.map(
-										(result) => `
-			<a href="${result.url}" class="search-result">
-			  <div class="search-result-title">${result.meta.title || "Untitled"}</div>
-			  <p>${result.excerpt}</p>
-			</a>
-		  `,
-									)
-									.join("")
-							: "";
-					talkBubble.classList.add("chat-active");
-				} else {
-					searchResults.innerHTML = "";
-				}
-			});
-
-		document
-			.getElementById("chat-form")
-			.addEventListener("submit", function (e) {
-				e.preventDefault();
-				const userInput = document.getElementById("user-input");
-				if (userInput.value.trim() !== "") {
-					sendMessageToWorker(userInput.value.trim());
-					userInput.value = "";
-					searchResults.innerHTML = "";
-				}
-			});
-
-		document
-			.getElementById("user-input")
-			.addEventListener("keydown", function (e) {
-				if (e.key === "Escape") resetChatInterface();
-			});
-	}
-
-	function handleChatTrigger() {
-		talkBubble.classList.toggle("chat-active");
-		mainContent.classList.toggle("chat-active");
-		talkBubble.classList.contains("chat-active")
-			? activateChatInterface()
-			: (navPhrase.innerHTML = originalContent);
-	}
-
-	chatTrigger.addEventListener("click", handleChatTrigger);
-
-	navPhrase.addEventListener("click", function (event) {
-		if (event.target.tagName.toLowerCase() === "a") return;
-		if (
-			window.innerWidth < 840 &&
-			!talkBubble.classList.contains("chat-active")
-		) {
-			handleChatTrigger();
-		} else if (navPhrase.classList.contains("clickable")) {
-			activateChatInterface();
-			navPhrase.classList.remove("clickable");
-		}
-	});
-});
-
-
-		
-			
-			/**
- * A lightweight youtube embed. Still should feel the same to the user, just MUCH faster to initialize and paint.
- *
- * Thx to these as the inspiration
- *   https://storage.googleapis.com/amp-vs-non-amp/youtube-lazy.html
- *   https://autoplay-youtube-player.glitch.me/
- *
- * Once built it, I also found these:
- *   https://github.com/ampproject/amphtml/blob/master/extensions/amp-youtube (👍👍)
- *   https://github.com/Daugilas/lazyYT
- *   https://github.com/vb/lazyframe
- */
-class LiteYTEmbed extends HTMLElement {
-    connectedCallback() {
-        this.videoId = this.getAttribute('videoid');
-
-        let playBtnEl = this.querySelector('.lty-playbtn');
-        // A label for the button takes priority over a [playlabel] attribute on the custom-element
-        this.playLabel = (playBtnEl && playBtnEl.textContent.trim()) || this.getAttribute('playlabel') || 'Play';
-
-        this.dataset.title = this.getAttribute('title') || "";
-
-        /**
-         * Lo, the youtube poster image!  (aka the thumbnail, image placeholder, etc)
-         *
-         * See https://github.com/paulirish/lite-youtube-embed/blob/master/youtube-thumbnail-urls.md
-         */
-        if (!this.style.backgroundImage) {
-          this.style.backgroundImage = `url("https://i.ytimg.com/vi/${this.videoId}/hqdefault.jpg")`;
-          this.upgradePosterImage();
-        }
-
-        // Set up play button, and its visually hidden label
-        if (!playBtnEl) {
-            playBtnEl = document.createElement('button');
-            playBtnEl.type = 'button';
-            playBtnEl.classList.add('lty-playbtn');
-            this.append(playBtnEl);
-        }
-        if (!playBtnEl.textContent) {
-            const playBtnLabelEl = document.createElement('span');
-            playBtnLabelEl.className = 'lyt-visually-hidden';
-            playBtnLabelEl.textContent = this.playLabel;
-            playBtnEl.append(playBtnLabelEl);
-        }
-
-        this.addNoscriptIframe();
-
-        // for the PE pattern, change anchor's semantics to button
-        if(playBtnEl.nodeName === 'A'){
-            playBtnEl.removeAttribute('href');
-            playBtnEl.setAttribute('tabindex', '0');
-            playBtnEl.setAttribute('role', 'button');
-            // fake button needs keyboard help
-            playBtnEl.addEventListener('keydown', e => {
-                if( e.key === 'Enter' || e.key === ' ' ){
-                    e.preventDefault();
-                    this.activate();
-                }
-            });
-        }
-
-        // On hover (or tap), warm up the TCP connections we're (likely) about to use.
-        this.addEventListener('pointerover', LiteYTEmbed.warmConnections, {once: true});
-        this.addEventListener('focusin', LiteYTEmbed.warmConnections, {once: true});
-
-        // Once the user clicks, add the real iframe and drop our play button
-        // TODO: In the future we could be like amp-youtube and silently swap in the iframe during idle time
-        //   We'd want to only do this for in-viewport or near-viewport ones: https://github.com/ampproject/amphtml/pull/5003
-        this.addEventListener('click', this.activate);
-
-        // Chrome & Edge desktop have no problem with the basic YouTube Embed with ?autoplay=1
-        // However Safari desktop and most/all mobile browsers do not successfully track the user gesture of clicking through the creation/loading of the iframe,
-        // so they don't autoplay automatically. Instead we must load an additional 2 sequential JS files (1KB + 165KB) (un-br) for the YT Player API
-        // TODO: Try loading the the YT API in parallel with our iframe and then attaching/playing it. #82
-        this.needsYTApi = this.hasAttribute("js-api") || navigator.vendor.includes('Apple') || navigator.userAgent.includes('Mobi');
-    }
-
-    /**
-     * Add a <link rel={preload | preconnect} ...> to the head
-     */
-    static addPrefetch(kind, url, as) {
-        const linkEl = document.createElement('link');
-        linkEl.rel = kind;
-        linkEl.href = url;
-        if (as) {
-            linkEl.as = as;
-        }
-        document.head.append(linkEl);
-    }
-
-    /**
-     * Begin pre-connecting to warm up the iframe load
-     * Since the embed's network requests load within its iframe,
-     *   preload/prefetch'ing them outside the iframe will only cause double-downloads.
-     * So, the best we can do is warm up a few connections to origins that are in the critical path.
-     *
-     * Maybe `<link rel=preload as=document>` would work, but it's unsupported: http://crbug.com/593267
-     * But TBH, I don't think it'll happen soon with Site Isolation and split caches adding serious complexity.
-     */
-    static warmConnections() {
-        if (LiteYTEmbed.preconnected) return;
-
-        // The iframe document and most of its subresources come right off youtube.com
-        LiteYTEmbed.addPrefetch('preconnect', 'https://www.youtube-nocookie.com');
-        // The botguard script is fetched off from google.com
-        LiteYTEmbed.addPrefetch('preconnect', 'https://www.google.com');
-
-        // Not certain if these ad related domains are in the critical path. Could verify with domain-specific throttling.
-        LiteYTEmbed.addPrefetch('preconnect', 'https://googleads.g.doubleclick.net');
-        LiteYTEmbed.addPrefetch('preconnect', 'https://static.doubleclick.net');
-
-        LiteYTEmbed.preconnected = true;
-    }
-
-    fetchYTPlayerApi() {
-        if (window.YT || (window.YT && window.YT.Player)) return;
-
-        this.ytApiPromise = new Promise((res, rej) => {
-            var el = document.createElement('script');
-            el.src = 'https://www.youtube.com/iframe_api';
-            el.async = true;
-            el.onload = _ => {
-                YT.ready(res);
-            };
-            el.onerror = rej;
-            this.append(el);
-        });
-    }
-
-    /** Return the YT Player API instance. (Public L-YT-E API) */
-    async getYTPlayer() {
-        if(!this.playerPromise) {
-            await this.activate();
-        }
-
-        return this.playerPromise;
-    }
-
-    async addYTPlayerIframe() {
-        this.fetchYTPlayerApi();
-        await this.ytApiPromise;
-
-        const videoPlaceholderEl = document.createElement('div')
-        this.append(videoPlaceholderEl);
-
-        const paramsObj = Object.fromEntries(this.getParams().entries());
-
-        this.playerPromise = new Promise(resolve => {
-            let player = new YT.Player(videoPlaceholderEl, {
-                width: '100%',
-                videoId: this.videoId,
-                playerVars: paramsObj,
-                events: {
-                    'onReady': event => {
-                        event.target.playVideo();
-                        resolve(player);
-                    }
-                }
-            });
-        });
-    }
-
-    // Add the iframe within <noscript> for indexability discoverability. See https://github.com/paulirish/lite-youtube-embed/issues/105
-    addNoscriptIframe() {
-        const iframeEl = this.createBasicIframe();
-        const noscriptEl = document.createElement('noscript');
-        // Appending into noscript isn't equivalant for mysterious reasons: https://html.spec.whatwg.org/multipage/scripting.html#the-noscript-element
-        noscriptEl.innerHTML = iframeEl.outerHTML;
-        this.append(noscriptEl);
-    }
-
-    getParams() {
-        const params = new URLSearchParams(this.getAttribute('params') || []);
-        params.append('autoplay', '1');
-        params.append('playsinline', '1');
-        return params;
-    }
-
-    async activate(){
-        if (this.classList.contains('lyt-activated')) return;
-        this.classList.add('lyt-activated');
-
-        if (this.needsYTApi) {
-            return this.addYTPlayerIframe(this.getParams());
-        }
-
-        const iframeEl = this.createBasicIframe();
-        this.append(iframeEl);
-
-        // Set focus for a11y
-        iframeEl.focus();
-    }
-
-    createBasicIframe(){
-        const iframeEl = document.createElement('iframe');
-        iframeEl.width = 560;
-        iframeEl.height = 315;
-        // No encoding necessary as [title] is safe. https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html#:~:text=Safe%20HTML%20Attributes%20include
-        iframeEl.title = this.playLabel;
-        iframeEl.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
-        iframeEl.allowFullscreen = true;
-        // AFAIK, the encoding here isn't necessary for XSS, but we'll do it only because this is a URL
-        // https://stackoverflow.com/q/64959723/89484
-        iframeEl.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(this.videoId)}?${this.getParams().toString()}`;
-        return iframeEl;
-    }
-
-    /**
-     * In the spirit of the `lowsrc` attribute and progressive JPEGs, we'll upgrade the reliable
-     * poster image to a higher resolution one, if it's available.
-     * Interestingly this sddefault webp is often smaller in filesize, but we will still attempt it second
-     * because getting _an_ image in front of the user if our first priority.
-     *
-     * See https://github.com/paulirish/lite-youtube-embed/blob/master/youtube-thumbnail-urls.md for more details
-     */
-    upgradePosterImage() {
-         // Defer to reduce network contention.
-        setTimeout(() => {
-            const webpUrl = `https://i.ytimg.com/vi_webp/${this.videoId}/sddefault.webp`;
-            const img = new Image();
-            img.fetchPriority = 'low'; // low priority to reduce network contention
-            img.referrerpolicy = 'origin'; // Not 100% sure it's needed, but https://github.com/ampproject/amphtml/pull/3940
-            img.src = webpUrl;
-            img.onload = e => {
-                // A pretty ugly hack since onerror won't fire on YouTube image 404. This is (probably) due to
-                // Youtube's style of returning data even with a 404 status. That data is a 120x90 placeholder image.
-                // … per "annoying yt 404 behavior" in the .md
-                const noAvailablePoster = e.target.naturalHeight == 90 && e.target.naturalWidth == 120;
-                if (noAvailablePoster) return;
-
-                this.style.backgroundImage = `url("${webpUrl}")`;
-            }
-        }, 100);
-    }
-}
-// Register custom element
-customElements.define('lite-youtube', LiteYTEmbed);
-
-			const style = document.head.appendChild(document.createElement('style'));
-style.textContent = /*css*/`
-
-  lite-vimeo {
-    aspect-ratio: 16 / 9;
-    background-color: #000;
-    position: relative;
-    display: block;
-    contain: content;
-    background-position: center center;
-    background-size: cover;
-    cursor: pointer;
-  }
-
-  lite-vimeo > iframe {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    border: 0;
-  }
-
-  lite-vimeo > .ltv-playbtn {
-    font-size: 10px;
-    padding: 0;
-    width: 6.5em;
-    height: 4em;
-    background: rgba(23, 35, 34, .75);
-    z-index: 1;
-    opacity: .8;
-    border-radius: .5em;
-    transition: opacity .2s ease-out, background .2s ease-out;
-    outline: 0;
-    border: 0;
-    cursor: pointer;
-  }
-
-  lite-vimeo:hover > .ltv-playbtn {
-    background-color: rgb(0, 173, 239);
-    opacity: 1;
-  }
-
-  /* play button triangle */
-  lite-vimeo > .ltv-playbtn::before {
-    content: '';
-    border-style: solid;
-    border-width: 10px 0 10px 20px;
-    border-color: transparent transparent transparent #fff;
-  }
-
-  lite-vimeo > .ltv-playbtn,
-  lite-vimeo > .ltv-playbtn::before {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate3d(-50%, -50%, 0);
-  }
-
-  /* Post-click styles */
-  lite-vimeo.ltv-activated {
-    cursor: unset;
-  }
-
-  lite-vimeo.ltv-activated::before,
-  lite-vimeo.ltv-activated > .ltv-playbtn {
-    opacity: 0;
-    pointer-events: none;
-  }
-`;
-
-/**
- * Ported from https://github.com/paulirish/lite-youtube-embed
- *
- * A lightweight vimeo embed. Still should feel the same to the user, just MUCH faster to initialize and paint.
- *
- * Thx to these as the inspiration
- *   https://storage.googleapis.com/amp-vs-non-amp/youtube-lazy.html
- *   https://autoplay-youtube-player.glitch.me/
- *
- * Once built it, I also found these:
- *   https://github.com/ampproject/amphtml/blob/master/extensions/amp-youtube (👍👍)
- *   https://github.com/Daugilas/lazyYT
- *   https://github.com/vb/lazyframe
- */
-class LiteVimeo extends (globalThis.HTMLElement ?? class {}) {
-  /**
-   * Begin pre-connecting to warm up the iframe load
-   * Since the embed's network requests load within its iframe,
-   *   preload/prefetch'ing them outside the iframe will only cause double-downloads.
-   * So, the best we can do is warm up a few connections to origins that are in the critical path.
-   *
-   * Maybe `<link rel=preload as=document>` would work, but it's unsupported: http://crbug.com/593267
-   * But TBH, I don't think it'll happen soon with Site Isolation and split caches adding serious complexity.
-   */
-  static _warmConnections() {
-    if (LiteVimeo.preconnected) return;
-    LiteVimeo.preconnected = true;
-
-    // The iframe document and most of its subresources come right off player.vimeo.com
-    addPrefetch('preconnect', 'https://player.vimeo.com');
-    // Images
-    addPrefetch('preconnect', 'https://i.vimeocdn.com');
-    // Files .js, .css
-    addPrefetch('preconnect', 'https://f.vimeocdn.com');
-    // Metrics
-    addPrefetch('preconnect', 'https://fresnel.vimeocdn.com');
-  }
-
-  connectedCallback() {
-    this.videoId = this.getAttribute('videoid');
-
-    /**
-     * Lo, the vimeo placeholder image!  (aka the thumbnail, poster image, etc)
-     * We have to use the Vimeo API.
-     */
-    let { width, height } = getThumbnailDimensions(this.getBoundingClientRect());
-    let devicePixelRatio = window.devicePixelRatio || 1;
-    if (devicePixelRatio >= 2) devicePixelRatio *= .75;
-    width = Math.round(width * devicePixelRatio);
-    height = Math.round(height * devicePixelRatio);
-
-    fetch(`https://vimeo.com/api/v2/video/${this.videoId}.json`)
-      .then(response => response.json())
-      .then(data => {
-        let thumbnailUrl = data[0].thumbnail_large;
-        thumbnailUrl = thumbnailUrl.replace(/-d_[\dx]+$/i, `-d_${width}x${height}`);
-        this.style.backgroundImage = `url("${thumbnailUrl}")`;
-      });
-
-    let playBtnEl = this.querySelector('.ltv-playbtn');
-    // A label for the button takes priority over a [playlabel] attribute on the custom-element
-    this.playLabel = (playBtnEl && playBtnEl.textContent.trim()) || this.getAttribute('playlabel') || 'Play video';
-
-    if (!playBtnEl) {
-      playBtnEl = document.createElement('button');
-      playBtnEl.type = 'button';
-      playBtnEl.setAttribute('aria-label', this.playLabel);
-      playBtnEl.classList.add('ltv-playbtn');
-      this.append(playBtnEl);
-    }
-    playBtnEl.removeAttribute('href');
-
-    // On hover (or tap), warm up the TCP connections we're (likely) about to use.
-    this.addEventListener('pointerover', LiteVimeo._warmConnections, {
-      once: true
-    });
-
-    // Once the user clicks, add the real iframe and drop our play button
-    // TODO: In the future we could be like amp-youtube and silently swap in the iframe during idle time
-    //   We'd want to only do this for in-viewport or near-viewport ones: https://github.com/ampproject/amphtml/pull/5003
-    this.addEventListener('click', this.addIframe);
-  }
-
-  addIframe() {
-    if (this.classList.contains('ltv-activated')) return;
-    this.classList.add('ltv-activated');
-
-    const iframeEl = document.createElement('iframe');
-    iframeEl.width = 640;
-    iframeEl.height = 360;
-    // No encoding necessary as [title] is safe. https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html#:~:text=Safe%20HTML%20Attributes%20include
-    iframeEl.title = this.playLabel;
-    iframeEl.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
-    // AFAIK, the encoding here isn't necessary for XSS, but we'll do it only because this is a URL
-    // https://stackoverflow.com/q/64959723/89484
-    iframeEl.src = `https://player.vimeo.com/video/${encodeURIComponent(this.videoId)}?autoplay=1`;
-    this.append(iframeEl);
-
-    // Set focus for a11y
-    iframeEl.addEventListener('load', iframeEl.focus, { once: true });
-  }
-}
-
-if (globalThis.customElements && !globalThis.customElements.get('lite-vimeo')) {
-  globalThis.customElements.define('lite-vimeo', LiteVimeo);
-}
-
-/**
- * Add a <link rel={preload | preconnect} ...> to the head
- */
-function addPrefetch(kind, url, as) {
-  const linkElem = document.createElement('link');
-  linkElem.rel = kind;
-  linkElem.href = url;
-  if (as) {
-    linkElem.as = as;
-  }
-  linkElem.crossorigin = true;
-  document.head.append(linkElem);
-}
-
-/**
- * Get the thumbnail dimensions to use for a given player size.
- *
- * @param {Object} options
- * @param {number} options.width The width of the player
- * @param {number} options.height The height of the player
- * @return {Object} The width and height
- */
-function getThumbnailDimensions({ width, height }) {
-  let roundedWidth = width;
-  let roundedHeight = height;
-
-  // If the original width is a multiple of 320 then we should
-  // not round up. This is to keep the native image dimensions
-  // so that they match up with the actual frames from the video.
-  //
-  // For example 640x360, 960x540, 1280x720, 1920x1080
-  //
-  // Round up to nearest 100 px to improve cacheability at the
-  // CDN. For example, any width between 601 pixels and 699
-  // pixels will render the thumbnail at 700 pixels width.
-  if (roundedWidth % 320 !== 0) {
-    roundedWidth = Math.ceil(width / 100) * 100;
-    roundedHeight = Math.round((roundedWidth / width) * height);
-  }
-
-  return {
-    width: roundedWidth,
-    height: roundedHeight
-  };
-}
-</script>

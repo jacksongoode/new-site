@@ -126,6 +126,10 @@ h6 {
 	font-display: swap;
 }
 
+@view-transition {
+	navigation: auto;
+}
+
 /* Only set the overflow to the root */
 html {
 	/* contain: paint; */
@@ -456,27 +460,17 @@ a.nav-link:hover {
 	margin-right: 1rem;
 }
 
-/* Direct Links / Markdown Headers */
-.header-anchor {
-	margin-left: 0.1rem;
-	font-style: normal;
-	text-decoration: none;
-}
-a[href].header-anchor,
-a[href].header-anchor:visited {
-	color: transparent;
-}
-a[href].header-anchor:focus,
-a[href].header-anchor:hover {
-	text-decoration: underline;
-}
-a[href].header-anchor:focus,
-:hover > a[href].header-anchor {
-	color: #aaa;
+/* Heading anchors */
+.ha-placeholder,
+.ha {
+	display: inline-block;
+	color: rgba(0, 0, 0, 0.25);
 }
 
-h2 + .header-anchor {
-	font-size: 1.5rem;
+heading-anchors:not(:defined) :is(h2, h3, h4, h5, h6):after {
+	content: "#";
+	padding: 0 0.25em;
+	opacity: 0;
 }
 
 /* Figures */
@@ -1007,7 +1001,7 @@ header {
 
 		<header class="site-header">
 			<nav>
-				<h2 class="visually-hidden">Top level navigation menu</h2>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
 				<div class="nav-bubble">
     <button id="chat-reset" class="chat-reset" aria-label="Reset chat">↺</button>
     <div id="navPhrase" class="nav-phrase">
@@ -1069,8 +1063,9 @@ header {
 		</header>
 
 		<main id="skip">
-			
-<h1 id="about-me" tabindex="-1">About Me <a class="header-anchor" href="#about-me">#</a></h1>
+			<heading-anchors>
+				
+<h1 id="about-me">About Me</h1>
 <p>My name is Jackson. I was born in Charlotte, NC and studied at Occidental College in Los Angeles, CA where I graduated with a degree in cognitive science. I've completed a master's degree in music, communications and technology at the <a href="https://www.uio.no/english/studies/programmes/mct-master/">University of Oslo</a>. I currently work as a platform engineer at <a href="https://nline.io/">nLine</a> where we evaluate improvements to the energy grid of cities in Sub-Saharan Africa.</p>
 <p>Besides the formal elements, I play guitar, make playlists, watch movies, read books, write a bit, build collages, and other things that I'll publicize digitally one day (here are some of <a href="/favorites">my favorites</a>).</p>
 <p>Here's what I've been listening to!</p>
@@ -1079,251 +1074,17 @@ header {
 </a>
 <div class="wave-divider" style="--emoji-color: lightgray;"></div>
 <p>And now... a brief attempt at marketing!</p>
-<h2 id="cv" tabindex="-1">CV <a class="header-anchor" href="#cv">#</a></h2>
+<h2 id="cv">CV</h2>
 <p><a href="/cv">Here's my online CV</a></p>
-<h2 id="projects" tabindex="-1">Projects <a class="header-anchor" href="#projects">#</a></h2>
+<h2 id="projects">Projects</h2>
 <p>See the <a href="/projects">projects</a> to check out some of the works I've completed or click on my name for some music!</p>
 
+			</heading-anchors>
 		</main>
 
 		<footer></footer>
 
-		<!-- This page `/about/` was built on 2024-10-16T06:32:41.529Z -->
+		<!-- This page `/about/` was built on 2024-10-16T07:34:33.617Z -->
+		<script type="module" src="/bundle/t_Gu4a9KPI.js"></script>
 	</body>
 </html>
-<script defer="">
-	// Minimal JS for handling user preference
-(function () {
-    const toggle = document.getElementById('dark-mode-toggle');
-
-    // Set initial state based on localStorage or system preference
-    const storedTheme = localStorage.getItem('color-scheme');
-    if (storedTheme) {
-        document.documentElement.setAttribute('data-theme', storedTheme);
-        toggle.checked = storedTheme === 'dark';
-    }
-
-    // Handle toggle changes
-    toggle.addEventListener('change', () => {
-        const newTheme = toggle.checked ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('color-scheme', newTheme);
-    });
-
-    // const form = document.getElementById('theme-form');
-    // Handle form submission (for no-JS fallback)
-    // form.addEventListener('submit', (e) => {
-    //     e.preventDefault();
-    //     const formData = new FormData(form);
-    //     fetch('/set-theme', {
-    //         method: 'POST',
-    //         body: formData
-    //     }).then(() => {
-    //         location.reload();
-    //     });
-    // });
-})();
-
-		// Generate a random user ID if not already stored
-function getUserId() {
-	return (
-		localStorage.getItem("userId") ||
-		localStorage.setItem(
-			"userId",
-			"user_" + Math.random().toString(36).slice(2, 11),
-		)
-	);
-}
-
-function sendMessageToWorker(message) {
-	const baseUrl =
-		window.location.hostname === "localhost" ||
-		window.location.hostname === "127.0.0.1"
-			? "http://localhost:8090"
-			: "";
-	const isDarkMode =
-		document.documentElement.getAttribute("data-theme") === "dark";
-	const animalParam = isDarkMode ? "frog" : "chicken";
-
-	updateNavPhrase(isDarkMode ? "Ribbit" : "Cluck", true);
-
-	// Get the body content
-	const bodyContent = document.body.innerText;
-
-	// Prepare the message with the body content
-	const fullMessage = `Current page content:\n${bodyContent}\n\nUser message: ${message}`;
-
-	fetch(
-		`${baseUrl}/ai?message=${encodeURIComponent(fullMessage)}&animal=${animalParam}&userId=${getUserId()}`,
-	)
-		.then((response) => {
-			if (!response.ok)
-				throw new Error(`HTTP error! status: ${response.status}`);
-			return response.body.getReader();
-		})
-		.then((reader) => {
-			let accumulatedResponse = "";
-
-			function readStream() {
-				let buffer = "";
-				reader.read().then(function processText({ done, value }) {
-					if (done) {
-						updateNavPhrase(accumulatedResponse, false);
-						return;
-					}
-
-					buffer += new TextDecoder().decode(value);
-					let newlineIndex;
-					while ((newlineIndex = buffer.indexOf("\n")) !== -1) {
-						const line = buffer.slice(0, newlineIndex);
-						buffer = buffer.slice(newlineIndex + 1);
-
-						if (line.startsWith("data: ")) {
-							try {
-								const jsonStr = line.slice(5).trim();
-								if (jsonStr === "[DONE]") {
-									updateNavPhrase(accumulatedResponse, false);
-									return;
-								}
-								const data = JSON.parse(jsonStr);
-								if (data.response) {
-									accumulatedResponse += data.response;
-									updateNavPhrase(accumulatedResponse, false);
-								}
-							} catch (error) {
-								buffer = line + "\n" + buffer;
-								break;
-							}
-						}
-					}
-
-					return reader.read().then(processText);
-				});
-			}
-
-			readStream();
-		})
-		.catch((error) => {
-			console.error("Fetch error:", error);
-			updateNavPhrase("Sorry, something went wrong.");
-		});
-}
-
-function updateNavPhrase(text, isWaiting = false) {
-	const navPhrase = document.getElementById("navPhrase");
-	navPhrase.textContent = text;
-	navPhrase.classList.toggle("waiting", isWaiting);
-	navPhrase.classList.toggle("clickable", !isWaiting && text.length > 0);
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-	const chatTrigger = document.getElementById("chat-toggle");
-	const talkBubble = document.querySelector(".nav-bubble");
-	const mainContent = document.querySelector("main");
-	const navPhrase = document.getElementById("navPhrase");
-	const chatReset = document.getElementById("chat-reset");
-	let originalContent = navPhrase.innerHTML;
-
-	function resetChatInterface() {
-		navPhrase.innerHTML = originalContent;
-		talkBubble.classList.remove("chat-active");
-		mainContent.classList.remove("chat-active");
-	}
-
-	chatReset.addEventListener("click", resetChatInterface);
-
-	function activateChatInterface() {
-		navPhrase.innerHTML = `
-		<form id="chat-form">
-		  <input type="text" id="user-input" placeholder="Search... or say hi?">
-		  <button type="submit" style="display:none;">Send</button>
-		</form>
-		<div id="search-results"></div>
-	  `;
-		document.getElementById("user-input").focus();
-
-		const searchResults = document.getElementById("search-results");
-		let pagefind;
-
-		document
-			.getElementById("user-input")
-			.addEventListener("input", async function () {
-				if (!pagefind) {
-					pagefind = await import("/pagefind/pagefind.js");
-					await pagefind.options({
-						element: "#search-results",
-						excerptLength: 15,
-						highlightParam: "highlight",
-					});
-					await pagefind.init();
-				}
-
-				const query = this.value.trim();
-				if (query.length > 2) {
-					const search = await pagefind.search(query);
-					const results = await Promise.all(
-						search.results.map((r) => r.data()),
-					);
-
-					searchResults.innerHTML =
-						results.length > 0
-							? results
-									.map(
-										(result) => `
-			<a href="${result.url}" class="search-result">
-			  <div class="search-result-title">${result.meta.title || "Untitled"}</div>
-			  <p>${result.excerpt}</p>
-			</a>
-		  `,
-									)
-									.join("")
-							: "";
-					talkBubble.classList.add("chat-active");
-				} else {
-					searchResults.innerHTML = "";
-				}
-			});
-
-		document
-			.getElementById("chat-form")
-			.addEventListener("submit", function (e) {
-				e.preventDefault();
-				const userInput = document.getElementById("user-input");
-				if (userInput.value.trim() !== "") {
-					sendMessageToWorker(userInput.value.trim());
-					userInput.value = "";
-					searchResults.innerHTML = "";
-				}
-			});
-
-		document
-			.getElementById("user-input")
-			.addEventListener("keydown", function (e) {
-				if (e.key === "Escape") resetChatInterface();
-			});
-	}
-
-	function handleChatTrigger() {
-		talkBubble.classList.toggle("chat-active");
-		mainContent.classList.toggle("chat-active");
-		talkBubble.classList.contains("chat-active")
-			? activateChatInterface()
-			: (navPhrase.innerHTML = originalContent);
-	}
-
-	chatTrigger.addEventListener("click", handleChatTrigger);
-
-	navPhrase.addEventListener("click", function (event) {
-		if (event.target.tagName.toLowerCase() === "a") return;
-		if (
-			window.innerWidth < 840 &&
-			!talkBubble.classList.contains("chat-active")
-		) {
-			handleChatTrigger();
-		} else if (navPhrase.classList.contains("clickable")) {
-			activateChatInterface();
-			navPhrase.classList.remove("clickable");
-		}
-	});
-});
-</script>

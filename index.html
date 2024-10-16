@@ -126,6 +126,10 @@ h6 {
 	font-display: swap;
 }
 
+@view-transition {
+	navigation: auto;
+}
+
 /* Only set the overflow to the root */
 html {
 	/* contain: paint; */
@@ -456,27 +460,17 @@ a.nav-link:hover {
 	margin-right: 1rem;
 }
 
-/* Direct Links / Markdown Headers */
-.header-anchor {
-	margin-left: 0.1rem;
-	font-style: normal;
-	text-decoration: none;
-}
-a[href].header-anchor,
-a[href].header-anchor:visited {
-	color: transparent;
-}
-a[href].header-anchor:focus,
-a[href].header-anchor:hover {
-	text-decoration: underline;
-}
-a[href].header-anchor:focus,
-:hover > a[href].header-anchor {
-	color: #aaa;
+/* Heading anchors */
+.ha-placeholder,
+.ha {
+	display: inline-block;
+	color: rgba(0, 0, 0, 0.25);
 }
 
-h2 + .header-anchor {
-	font-size: 1.5rem;
+heading-anchors:not(:defined) :is(h2, h3, h4, h5, h6):after {
+	content: "#";
+	padding: 0 0.25em;
+	opacity: 0;
 }
 
 /* Figures */
@@ -1251,7 +1245,7 @@ header {
 
 		<header class="site-header">
 			<nav>
-				<h2 class="visually-hidden">Top level navigation menu</h2>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
 				<div class="nav-bubble">
     <button id="chat-reset" class="chat-reset" aria-label="Reset chat">↺</button>
     <div id="navPhrase" class="nav-phrase">
@@ -1313,89 +1307,90 @@ header {
 		</header>
 
 		<main id="skip">
-			
+			<heading-anchors>
+				
 
 
-<h1>Hi, I'm</h1>
+<h1 id="hi-i-m">Hi, I'm</h1>
 
 
   <div class="word">
     
       
-      <div class="letter-wrapper" style="--random-height: 35%;">
+      <div class="letter-wrapper" style="--random-height: 96%;">
         <span class="letter" style="
-					--rotation: 307deg;
-					--random-size: 19.723173359335753;
-					--primary-color: #4d76b3;
-					--accent-color: #6b94d1;
-					--random-delay: 0.19723173359335752s;
-				">J</span>
+                        --rotation: 349deg;
+                        --random-size: 3.507435659138314;
+                        --primary-color: #b37d4d;
+                        --accent-color: #d19b6b;
+                        --random-delay: 0.03507435659138314s;
+                    ">J</span>
       </div>
     
       
-      <div class="letter-wrapper" style="--random-height: 63%;">
+      <div class="letter-wrapper" style="--random-height: 22%;">
         <span class="letter" style="
-					--rotation: 252deg;
-					--random-size: 0.9914168852659611;
-					--primary-color: #7b4db3;
-					--accent-color: #996bd1;
-					--random-delay: 0.00991416885265961s;
-				">a</span>
+                        --rotation: 82deg;
+                        --random-size: 2.1941426331775427;
+                        --primary-color: #91b34d;
+                        --accent-color: #afd16b;
+                        --random-delay: 0.021941426331775427s;
+                    ">a</span>
       </div>
     
       
-      <div class="letter-wrapper" style="--random-height: 10%;">
+      <div class="letter-wrapper" style="--random-height: 76%;">
         <span class="letter" style="
-					--rotation: 47deg;
-					--random-size: 94.51104158445925;
-					--primary-color: #b34d93;
-					--accent-color: #d16bb1;
-					--random-delay: 0.9451104158445925s;
-				">c</span>
+                        --rotation: 251deg;
+                        --random-size: 38.67555946720187;
+                        --primary-color: #4db360;
+                        --accent-color: #6bd17e;
+                        --random-delay: 0.3867555946720187s;
+                    ">c</span>
       </div>
     
       
-      <div class="letter-wrapper" style="--random-height: 73%;">
+      <div class="letter-wrapper" style="--random-height: 55%;">
         <span class="letter" style="
-					--rotation: 2deg;
-					--random-size: 24.163717211485114;
-					--primary-color: #b35d4d;
-					--accent-color: #d17b6b;
-					--random-delay: 0.24163717211485114s;
-				">k</span>
+                        --rotation: 126deg;
+                        --random-size: 16.893482030195408;
+                        --primary-color: #4daeb3;
+                        --accent-color: #6bccd1;
+                        --random-delay: 0.1689348203019541s;
+                    ">k</span>
       </div>
     
       
-      <div class="letter-wrapper" style="--random-height: 65%;">
+      <div class="letter-wrapper" style="--random-height: 15%;">
         <span class="letter" style="
-					--rotation: 191deg;
-					--random-size: 52.52985538428454;
-					--primary-color: #b0b34d;
-					--accent-color: #ced16b;
-					--random-delay: 0.5252985538428454s;
-				">s</span>
+                        --rotation: 39deg;
+                        --random-size: 16.862882305555015;
+                        --primary-color: #4d56b3;
+                        --accent-color: #6b74d1;
+                        --random-delay: 0.16862882305555016s;
+                    ">s</span>
       </div>
     
       
-      <div class="letter-wrapper" style="--random-height: 5%;">
+      <div class="letter-wrapper" style="--random-height: 60%;">
         <span class="letter" style="
-					--rotation: 70deg;
-					--random-size: 50.21776851748987;
-					--primary-color: #59b34d;
-					--accent-color: #77d16b;
-					--random-delay: 0.5021776851748987s;
-				">o</span>
+                        --rotation: 348deg;
+                        --random-size: 9.042173315666124;
+                        --primary-color: #9a4db3;
+                        --accent-color: #b86bd1;
+                        --random-delay: 0.09042173315666124s;
+                    ">o</span>
       </div>
     
       
-      <div class="letter-wrapper" style="--random-height: 53%;">
+      <div class="letter-wrapper" style="--random-height: 44%;">
         <span class="letter" style="
-					--rotation: 155deg;
-					--random-size: 3.6996713710558238;
-					--primary-color: #4db398;
-					--accent-color: #6bd1b6;
-					--random-delay: 0.03699671371055824s;
-				">n</span>
+                        --rotation: 98deg;
+                        --random-size: 9.92968299199848;
+                        --primary-color: #b34d73;
+                        --accent-color: #d16b91;
+                        --random-delay: 0.0992968299199848s;
+                    ">n</span>
       </div>
     
   </div>
@@ -1408,7 +1403,7 @@ header {
       <p>I also like <a href="https://github.com/jacksongoode">coding</a> for fun, <a href="https://infinitytakes.bandcamp.com/">making music</a> with friends, <a href="https://vimeo.com/jacksongoode">making videos</a> (and watching movies), or you can <a href="mailto:hi@jackson.gd">send me an email</a>.</p>
     </div>
     <div id="audio-params-gui" style="display: none;">
-      <h2>
+      <h2 id="randomize">
         Randomize!
         <div id="randomize-params" title="Randomize parameters">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shuffle"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>
@@ -1428,246 +1423,12 @@ header {
 </script>
 <script type="module" src="/js/sound-letters.js"></script>
 <script type="module" src="/js/audio-params-gui.js"></script>
+			</heading-anchors>
 		</main>
 
 		<footer></footer>
 
-		<!-- This page `/` was built on 2024-10-16T06:32:41.527Z -->
+		<!-- This page `/` was built on 2024-10-16T07:34:33.615Z -->
+		<script type="module" src="/bundle/t_Gu4a9KPI.js"></script>
 	</body>
 </html>
-<script defer="">
-	// Minimal JS for handling user preference
-(function () {
-    const toggle = document.getElementById('dark-mode-toggle');
-
-    // Set initial state based on localStorage or system preference
-    const storedTheme = localStorage.getItem('color-scheme');
-    if (storedTheme) {
-        document.documentElement.setAttribute('data-theme', storedTheme);
-        toggle.checked = storedTheme === 'dark';
-    }
-
-    // Handle toggle changes
-    toggle.addEventListener('change', () => {
-        const newTheme = toggle.checked ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('color-scheme', newTheme);
-    });
-
-    // const form = document.getElementById('theme-form');
-    // Handle form submission (for no-JS fallback)
-    // form.addEventListener('submit', (e) => {
-    //     e.preventDefault();
-    //     const formData = new FormData(form);
-    //     fetch('/set-theme', {
-    //         method: 'POST',
-    //         body: formData
-    //     }).then(() => {
-    //         location.reload();
-    //     });
-    // });
-})();
-
-		// Generate a random user ID if not already stored
-function getUserId() {
-	return (
-		localStorage.getItem("userId") ||
-		localStorage.setItem(
-			"userId",
-			"user_" + Math.random().toString(36).slice(2, 11),
-		)
-	);
-}
-
-function sendMessageToWorker(message) {
-	const baseUrl =
-		window.location.hostname === "localhost" ||
-		window.location.hostname === "127.0.0.1"
-			? "http://localhost:8090"
-			: "";
-	const isDarkMode =
-		document.documentElement.getAttribute("data-theme") === "dark";
-	const animalParam = isDarkMode ? "frog" : "chicken";
-
-	updateNavPhrase(isDarkMode ? "Ribbit" : "Cluck", true);
-
-	// Get the body content
-	const bodyContent = document.body.innerText;
-
-	// Prepare the message with the body content
-	const fullMessage = `Current page content:\n${bodyContent}\n\nUser message: ${message}`;
-
-	fetch(
-		`${baseUrl}/ai?message=${encodeURIComponent(fullMessage)}&animal=${animalParam}&userId=${getUserId()}`,
-	)
-		.then((response) => {
-			if (!response.ok)
-				throw new Error(`HTTP error! status: ${response.status}`);
-			return response.body.getReader();
-		})
-		.then((reader) => {
-			let accumulatedResponse = "";
-
-			function readStream() {
-				let buffer = "";
-				reader.read().then(function processText({ done, value }) {
-					if (done) {
-						updateNavPhrase(accumulatedResponse, false);
-						return;
-					}
-
-					buffer += new TextDecoder().decode(value);
-					let newlineIndex;
-					while ((newlineIndex = buffer.indexOf("\n")) !== -1) {
-						const line = buffer.slice(0, newlineIndex);
-						buffer = buffer.slice(newlineIndex + 1);
-
-						if (line.startsWith("data: ")) {
-							try {
-								const jsonStr = line.slice(5).trim();
-								if (jsonStr === "[DONE]") {
-									updateNavPhrase(accumulatedResponse, false);
-									return;
-								}
-								const data = JSON.parse(jsonStr);
-								if (data.response) {
-									accumulatedResponse += data.response;
-									updateNavPhrase(accumulatedResponse, false);
-								}
-							} catch (error) {
-								buffer = line + "\n" + buffer;
-								break;
-							}
-						}
-					}
-
-					return reader.read().then(processText);
-				});
-			}
-
-			readStream();
-		})
-		.catch((error) => {
-			console.error("Fetch error:", error);
-			updateNavPhrase("Sorry, something went wrong.");
-		});
-}
-
-function updateNavPhrase(text, isWaiting = false) {
-	const navPhrase = document.getElementById("navPhrase");
-	navPhrase.textContent = text;
-	navPhrase.classList.toggle("waiting", isWaiting);
-	navPhrase.classList.toggle("clickable", !isWaiting && text.length > 0);
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-	const chatTrigger = document.getElementById("chat-toggle");
-	const talkBubble = document.querySelector(".nav-bubble");
-	const mainContent = document.querySelector("main");
-	const navPhrase = document.getElementById("navPhrase");
-	const chatReset = document.getElementById("chat-reset");
-	let originalContent = navPhrase.innerHTML;
-
-	function resetChatInterface() {
-		navPhrase.innerHTML = originalContent;
-		talkBubble.classList.remove("chat-active");
-		mainContent.classList.remove("chat-active");
-	}
-
-	chatReset.addEventListener("click", resetChatInterface);
-
-	function activateChatInterface() {
-		navPhrase.innerHTML = `
-		<form id="chat-form">
-		  <input type="text" id="user-input" placeholder="Search... or say hi?">
-		  <button type="submit" style="display:none;">Send</button>
-		</form>
-		<div id="search-results"></div>
-	  `;
-		document.getElementById("user-input").focus();
-
-		const searchResults = document.getElementById("search-results");
-		let pagefind;
-
-		document
-			.getElementById("user-input")
-			.addEventListener("input", async function () {
-				if (!pagefind) {
-					pagefind = await import("/pagefind/pagefind.js");
-					await pagefind.options({
-						element: "#search-results",
-						excerptLength: 15,
-						highlightParam: "highlight",
-					});
-					await pagefind.init();
-				}
-
-				const query = this.value.trim();
-				if (query.length > 2) {
-					const search = await pagefind.search(query);
-					const results = await Promise.all(
-						search.results.map((r) => r.data()),
-					);
-
-					searchResults.innerHTML =
-						results.length > 0
-							? results
-									.map(
-										(result) => `
-			<a href="${result.url}" class="search-result">
-			  <div class="search-result-title">${result.meta.title || "Untitled"}</div>
-			  <p>${result.excerpt}</p>
-			</a>
-		  `,
-									)
-									.join("")
-							: "";
-					talkBubble.classList.add("chat-active");
-				} else {
-					searchResults.innerHTML = "";
-				}
-			});
-
-		document
-			.getElementById("chat-form")
-			.addEventListener("submit", function (e) {
-				e.preventDefault();
-				const userInput = document.getElementById("user-input");
-				if (userInput.value.trim() !== "") {
-					sendMessageToWorker(userInput.value.trim());
-					userInput.value = "";
-					searchResults.innerHTML = "";
-				}
-			});
-
-		document
-			.getElementById("user-input")
-			.addEventListener("keydown", function (e) {
-				if (e.key === "Escape") resetChatInterface();
-			});
-	}
-
-	function handleChatTrigger() {
-		talkBubble.classList.toggle("chat-active");
-		mainContent.classList.toggle("chat-active");
-		talkBubble.classList.contains("chat-active")
-			? activateChatInterface()
-			: (navPhrase.innerHTML = originalContent);
-	}
-
-	chatTrigger.addEventListener("click", handleChatTrigger);
-
-	navPhrase.addEventListener("click", function (event) {
-		if (event.target.tagName.toLowerCase() === "a") return;
-		if (
-			window.innerWidth < 840 &&
-			!talkBubble.classList.contains("chat-active")
-		) {
-			handleChatTrigger();
-		} else if (navPhrase.classList.contains("clickable")) {
-			activateChatInterface();
-			navPhrase.classList.remove("clickable");
-		}
-	});
-});
-</script>
