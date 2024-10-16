@@ -39,9 +39,15 @@
 		{% endif %}
 		{% endcss %}
 
+		{#- Render the CSS bundle using Inlined CSS (for the fastest site performance in production) #}
+		<style>
+			{% getBundle "css" %}
+		</style>
+
 		{%- js %}
 		{% include "public/js/theme-toggle.js" %}
 		{% include "public/js/chat-interface.js" %}
+		{% include "node_modules/@zachleat/heading-anchors/heading-anchors.js" %}
 
 		{% if layout == "layouts/post.njk" %}
 			{# Light embeds for YouTube & Vimeo #}
@@ -49,11 +55,6 @@
 			{% include "node_modules/lite-vimeo-embed/lite-vimeo-embed.js" %}
 		{% endif %}
 		{% endjs %}
-
-		{#- Render the CSS bundle using Inlined CSS (for the fastest site performance in production) #}
-		<style>
-			{% getBundle "css" %}
-		</style>
 
 		{#- Renders the CSS bundle using a separate file, if you can't set CSP directive style-src: 'unsafe-inline' #}
 		{#- <link rel="stylesheet" href="{% getBundleFileUrl "css" %}"> #}
@@ -104,14 +105,17 @@
 		</header>
 
 		<main id="skip">
-			{{ content | safe }}
+			<heading-anchors>
+				{{ content | safe }}
+			</heading-anchors>
 		</main>
 
 		<footer></footer>
 
 		<!-- This page `{{ page.url | htmlBaseUrl }}` was built on {% currentBuildDate %} -->
+		<script type="module" src="{% getBundleFileUrl "js" %}"></script>
 	</body>
 </html>
-<script defer>
+{# <script defer>
 	{% getBundle "js" %}
-</script>
+</script> #}

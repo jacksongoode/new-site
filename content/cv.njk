@@ -5,14 +5,6 @@ navPhrase: "Welcome to my CV! Return to {}"
 ---
 {% css %}{% include "public/css/cv.css" %}{% endcss %}
 
-{% macro anchorHeader(level, text) %}
-  {% set slug = text | lower | replace(" ", "-") | replace(",", "") | replace(".", "") %}
-  <h{{ level }} id="{{ slug }}">
-    {{ text }}
-    <a href="#{{ slug }}" class="header-anchor" aria-label="Permalink to {{ text }}">#</a>
-  </h{{ level }}>
-{% endmacro %}
-
 <section class="cv-header">
     <h1>{{ cv.header.name }}</h1>
     <p class="cv-tagline">{{ cv.header.tagline }}</p>
@@ -45,7 +37,7 @@ navPhrase: "Welcome to my CV! Return to {}"
 
 <div class="wave-divider" style="--emoji-color: lightgray;"></div>
 
-{{ anchorHeader(2, "Experience") }}
+<h2>Experience</h2>
 <div class="timeline">
     {% for job in cv.experience %}
     <div class="timeline-item">
@@ -67,7 +59,7 @@ navPhrase: "Welcome to my CV! Return to {}"
     {% endfor %}
 </div>
 
-{{ anchorHeader(2, "Education") }}
+<h2>Education</h2>
 <div class="timeline">
     {% for edu in cv.education %}
     <div class="timeline-item">
@@ -81,7 +73,7 @@ navPhrase: "Welcome to my CV! Return to {}"
     {% endfor %}
 </div>
 
-{{ anchorHeader(2, "Selected Projects") }}
+<h2>Selected Projects</h2>
 <div class="timeline">
     {% for project in cv.projects %}
     <div class="timeline-item">
