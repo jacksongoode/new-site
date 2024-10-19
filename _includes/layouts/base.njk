@@ -77,6 +77,13 @@
 			]
 		}
 		</script>
+
+		{# Prefetch section #}
+		{% if prefetchLinks %}
+			{% for link in prefetchLinks %}
+				<link rel="prefetch" href="{{ link }}">
+			{% endfor %}
+		{% endif %}
 	</head>
 
 	<body style="--nav-item-active: {{ eleventyNavigation.order | default(1) }};">
@@ -119,3 +126,5 @@
 {# <script defer>
 	{% getBundle "js" %}
 </script> #}
+
+<script src="/js/hover-prefetch.js" defer></script>
